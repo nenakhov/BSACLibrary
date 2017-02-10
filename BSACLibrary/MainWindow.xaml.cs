@@ -1,21 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using MySql.Data;
-using MySql.Data.MySqlClient;
-using BSACLibrary.Properties;
 
 namespace BSACLibrary
 {
@@ -79,12 +68,37 @@ namespace BSACLibrary
             if (e.Key == Key.Return)
             {
                 //Приступаем к поиску
-                //Разворачиваем список
-                cBoxInput.IsDropDownOpen = true;
-                for (int i = 1; i <= 500; i++)
+
+                String mask = "*.pdf";
+                String source = @"\\192.168.1.1\Main\Transmission\Complete\Harry Potter 1-7 Reference Quality eBook Collection\";
+                //String source = @"D:\\Учеба\";
+                try
                 {
-                    Console.WriteLine("1");
-                }   
+                    String[] files = Directory.GetFiles(source, mask, SearchOption.AllDirectories);
+
+                    var watch = System.Diagnostics.Stopwatch.StartNew();
+
+                    Parallel.ForEach(files, (string file, ParallelLoopState state) =>
+                    {
+                        //Console.WriteLine(new FileInfo(file).Name); //имя файла 
+                        //Console.WriteLine(file); //путь + имя 
+                        if (pdfSearch.SearchPdfFile(file, "Lupin called") == true)
+                        {
+                            Console.WriteLine(new FileInfo(file).Name + " Содержит"); //имя файла 
+                                                                                      //state.Stop(); 
+                        }
+                    });
+
+                    Console.WriteLine("Найдено " + files.Count() + " PDF файлов.");
+                    watch.Stop();
+                    var elapsedMs = watch.ElapsedMilliseconds;
+                    Console.WriteLine("Поиск занял " + (elapsedMs / 1000) + " секунд");
+                }
+                catch
+                { }
+
+            //Разворачиваем список
+            cBoxInput.IsDropDownOpen = true;
             }
             else
             {

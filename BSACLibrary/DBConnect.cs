@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MySql.Data;
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
 using BSACLibrary.Properties;
 using System.Windows;
 
@@ -31,6 +25,7 @@ namespace BSACLibrary
             try
             {
                 Connection.Open();
+
                 if (Settings.Default.IsAdmin == true)
                 {
                     //Создаем базу данных
