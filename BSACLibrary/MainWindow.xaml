@@ -23,7 +23,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
-        <ComboBox x:Name="cBoxInput" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" IsEditable="True" MinHeight="25" FontSize="14" Foreground="Gray" ToolTip="Ввод ключевого слова или фразы для поиска" Text="Поиск в каталоге. Например, &quot;802.11g&quot;" MouseUp="cBoxInput_MouseUp" StaysOpenOnEdit="True" KeyDown="cBoxInput_KeyDown"/>
+        <ComboBox x:Name="cBoxInput" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" IsEditable="True" MinHeight="25" FontSize="14" Foreground="Gray" ToolTip="Ввод ключевого слова или фразы для поиска" Text="Поиск в каталоге. Например, &quot;802.11g&quot;" MouseUp="cBoxInput_MouseUp" KeyDown="cBoxInput_KeyDown" IsTextSearchEnabled="False" IsTabStop="True"/>
         <Image x:Name="gifAnim" Margin="0,0,30,0" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2" gif:ImageBehavior.AnimatedSource="pack://siteoforigin:,,,/Resources/2.gif" Width="20" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Hidden"/>
         <Menu x:Name="menu" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="0" Background="White">
             <MenuItem Header="Файл">
