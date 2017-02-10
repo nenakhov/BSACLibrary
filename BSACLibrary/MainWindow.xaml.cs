@@ -1,10 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Controls;
 
 namespace BSACLibrary
 {
@@ -33,6 +35,17 @@ namespace BSACLibrary
             }
         }
 
+        private long total;
+        private long current;
+        public double Progress
+        {
+            get
+            {
+                if (total == 0)
+                    return 0;
+                return (double)current / total;
+            }
+        }
         private void OptionsWindow_Open(object sender, RoutedEventArgs e)
         {
             //Открываем окно настроек
@@ -67,38 +80,56 @@ namespace BSACLibrary
             //Если это Enter
             if (e.Key == Key.Return)
             {
+                //Разворачиваем список
+                cBoxInput.IsDropDownOpen = true;
                 //Приступаем к поиску
-
-                String mask = "*.pdf";
-                String source = @"\\192.168.1.1\Main\Transmission\Complete\Harry Potter 1-7 Reference Quality eBook Collection\";
+                string mask = "*.pdf"; //Ищем только .pdf файлы
+                string source = @"\\192.168.1.1\Main\Transmission\Complete\Harry Potter 1-7 Reference Quality eBook Collection\"; //Путь к файлам
                 //String source = @"D:\\Учеба\";
+                gifAnim.Visibility = Visibility.Visible;
                 try
                 {
-                    String[] files = Directory.GetFiles(source, mask, SearchOption.AllDirectories);
+                    string[] files = Directory.GetFiles(source, mask, SearchOption.AllDirectories); //Записываем список всех файлов в массив
 
-                    var watch = System.Diagnostics.Stopwatch.StartNew();
+                    this.total = files.LongCount();
+                    this.current = 0;
 
-                    Parallel.ForEach(files, (string file, ParallelLoopState state) =>
-                    {
-                        //Console.WriteLine(new FileInfo(file).Name); //имя файла 
-                        //Console.WriteLine(file); //путь + имя 
-                        if (pdfSearch.SearchPdfFile(file, "Lupin called") == true)
+                    //var watch = System.Diagnostics.Stopwatch.StartNew(); //Счетчик времени
+                    //Запуск поиска фоном, исключаем зависание GUI
+                    Task.Factory.StartNew(() => //Источник https://msdn.microsoft.com/en-us/library/dd997392.aspx
+                        //Многопоточный цикл foreach, использует все доступные ядра/потоки процессора
+                        Parallel.ForEach(files, file =>
                         {
-                            Console.WriteLine(new FileInfo(file).Name + " Содержит"); //имя файла 
-                                                                                      //state.Stop(); 
-                        }
-                    });
+                            try
+                            {
+                                //Console.WriteLine(new FileInfo(file).Name); //Имя файла 
+                                //Console.WriteLine(file); //Полный путь к файлу
+                                if (pdfSearch.SearchPdfFile(file, "Lupin") == true)
+                                {
+                                    Console.WriteLine(new FileInfo(file).Name + " Содержит");
+                                }
+                            }
+                            finally
+                            {
 
+                                Interlocked.Increment(ref this.current);
+                                Dispatcher.BeginInvoke(new ThreadStart(delegate
+                                {
+                                    if (Progress == 1) //Показываем анимацией что программа не зависла
+                                    {
+                                        gifAnim.Visibility = Visibility.Hidden;
+                                    }
+                                }));
+                            }
+                        })
+                    );
                     Console.WriteLine("Найдено " + files.Count() + " PDF файлов.");
-                    watch.Stop();
-                    var elapsedMs = watch.ElapsedMilliseconds;
-                    Console.WriteLine("Поиск занял " + (elapsedMs / 1000) + " секунд");
+                    //watch.Stop();
+                    //var elapsedMs = watch.ElapsedMilliseconds;
+                    //Console.WriteLine("Поиск занял " + (elapsedMs / 1000) + " секунд(у/ы)");
                 }
                 catch
                 { }
-
-            //Разворачиваем список
-            cBoxInput.IsDropDownOpen = true;
             }
             else
             {
