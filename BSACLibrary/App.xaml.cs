@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading;
 using System.Windows;
 
 namespace BSACLibrary
@@ -12,7 +6,7 @@ namespace BSACLibrary
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : System.Windows.Application
+    public partial class App : Application
     {
         //Источник http://www.c-sharpcorner.com/UploadFile/f9f215/how-to-restrict-the-application-to-just-one-instance/
         private static Mutex _mutex = null;
