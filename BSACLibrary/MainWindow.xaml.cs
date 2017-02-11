@@ -4,12 +4,30 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace BSACLibrary
 {
+    /// <summary>
+    /// Задаем поведение для элемента comboBox
+    /// </summary>
+    public class CustomComboBox : ComboBox
+    {
+        protected override void OnPreviewKeyDown(KeyEventArgs e)
+        {
+            if ((e.Key == Key.Enter) && IsDropDownOpen)
+            {
+                IsDropDownOpen = false;
+                e.Handled = true;
+            }
+            else
+                base.OnPreviewKeyDown(e);
+        }
+    }
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -38,7 +56,7 @@ namespace BSACLibrary
                 cBoxInput.Foreground = new SolidColorBrush(Colors.Black); 
             }
         }
-        private void OptionsWindow_Open(object sender, RoutedEventArgs e)
+    private void OptionsWindow_Open(object sender, RoutedEventArgs e)
         {
             //Открываем окно настроек
             OptionsWindow oWin = new OptionsWindow();
@@ -72,8 +90,6 @@ namespace BSACLibrary
             if ((e.Key == Key.Return) && (total == 0) && (current == 0))
             //Если это Enter и если поиск не выполняется в данный момент
             {
-                //Разворачиваем список
-                cBoxInput.IsDropDownOpen = true;
                 //Очищаем элементы списка
                 cBoxInput.Items.Clear();
                 //Приступаем к поиску
@@ -88,7 +104,7 @@ namespace BSACLibrary
 
                     total = files.LongCount();
                     current = 0;
-                    substring = cBoxInput.Text;
+                    substring = cBoxInput.Text.ToLower();
 
                     var watch = System.Diagnostics.Stopwatch.StartNew(); //Счетчик времени
                     //Запуск поиска фоном, исключаем зависание GUI
@@ -103,6 +119,8 @@ namespace BSACLibrary
                                 Dispatcher.BeginInvoke(DispatcherPriority.Normal,
                                     (ThreadStart)delegate()
                                     {
+                                        //Разворачиваем список
+                                        cBoxInput.IsDropDownOpen = true;
                                         cBoxInput.Items.Add(new FileInfo(file).Name);
                                     });
                                 //Console.WriteLine(new FileInfo(file).Name + " Содержит");
@@ -120,6 +138,13 @@ namespace BSACLibrary
                                         substring = "";
                                         //Прячем анимацию по завершению работы
                                         gifAnim.Visibility = Visibility.Hidden;
+                                        //Если ничего не найдено
+                                        if (cBoxInput.Items.Count == 0)
+                                        {
+                                            //Разворачиваем список
+                                            cBoxInput.IsDropDownOpen = true;
+                                            cBoxInput.Items.Add("Совпадений нет.");
+                                        }
 
                                         Console.WriteLine("Найдено " + files.Count() + " PDF файлов.");
                                         watch.Stop();

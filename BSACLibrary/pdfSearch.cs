@@ -11,7 +11,7 @@ namespace BSACLibrary
             for (int page = 1; page <= pdfReader.NumberOfPages; page++)
             {
                 ITextExtractionStrategy strategy = new SimpleTextExtractionStrategy();
-                string currentPageText = PdfTextExtractor.GetTextFromPage(pdfReader, page, strategy);
+                string currentPageText = PdfTextExtractor.GetTextFromPage(pdfReader, page, strategy).ToLower();
                 if (currentPageText.Contains(searchText))
                 {
                     pdfReader.Close();
