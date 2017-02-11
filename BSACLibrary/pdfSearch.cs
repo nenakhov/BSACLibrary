@@ -7,7 +7,6 @@ namespace BSACLibrary
     {
         public static bool SearchPdfFile(string fileName, string searchText)
         {
-            string text = "";
             PdfReader pdfReader = new PdfReader(fileName);
             for (int page = 1; page <= pdfReader.NumberOfPages; page++)
             {

@@ -69,8 +69,8 @@ namespace BSACLibrary
         private void cBoxInput_KeyDown(object sender, KeyEventArgs e)
         {
             //Проверяем какая клавиша была нажата
-            //Если это Enter
             if ((e.Key == Key.Return) && (total == 0) && (current == 0))
+            //Если это Enter и если поиск не выполняется в данный момент
             {
                 //Разворачиваем список
                 cBoxInput.IsDropDownOpen = true;
@@ -78,8 +78,8 @@ namespace BSACLibrary
                 cBoxInput.Items.Clear();
                 //Приступаем к поиску
                 string mask = "*.pdf"; //Ищем только .pdf файлы
-                string source = @"\\192.168.1.1\Main\Transmission\Complete\Harry Potter 1-7 Reference Quality eBook Collection\"; //Путь к файлам
-                //String source = @"D:\\Учеба\";
+                //string source = @"\\192.168.1.1\Main\Transmission\Complete\Harry Potter 1-7 Reference Quality eBook Collection\"; //Путь к файлам
+                String source = @"D:\\Учеба\";
                 //Показываем анимацией что программа не зависла
                 gifAnim.Visibility = Visibility.Visible;
                 try
@@ -117,7 +117,7 @@ namespace BSACLibrary
                                         //Обнуляем счетчики
                                         total = 0;
                                         current = 0;
-                                        substring = string.Empty
+                                        substring = "";
                                         //Прячем анимацию по завершению работы
                                         gifAnim.Visibility = Visibility.Hidden;
 
