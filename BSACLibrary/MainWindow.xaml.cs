@@ -21,7 +21,7 @@ namespace BSACLibrary
             if ((e.Key == Key.Enter) && IsDropDownOpen)
             {
                 IsDropDownOpen = false;
-                e.Handled = true;
+                base.OnPreviewKeyDown(e);
             }
             else
                 base.OnPreviewKeyDown(e);
