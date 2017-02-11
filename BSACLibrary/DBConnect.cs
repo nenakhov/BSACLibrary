@@ -34,6 +34,7 @@ namespace BSACLibrary
                         "` CHARACTER SET cp1251 COLLATE cp1251_general_ci;";
                     Query.ExecuteNonQuery(); // Отправляем запрос
 
+                    //Выбираем БД с которой будем работать
                     Query.CommandText = "USE " + Settings.Default.DBName + ";";
                     Query.ExecuteNonQuery();
 
