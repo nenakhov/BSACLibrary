@@ -13,21 +13,22 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="10"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="10"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="5"/>
         </Grid.RowDefinitions>
         <!--Определение столбцов-->
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="5"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="5"/>
         </Grid.ColumnDefinitions>
         <TextBox x:Name="tBoxInput" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" MinHeight="25" FontSize="14" Foreground="Gray" Text="Поиск информации по ключевому слову или фразе. Например, &quot;802.11ac&quot;" PreviewMouseLeftButtonUp="tBoxInput_PreviewMouseLeftButtonUp" PreviewKeyDown="tBoxInput_PreviewKeyDown"/>
-        <ListBox x:Name="listBox" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="3" MinHeight="25" FontSize="14" Visibility="Hidden" MaxHeight="230" MouseLeave="listBox_MouseLeave"/>
+        <ListBox x:Name="listBox" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="2" VerticalAlignment="Top"  MinHeight="25" FontSize="14" Visibility="Hidden" MaxHeight="230" MouseLeave="listBox_MouseLeave" Panel.ZIndex="1000"/>
         <Image x:Name="gifAnim" Margin="0,0,12,0" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2" gif:ImageBehavior.AnimatedSource="pack://siteoforigin:,,,/Resources/2.gif" Width="22" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Hidden"/>
-        <Menu x:Name="menu" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="0" Background="White">
+        <Menu x:Name="menu" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="0" Background="White">
             <MenuItem Header="Файл">
                 <MenuItem Header="Выход" Click="Window_Closed"></MenuItem>
             </MenuItem>
