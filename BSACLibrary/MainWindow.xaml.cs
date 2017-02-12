@@ -24,19 +24,6 @@ namespace BSACLibrary
             //Подключаемся к БД
             DBConnect.Connect();
         }
-        //Обработка клика на выпадающем списке
-        private void cBoxInput_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            //Проверяем изменялся ли текст после запуска программы
-            if (cBoxInput.Text == "Поиск информации по ключевому слову или фразе. Например, \"802.11ac\"")
-            {
-                //Делаем поле ввода пустым
-                cBoxInput.Text = "";
-                //Изменяем цвет текста в поле ввода по умолчанию на черный
-                //SolidColorBrush закрашивает область сплошным цветом.
-                cBoxInput.Foreground = new SolidColorBrush(Colors.Black); 
-            }
-        }
     private void OptionsWindow_Open(object sender, RoutedEventArgs e)
         {
             //Открываем окно настроек
@@ -58,25 +45,45 @@ namespace BSACLibrary
         {
             //Ссылка на документ FAQ
         }
+        //Обработка клика по полю ввода
+        private void tBoxInput_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+             if (tBoxInput.Text == "Поиск информации по ключевому слову или фразе. Например, \"802.11ac\"")
+                {
+                    //Делаем поле ввода пустым
+                    tBoxInput.Text = "";
+                    //Изменяем цвет текста в поле ввода по умолчанию на черный
+                    //SolidColorBrush закрашивает область сплошным цветом.
+                    tBoxInput.Foreground = new SolidColorBrush(Colors.Black);
+                }
+            else if (listBox.Items.Count > 0)
+                listBox.Visibility = Visibility.Visible;
+        }
 
+        private void listBox_MouseLeave(object sender, MouseEventArgs e)
+        {
+            //Скрыть если мышь увели за пределы
+            listBox.Visibility = Visibility.Hidden;
+        }
         private void Window_Closed(object sender, EventArgs e)
         {
             //Закрываем программу
             App.Current.Shutdown();
         }
         //Реакция на нажатие клавиши в строке поиска
-        private void cBoxInput_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void tBoxInput_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             //Проверяем какая клавиша была нажата
             if ((e.Key == Key.Return) && (total == 0) && (current == 0))
             //Если это Enter и если поиск не выполняется в данный момент
             {
                 //Очищаем элементы списка
-                cBoxInput.Items.Clear();
+                listBox.Items.Clear();
+                listBox.Visibility = Visibility.Hidden;
                 //Приступаем к поиску
                 string mask = "*.pdf"; //Ищем только .pdf файлы
                 //string source = @"\\192.168.1.1\Main\Transmission\Complete\Harry Potter 1-7 Reference Quality eBook Collection\"; //Путь к файлам
-                String source = @"D:\\Учеба\";
+                string source = @"D:\\Учеба\";
                 //Показываем анимацией что программа не зависла
                 gifAnim.Visibility = Visibility.Visible;
                 try
@@ -84,11 +91,11 @@ namespace BSACLibrary
                     string[] files = Directory.GetFiles(source, mask, SearchOption.AllDirectories); //Записываем список всех файлов в массив
 
                     total = files.Count();
-                    substring = cBoxInput.Text.ToLower();
+                    substring = tBoxInput.Text.ToLower();
 
                     //Запуск поиска фоном, исключаем зависание GUI
                     Task.Factory.StartNew(() => //Источник https://msdn.microsoft.com/en-us/library/dd997392.aspx
-                        //Многопоточный цикл foreach, использует все доступные ядра/потоки процессора
+                                                //Многопоточный цикл foreach, использует все доступные ядра/потоки процессора
                         Parallel.ForEach(files, file =>
                         {
                             //Console.WriteLine(new FileInfo(file).Name); //Имя файла 
@@ -96,16 +103,16 @@ namespace BSACLibrary
                             if (pdfSearch.SearchPdfFile(file, substring) == true)
                             {
                                 Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-                                    (ThreadStart)delegate()
+                                    (ThreadStart)delegate ()
                                     {
-                                        //Разворачиваем список
-                                        cBoxInput.IsDropDownOpen = true;
-                                        cBoxInput.Items.Add(new FileInfo(file).Name);
+                                        //Добавляем элемент
+                                        listBox.Visibility = Visibility.Visible;
+                                        listBox.Items.Add(new FileInfo(file).Name);
                                     });
                             }
-                                Interlocked.Increment(ref current);
+                            Interlocked.Increment(ref current);
                             Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-                                (ThreadStart)delegate()
+                                (ThreadStart)delegate ()
                                 {
                                     //Если поиск завершился
                                     if (current == total)
@@ -117,13 +124,12 @@ namespace BSACLibrary
                                         //Прячем анимацию по завершению работы
                                         gifAnim.Visibility = Visibility.Hidden;
                                         //Если ничего не найдено
-                                        if (cBoxInput.Items.Count == 0)
+                                        if (listBox.Items.Count == 0)
                                         {
-                                            //Разворачиваем список
-                                            cBoxInput.IsDropDownOpen = true;
-                                            cBoxInput.Items.Add("Совпадений нет.");
+                                            //Добавляем элемент
+                                            listBox.Visibility = Visibility.Visible;
+                                            listBox.Items.Add("Совпадений нет.");
                                         }
-                                        Console.WriteLine("Найдено " + files.Count() + " PDF файлов.");
                                     }
                                 });
                         })
@@ -132,14 +138,6 @@ namespace BSACLibrary
                 catch
                 { }
             }
-        }
-
-        private void cBoxInput_DropDownOpened(object sender, EventArgs e)
-        {
-            //Вызов обработчика клика по полю ввода
-            MouseDevice mouseDevice = Mouse.PrimaryDevice;
-            MouseButtonEventArgs mouseButtonEventArgs = new MouseButtonEventArgs(mouseDevice, 0, MouseButton.Left);
-            cBoxInput_MouseUp(sender, mouseButtonEventArgs);
         }
     }
 }
