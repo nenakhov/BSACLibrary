@@ -12,23 +12,6 @@ using System.Windows.Threading;
 namespace BSACLibrary
 {
     /// <summary>
-    /// Задаем поведение для элемента comboBox
-    /// </summary>
-    public class CustomComboBox : ComboBox
-    {
-        protected override void OnPreviewKeyDown(KeyEventArgs e)
-        {
-            if ((e.Key == Key.Enter) && IsDropDownOpen)
-            {
-                IsDropDownOpen = false;
-                base.OnPreviewKeyDown(e);
-            }
-            else
-                base.OnPreviewKeyDown(e);
-        }
-    }
-
-    /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
@@ -47,7 +30,7 @@ namespace BSACLibrary
         private void cBoxInput_MouseUp(object sender, MouseButtonEventArgs e)
         {
             //Проверяем изменялся ли текст после запуска программы
-            if (cBoxInput.Text == "Поиск в каталоге. Например, \"802.11g\"")
+            if (cBoxInput.Text == "Поиск информации по ключевому слову или фразе. Например, \"802.11ac\"")
             {
                 //Делаем поле ввода пустым
                 cBoxInput.Text = "";
@@ -84,7 +67,7 @@ namespace BSACLibrary
             App.Current.Shutdown();
         }
         //Реакция на нажатие клавиши в строке поиска
-        private void cBoxInput_KeyDown(object sender, KeyEventArgs e)
+        private void cBoxInput_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             //Проверяем какая клавиша была нажата
             if ((e.Key == Key.Return) && (total == 0) && (current == 0))

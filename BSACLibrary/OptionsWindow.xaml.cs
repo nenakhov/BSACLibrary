@@ -25,7 +25,6 @@ namespace BSACLibrary
         {
             this.Close();
         }
-
         private void OkBt_Click(object sender, RoutedEventArgs e)
         {
             //Присваиваем значения переменным

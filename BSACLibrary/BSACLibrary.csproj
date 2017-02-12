@@ -98,6 +98,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MyCmbBox.cs" />
     <Compile Include="OptionsWindow.xaml.cs">
       <DependentUpon>OptionsWindow.xaml</DependentUpon>
     </Compile>

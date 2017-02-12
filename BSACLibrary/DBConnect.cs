@@ -9,6 +9,7 @@ namespace BSACLibrary
         public static void Connect()
         {
             //Устанавливаем соединение с БД
+            //Формируем строку для подключения
             MySqlConnection Connection = new MySqlConnection("server=" +
                 Settings.Default.DBServerIP +
                 ";port=" + Settings.Default.DBServerPort +
@@ -19,27 +20,31 @@ namespace BSACLibrary
                 ";");
             //";database=" + Settings.Default.DBName + ";";
 
-            MySqlCommand Query = new MySqlCommand(); // С помощью этого объекта выполняются запросы к БД
-            Query.Connection = Connection; // Присвоим объекту только что созданное соединение
+            //С помощью этого объекта выполняются запросы к БД
+            MySqlCommand Query = new MySqlCommand();
+            //Присваиваем объекту созданное соединение
+            Query.Connection = Connection;
 
             try
             {
                 Connection.Open();
-
+                //Если выбран режим администратора создаем БД и таблицу в ней, если они еще не были созданы
                 if (Settings.Default.IsAdmin == true)
                 {
                     //Создаем базу данных
-                    Query.CommandText = "CREATE DATABASE IF NOT EXISTS " + // Если такая БД уже есть не выдаст ошибку 
+                    Query.CommandText = "CREATE DATABASE IF NOT EXISTS " + // Если такая БД уже есть не будет ошибки
                         "`" + Settings.Default.DBName +
                         "` CHARACTER SET cp1251 COLLATE cp1251_general_ci;";
-                    Query.ExecuteNonQuery(); // Отправляем запрос
+                    //Отправляем запрос
+                    Query.ExecuteNonQuery();
 
                     //Выбираем БД с которой будем работать
                     Query.CommandText = "USE " + Settings.Default.DBName + ";";
+                    //Отправляем запрос
                     Query.ExecuteNonQuery();
 
                     //Запрос создание таблицы
-                    Query.CommandText = "CREATE TABLE IF NOT EXISTS " + // Если такая таблица уже есть не выдаст ошибку 
+                    Query.CommandText = "CREATE TABLE IF NOT EXISTS " + // Если такая таблица уже есть не будет ошибки
                                         "`catalogue` (" + // Имя таблицы 
                                         "`id` INT(11) NOT NULL AUTO_INCREMENT, " + // Cамоинкрементирующееся поле id 
                                         "`publication` VARCHAR(60) NOT NULL, " + // Название журнала
@@ -49,12 +54,14 @@ namespace BSACLibrary
                                         "`file_path` VARCHAR(240) NOT NULL, " + // Ссылка на файл \\host\Lib\file.pdf 240 кол-во символов
                                         "PRIMARY KEY(`id`) " +
                                         ") ";
-                    Query.ExecuteNonQuery(); // Отправляем запрос
+                    //Отправляем запрос
+                    Query.ExecuteNonQuery();
                 }
 
                 //Закрываем соединение
                 Connection.Close();
             }
+            //В этом блоке перехватываем возможные ошибки в процессе соединения
             catch (MySqlException ex)
             {
                 //Unable to connect to any of the specified MySQL hosts.
@@ -66,7 +73,6 @@ namespace BSACLibrary
                 {
                     MessageBox.Show(ex.Message);
                 }
-                return;
             }
         }
     }

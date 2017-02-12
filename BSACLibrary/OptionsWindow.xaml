@@ -45,7 +45,7 @@
                         <Separator Margin="5,0,0,0" Width="242"/>
                     </StackPanel>
                     <StackPanel Margin="0,150,0,0" Height="25" VerticalAlignment="Top" Orientation="Horizontal">
-                        <CheckBox x:Name="chkBoxAdm" Content="Администратор" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <CheckBox x:Name="chkBoxAdm" Content="Режим администратора" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Grid>
             </TabItem>
