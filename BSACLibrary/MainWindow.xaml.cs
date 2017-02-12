@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -17,8 +16,7 @@ namespace BSACLibrary
     public partial class MainWindow : Window
     {
         //Зададим начальные значения для переменных
-        private long total = 0;
-        private long current = 0;
+        private int total = 0, current = 0;
         private string substring = "";
         public MainWindow()
         {
@@ -85,11 +83,9 @@ namespace BSACLibrary
                 {
                     string[] files = Directory.GetFiles(source, mask, SearchOption.AllDirectories); //Записываем список всех файлов в массив
 
-                    total = files.LongCount();
-                    current = 0;
+                    total = files.Count();
                     substring = cBoxInput.Text.ToLower();
 
-                    var watch = System.Diagnostics.Stopwatch.StartNew(); //Счетчик времени
                     //Запуск поиска фоном, исключаем зависание GUI
                     Task.Factory.StartNew(() => //Источник https://msdn.microsoft.com/en-us/library/dd997392.aspx
                         //Многопоточный цикл foreach, использует все доступные ядра/потоки процессора
@@ -106,7 +102,6 @@ namespace BSACLibrary
                                         cBoxInput.IsDropDownOpen = true;
                                         cBoxInput.Items.Add(new FileInfo(file).Name);
                                     });
-                                //Console.WriteLine(new FileInfo(file).Name + " Содержит");
                             }
                                 Interlocked.Increment(ref current);
                             Dispatcher.BeginInvoke(DispatcherPriority.Normal,
@@ -128,11 +123,7 @@ namespace BSACLibrary
                                             cBoxInput.IsDropDownOpen = true;
                                             cBoxInput.Items.Add("Совпадений нет.");
                                         }
-
                                         Console.WriteLine("Найдено " + files.Count() + " PDF файлов.");
-                                        watch.Stop();
-                                        var elapsedMs = watch.ElapsedMilliseconds;
-                                        Console.WriteLine("Поиск занял " + (elapsedMs / 1000) + " секунд(у/ы)");
                                     }
                                 });
                         })

@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace BSACLibrary
@@ -10,12 +11,12 @@ namespace BSACLibrary
     {
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
-            if ((e.Key == Key.Enter) && IsDropDownOpen && (SelectedIndex == -1))
+            if ((e.Key == Key.Enter) && (IsDropDownOpen = true) && (SelectedIndex == -1))
             {
                 IsDropDownOpen = false;
                 base.OnPreviewKeyDown(e);
             }
-            else if ((e.Key == Key.Enter) && IsDropDownOpen && (SelectedIndex > -1))
+            else if ((e.Key == Key.Enter) && (IsDropDownOpen = true) && (SelectedIndex > -1))
             {
                 e.Handled = true;
                 SelectedIndex = -1;
@@ -31,6 +32,18 @@ namespace BSACLibrary
         }
         protected override void OnSelectionChanged(SelectionChangedEventArgs e)
         {
+            //KeyboardDevice keyboardDevice = Keyboard.PrimaryDevice;
+            //PresentationSource presentationSource = Keyboard.PrimaryDevice.ActiveSource;
+            //KeyEventArgs keyEventArgs = new KeyEventArgs(keyboardDevice, presentationSource, 0, Key.Enter);
+            //OnPreviewKeyDown(keyEventArgs);
+            //if (Mouse.LeftButton == MouseButtonState.Released)
+            //{
+            //    KeyboardDevice keyboardDevice = Keyboard.PrimaryDevice;
+            //    PresentationSource presentationSource = Keyboard.PrimaryDevice.ActiveSource;
+            //    KeyEventArgs keyEventArgs = new KeyEventArgs(keyboardDevice, presentationSource, 0, Key.Enter);
+            //    OnPreviewKeyDown(keyEventArgs);
+            //    IsDropDownOpen = true;
+            //}
             //Позволяет не вставлять в поле ввода выделенный элемент
         }
     }

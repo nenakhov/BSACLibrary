@@ -10,7 +10,6 @@ namespace BSACLibrary
     {
         //Источник http://www.c-sharpcorner.com/UploadFile/f9f215/how-to-restrict-the-application-to-just-one-instance/
         private static Mutex _mutex = null;
-
         protected override void OnStartup(StartupEventArgs e)
         {
             const string appName = "Картотека периодических изданий";
