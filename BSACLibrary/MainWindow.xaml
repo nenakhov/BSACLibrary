@@ -26,7 +26,7 @@
             <ColumnDefinition Width="5"/>
         </Grid.ColumnDefinitions>
         <TextBox x:Name="tBoxInput" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" MinHeight="25" FontSize="14" Foreground="Gray" Text="Поиск информации по ключевому слову или фразе. Например, &quot;802.11ac&quot;" PreviewMouseLeftButtonUp="tBoxInput_PreviewMouseLeftButtonUp" PreviewKeyDown="tBoxInput_PreviewKeyDown"/>
-        <ListBox x:Name="listBox" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="2" VerticalAlignment="Top"  MinHeight="25" FontSize="14" Visibility="Hidden" MaxHeight="230" MouseLeave="listBox_MouseLeave" Panel.ZIndex="1000"/>
+        <ListBox x:Name="searchListBox" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="2" VerticalAlignment="Top"  MinHeight="25" FontSize="14" Visibility="Hidden" MaxHeight="230" MouseLeave="searchListBox_MouseLeave"/>
         <Image x:Name="gifAnim" Margin="0,0,12,0" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2" gif:ImageBehavior.AnimatedSource="pack://siteoforigin:,,,/Resources/2.gif" Width="22" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Hidden"/>
         <Menu x:Name="menu" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="0" Background="White">
             <MenuItem Header="Файл">

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -56,14 +58,14 @@ namespace BSACLibrary
                     //SolidColorBrush закрашивает область сплошным цветом.
                     tBoxInput.Foreground = new SolidColorBrush(Colors.Black);
                 }
-            else if (listBox.Items.Count > 0)
-                listBox.Visibility = Visibility.Visible;
+            else if (searchListBox.Items.Count > 0)
+                searchListBox.Visibility = Visibility.Visible;
         }
 
-        private void listBox_MouseLeave(object sender, MouseEventArgs e)
+        private void searchListBox_MouseLeave(object sender, MouseEventArgs e)
         {
             //Скрыть если мышь увели за пределы
-            listBox.Visibility = Visibility.Hidden;
+            searchListBox.Visibility = Visibility.Hidden;
         }
         private void Window_Closed(object sender, EventArgs e)
         {
@@ -78,8 +80,8 @@ namespace BSACLibrary
             //Если это Enter и если поиск не выполняется в данный момент
             {
                 //Очищаем элементы списка
-                listBox.Items.Clear();
-                listBox.Visibility = Visibility.Hidden;
+                searchListBox.Items.Clear();
+                searchListBox.Visibility = Visibility.Hidden;
                 //Приступаем к поиску
                 string mask = "*.pdf"; //Ищем только .pdf файлы
                 //string source = @"\\192.168.1.1\Main\Transmission\Complete\Harry Potter 1-7 Reference Quality eBook Collection\"; //Путь к файлам
@@ -100,14 +102,23 @@ namespace BSACLibrary
                         {
                             //Console.WriteLine(new FileInfo(file).Name); //Имя файла 
                             //Console.WriteLine(file); //Полный путь к файлу
-                            if (pdfSearch.SearchPdfFile(file, substring) == true)
+
+                            pdfSearchResponse searchResponse = pdfSearch.SearchPdfFile(file, substring);
+                            if (searchResponse.isFinded == true)
                             {
                                 Dispatcher.BeginInvoke(DispatcherPriority.Normal,
                                     (ThreadStart)delegate ()
                                     {
+                                        //Делаем выпадающий список видимым
+                                        searchListBox.Visibility = Visibility.Visible;
+                                        //Форматирование текста, перенос строк
+                                        TextBlock txtBlock = new TextBlock();
+                                        txtBlock.MaxWidth = this.ActualWidth - 50;
+                                        txtBlock.TextWrapping = TextWrapping.Wrap;
                                         //Добавляем элемент
-                                        listBox.Visibility = Visibility.Visible;
-                                        listBox.Items.Add(new FileInfo(file).Name);
+                                        txtBlock.Inlines.Add(new FileInfo(file).Name + "\n");
+                                        txtBlock.Inlines.Add(new Run(searchResponse.textCut + "...") { Foreground = Brushes.Gray, FontSize = 12 });
+                                        searchListBox.Items.Add(txtBlock);
                                     });
                             }
                             Interlocked.Increment(ref current);
@@ -124,11 +135,11 @@ namespace BSACLibrary
                                         //Прячем анимацию по завершению работы
                                         gifAnim.Visibility = Visibility.Hidden;
                                         //Если ничего не найдено
-                                        if (listBox.Items.Count == 0)
+                                        if (searchListBox.Items.Count == 0)
                                         {
                                             //Добавляем элемент
-                                            listBox.Visibility = Visibility.Visible;
-                                            listBox.Items.Add("Совпадений нет.");
+                                            searchListBox.Visibility = Visibility.Visible;
+                                            searchListBox.Items.Add("Совпадений нет.");
                                         }
                                     }
                                 });

@@ -5,10 +5,10 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("")]
-[assembly: AssemblyDescription("PDF Catalogue")]
+[assembly: AssemblyTitle("PDF Catalogue")]
+[assembly: AssemblyDescription("PDF Catalogue and search for BSAC")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("BSAC")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("")]
 [assembly: AssemblyCopyright("Dmitry Nenakhov")]
 [assembly: AssemblyTrademark("")]
