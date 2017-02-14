@@ -79,6 +79,11 @@ namespace BSACLibrary
             if ((e.Key == Key.Return) && (total == 0) && (current == 0))
             //Если это Enter и если поиск не выполняется в данный момент
             {
+                if (tBoxInput.Text.Length < 3)
+                {
+                    tBoxInput.Text = "Минимальная длина поискового запроса - 3 символа";
+                    return;
+                }
                 //Очищаем элементы списка
                 searchListBox.Items.Clear();
                 searchListBox.Visibility = Visibility.Hidden;

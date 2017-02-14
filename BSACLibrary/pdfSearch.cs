@@ -15,19 +15,21 @@ namespace BSACLibrary
                 ITextExtractionStrategy strategy = new SimpleTextExtractionStrategy();
                 string currentPageText = PdfTextExtractor.GetTextFromPage(pdfReader, page, strategy);
                 string currentPageTextLower = currentPageText.ToLower();
-                if (currentPageTextLower.Contains(searchText))
+                int i = currentPageTextLower.IndexOf(searchText);
+                if (i != -1)
                 {
-                    res.isFinded = true;
-                    currentPageText = currentPageText.Replace("\n", " ");
+                    //Отформатируем найденный текст
+                    currentPageText = currentPageText.Substring(i, currentPageText.Length - i);
                     if (currentPageText.Length >= 300)
                     {
-                        res.textCut = currentPageText.Substring(0, 300);
+                        res.textCut = currentPageText.Substring(0, 299).Replace("\n", " ");
                     }
                     else
                     {
-                        res.textCut = currentPageText;
+                        res.textCut = currentPageText.Replace("\n", " ");
                     }
                     pdfReader.Close();
+                    res.isFinded = true;
                     return res;
                 }
             }

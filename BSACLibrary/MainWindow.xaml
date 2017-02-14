@@ -25,21 +25,44 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="5"/>
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="tBoxInput" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" MinHeight="25" FontSize="14" Foreground="Gray" Text="Поиск информации по ключевому слову или фразе. Например, &quot;802.11ac&quot;" PreviewMouseLeftButtonUp="tBoxInput_PreviewMouseLeftButtonUp" PreviewKeyDown="tBoxInput_PreviewKeyDown"/>
+        <TextBox x:Name="tBoxInput" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" MinHeight="25" FontSize="14" Foreground="Gray" Text="Поиск информации по ключевому слову или фразе. Например, &quot;802.11ac&quot;" PreviewMouseLeftButtonUp="tBoxInput_PreviewMouseLeftButtonUp" PreviewKeyDown="tBoxInput_PreviewKeyDown" MaxLength="128"/>
         <ListBox x:Name="searchListBox" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="2" VerticalAlignment="Top"  MinHeight="25" FontSize="14" Visibility="Hidden" MaxHeight="230" MouseLeave="searchListBox_MouseLeave"/>
         <Image x:Name="gifAnim" Margin="0,0,12,0" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2" gif:ImageBehavior.AnimatedSource="pack://siteoforigin:,,,/Resources/2.gif" Width="22" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Hidden"/>
         <Menu x:Name="menu" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="0" Background="White">
-            <MenuItem Header="Файл">
-                <MenuItem Header="Выход" Click="Window_Closed"></MenuItem>
-            </MenuItem>
-            <MenuItem Header="Опции">
-                <MenuItem Header="Настройки" Click="OptionsWindow_Open"></MenuItem>
-            </MenuItem>
-            <MenuItem Header="Справка">
-                <MenuItem Header="Помощь" Click="HelpFile_Open"></MenuItem>
+            <MenuItem Header="_Файл">
+                <MenuItem Header="_Новый">
+                    <MenuItem.Icon>
+                        <Image Source="pack://siteoforigin:,,,/Resources/add (1).png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <!--Добавляем вертикальную полосу-->
                 <Separator></Separator>
-                <MenuItem Header="О программе" Click="AboutWindow_Open"></MenuItem>
+                <MenuItem Header="_Выход" Click="Window_Closed">
+                    <MenuItem.Icon>
+                        <Image Source="pack://siteoforigin:,,,/Resources/login.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Опции">
+                <MenuItem Header="_Настройки" Click="OptionsWindow_Open">
+                    <MenuItem.Icon>
+                        <Image Source="pack://siteoforigin:,,,/Resources/list (1).png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Справка">
+                <MenuItem Header="_Помощь" Click="HelpFile_Open">
+                    <MenuItem.Icon>
+                        <Image Source="pack://siteoforigin:,,,/Resources/question-circular-button.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <!--Добавляем вертикальную полосу-->
+                <Separator></Separator>
+                <MenuItem Header="_О программе" Click="AboutWindow_Open">
+                    <MenuItem.Icon>
+                        <Image Source="pack://siteoforigin:,,,/Resources/speech-bubble1.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
         </Menu>
     </Grid>
