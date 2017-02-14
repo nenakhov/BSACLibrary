@@ -2,23 +2,26 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="BSACLibrary.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="DBServerIP" Type="System.String" Scope="User">
+    <Setting Name="dbServerIP" Type="System.String" Scope="User">
       <Value Profile="(Default)">localhost</Value>
     </Setting>
-    <Setting Name="DBServerPort" Type="System.String" Scope="User">
+    <Setting Name="dbServerPort" Type="System.String" Scope="User">
       <Value Profile="(Default)">3306</Value>
     </Setting>
-    <Setting Name="DBUsername" Type="System.String" Scope="User">
+    <Setting Name="dbUsername" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="DBPassword" Type="System.String" Scope="User">
+    <Setting Name="dbPassword" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="DBName" Type="System.String" Scope="User">
+    <Setting Name="dbName" Type="System.String" Scope="User">
       <Value Profile="(Default)">periodical_publications</Value>
     </Setting>
-    <Setting Name="IsAdmin" Type="System.Boolean" Scope="User">
+    <Setting Name="isAdmin" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="dbTableName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">catalogue</Value>
     </Setting>
   </Settings>
 </SettingsFile>

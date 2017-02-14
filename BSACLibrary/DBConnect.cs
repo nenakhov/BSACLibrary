@@ -11,8 +11,8 @@ namespace BSACLibrary
             //Устанавливаем соединение с БД
             //Формируем строку для подключения
             MySqlConnection Connection = new MySqlConnection("server=" +
-                Settings.Default.DBServerIP +
-                ";port=" + Settings.Default.DBServerPort +
+                Settings.Default.dbServerIP +
+                ";port=" + Settings.Default.dbServerPort +
                 //";uid=" + Settings.Default.DBUsername + 
                 //";pwd=" + Settings.Default.DBPassword + 
                 ";uid=root" +
@@ -29,23 +29,24 @@ namespace BSACLibrary
             {
                 Connection.Open();
                 //Если выбран режим администратора создаем БД и таблицу в ней, если они еще не были созданы
-                if (Settings.Default.IsAdmin == true)
+                if (Settings.Default.isAdmin == true)
                 {
                     //Создаем базу данных
                     Query.CommandText = "CREATE DATABASE IF NOT EXISTS " + // Если такая БД уже есть не будет ошибки
-                        "`" + Settings.Default.DBName +
+                        "`" + Settings.Default.dbName +
                         "` CHARACTER SET cp1251 COLLATE cp1251_general_ci;";
                     //Отправляем запрос
                     Query.ExecuteNonQuery();
 
                     //Выбираем БД с которой будем работать
-                    Query.CommandText = "USE " + Settings.Default.DBName + ";";
+                    Query.CommandText = "USE " + Settings.Default.dbName + ";";
                     //Отправляем запрос
                     Query.ExecuteNonQuery();
 
                     //Запрос создание таблицы
-                    Query.CommandText = "CREATE TABLE IF NOT EXISTS " + // Если такая таблица уже есть не будет ошибки
-                                        "`catalogue` (" + // Имя таблицы 
+                    Query.CommandText = "CREATE TABLE IF NOT EXISTS `" + // Если такая таблица уже есть не будет ошибки
+                                        Settings.Default.dbTableName + // Имя таблицы 
+                                        "` (" +
                                         "`id` INT(11) NOT NULL AUTO_INCREMENT, " + // Cамоинкрементирующееся поле id 
                                         "`publication` VARCHAR(60) NOT NULL, " + // Название журнала
                                         "`is_magazine` TINYINT(1) NOT NULL, " + // Является ли журналом или газетой

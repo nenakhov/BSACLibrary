@@ -26,72 +26,84 @@ namespace BSACLibrary.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("localhost")]
-        public string DBServerIP {
+        public string dbServerIP {
             get {
-                return ((string)(this["DBServerIP"]));
+                return ((string)(this["dbServerIP"]));
             }
             set {
-                this["DBServerIP"] = value;
+                this["dbServerIP"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("3306")]
-        public string DBServerPort {
+        public string dbServerPort {
             get {
-                return ((string)(this["DBServerPort"]));
+                return ((string)(this["dbServerPort"]));
             }
             set {
-                this["DBServerPort"] = value;
+                this["dbServerPort"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string DBUsername {
+        public string dbUsername {
             get {
-                return ((string)(this["DBUsername"]));
+                return ((string)(this["dbUsername"]));
             }
             set {
-                this["DBUsername"] = value;
+                this["dbUsername"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string DBPassword {
+        public string dbPassword {
             get {
-                return ((string)(this["DBPassword"]));
+                return ((string)(this["dbPassword"]));
             }
             set {
-                this["DBPassword"] = value;
+                this["dbPassword"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("periodical_publications")]
-        public string DBName {
+        public string dbName {
             get {
-                return ((string)(this["DBName"]));
+                return ((string)(this["dbName"]));
             }
             set {
-                this["DBName"] = value;
+                this["dbName"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool IsAdmin {
+        public bool isAdmin {
             get {
-                return ((bool)(this["IsAdmin"]));
+                return ((bool)(this["isAdmin"]));
             }
             set {
-                this["IsAdmin"] = value;
+                this["isAdmin"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("catalogue")]
+        public string dbTableName {
+            get {
+                return ((string)(this["dbTableName"]));
+            }
+            set {
+                this["dbTableName"] = value;
             }
         }
     }
