@@ -8,8 +8,8 @@
         Title="Параметры" Width="720" Height="480" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Icon="favicons.ico" ShowInTaskbar="False">
     <Grid Background="WhiteSmoke">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="280"/>
-            <ColumnDefinition Width="440"/>
+            <ColumnDefinition Width="240"/>
+            <ColumnDefinition Width="480"/>
         </Grid.ColumnDefinitions>
         <TreeView Margin="10,10,10,40">
             <TreeViewItem Header="Параметры" IsExpanded="True">
@@ -20,7 +20,7 @@
             <TabItem Width="0" Height="0" Background="WhiteSmoke" IsSelected="{Binding IsSelected, ElementName=ConnectOptions}">
                 <Grid Height="Auto" Width="Auto" Background="WhiteSmoke">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="290"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
@@ -36,19 +36,19 @@
                     </Grid.RowDefinitions>
                     <TextBlock Text="Настройки подключения к СУБД MySQL" Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     <Label x:Name="lblIP" Content="Адрес сервера: " Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"/>
-                    <TextBox x:Name="txtBoxIP" Text="" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Width="150" Height="20" MaxLength="16"/>
+                    <TextBox x:Name="txtBoxIP" Text="" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Width="150" Height="20" MaxLength="32"/>
                     <Label x:Name="lblPort" Content="Порт: " HorizontalAlignment="Left" Grid.Row="2" Grid.Column="0"/>
-                    <TextBox x:Name="txtBoxPort" Text="" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Width="150" Height="20"  MaxLength="16"/>
+                    <TextBox x:Name="txtBoxPort" Text="" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Width="150" Height="20"  MaxLength="32"/>
                     <Label x:Name="lblDBName" Content="Имя БД: " HorizontalAlignment="Left" Grid.Row="3" Grid.Column="0"/>
-                    <TextBox x:Name="txtBoxDBName" Text="" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Width="150" Height="20" MaxLength="16"/>
+                    <TextBox x:Name="txtBoxDBName" Text="" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Width="150" Height="20" MaxLength="32"/>
                     <Label x:Name="lblDBTableName" Content="Имя таблицы: " HorizontalAlignment="Left" Grid.Row="4" Grid.Column="0"/>
-                    <TextBox x:Name="txtBoxDBTableName" Text="" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" Width="150" Height="20" MaxLength="16"/>
+                    <TextBox x:Name="txtBoxDBTableName" Text="" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" Width="150" Height="20" MaxLength="32"/>
                     <Label x:Name="lblUsr" Content="Логин: " HorizontalAlignment="Left" Grid.Row="5" Grid.Column="0"/>
-                    <TextBox x:Name="txtBoxUsr" Text="" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left" Width="150" Height="20" MaxLength="16"/>
+                    <TextBox x:Name="txtBoxUsr" Text="" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left" Width="150" Height="20" MaxLength="32"/>
                     <Label x:Name="lblPwd" Content="Пароль: " HorizontalAlignment="Left" Grid.Row="6" Grid.Column="0"/>
                     <!--Специальное поле пароля со скрытыми вводимыми символами-->
-                    <PasswordBox x:Name="pwdBoxPwd" Password="" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left" Width="150" Height="20" MaxLength="16"/>
-                    <Separator Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Width="270" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <PasswordBox x:Name="pwdBoxPwd" Password="" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left" Width="150" Height="20" MaxLength="32"/>
+                    <Separator Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Width="440" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     <CheckBox x:Name="chkBoxAdm" Content="Режим администратора" Margin="4,0,0,0" HorizontalAlignment="Left"  Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2"/>
                 </Grid>
             </TabItem>
