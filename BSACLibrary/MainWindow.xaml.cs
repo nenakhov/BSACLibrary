@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BSACLibrary.Properties;
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -23,7 +24,7 @@ namespace BSACLibrary
         public MainWindow()
         {
             InitializeComponent();
-            //Подключаемся к БД
+            //Подключаемся к БД если заданы настройки
             DBConnect.Connect();
         }
     private void OptionsWindow_Open(object sender, RoutedEventArgs e)

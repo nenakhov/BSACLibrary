@@ -38,6 +38,7 @@ namespace BSACLibrary
             Settings.Default.isAdmin = chkBoxAdm.IsChecked.Value;
             //Cохраняем переменные в файл конфигурации
             Settings.Default.Save();
+
             //Повторно подключаемся к БД
             DBConnect.Connect();
 
