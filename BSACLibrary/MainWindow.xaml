@@ -147,12 +147,23 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <TextBox x:Name="tBoxInput" Padding="2" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="2" MinHeight="25" FontSize="14" Foreground="Gray" Text="Поиск информации по ключевому слову или фразе. Например, &quot;802.11ac&quot;" PreviewMouseLeftButtonUp="tBoxInput_PreviewMouseLeftButtonUp" PreviewKeyDown="tBoxInput_PreviewKeyDown" MaxLength="128" VerticalAlignment="Center"/>
-        <ListBox x:Name="searchListBox" Panel.ZIndex="1" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="3" Grid.RowSpan="3" VerticalAlignment="Top"  MinHeight="25" FontSize="14" Visibility="Hidden" MaxHeight="230" MouseLeave="searchListBox_MouseLeave"/>
-        <Image x:Name="gifAnim" Margin="0,0,2,0" Grid.Column="6" Grid.Row="2" gif:ImageBehavior.AnimatedSource="pack://siteoforigin:,,,/Resources/2.gif" Width="22" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Hidden"/>
-        <Button x:Name="MagazinesBtn" Height="40" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Click="MagazinesBtn_Click" Content="Журналы" Style="{DynamicResource LeftCorner}"/>
-        <Button x:Name="NewspapersBtn" Height="40" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Center"  Click="NewspapersBtn_Click" Content="Газеты" Style="{DynamicResource NormalCorner}"/>
-        <Button x:Name="EditBtn" Height="40" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" VerticalAlignment="Center" Click="EditBtn_Click" Content="Редактор" Style="{DynamicResource RightCorner}"/>
+        <TextBox x:Name="tBoxInput" Padding="2" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="2" 
+                MinHeight="25" FontSize="14" Foreground="Gray" 
+                Text="Поиск информации по ключевому слову или фразе. Например, &quot;802.11ac&quot;" 
+                PreviewMouseLeftButtonUp="tBoxInput_PreviewMouseLeftButtonUp" 
+                PreviewKeyDown="tBoxInput_PreviewKeyDown" MaxLength="128" VerticalAlignment="Center"/>
+        <ListBox x:Name="searchListBox" Panel.ZIndex="1" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="3" 
+                Grid.RowSpan="3" VerticalAlignment="Top"  MinHeight="25" FontSize="14" Visibility="Hidden" 
+                MaxHeight="230" MouseLeave="searchListBox_MouseLeave"/>
+        <Image x:Name="gifAnim" Margin="0,0,2,0" Grid.Column="6" Grid.Row="2" 
+                gif:ImageBehavior.AnimatedSource="pack://siteoforigin:,,,/Resources/2.gif" Width="22" 
+                HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Hidden"/>
+        <Button x:Name="MagazinesBtn" Height="40" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" 
+                VerticalAlignment="Center" Click="MagazinesBtn_Click" Content="Журналы" Style="{DynamicResource LeftCorner}"/>
+        <Button x:Name="NewspapersBtn" Height="40" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" 
+                VerticalAlignment="Center"  Click="NewspapersBtn_Click" Content="Газеты" Style="{DynamicResource NormalCorner}"/>
+        <Button x:Name="EditBtn" Height="40" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" 
+                VerticalAlignment="Center" Click="EditBtn_Click" Content="Редактор" Style="{DynamicResource RightCorner}"/>
         <TabControl BorderBrush="Gainsboro" Background="WhiteSmoke" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="6">
             <TabItem x:Name="Magazines" Width="0" Height="0" Background="WhiteSmoke">
                 <TextBlock Text="Журналы"/>
