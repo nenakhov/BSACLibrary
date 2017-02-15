@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BSACLibrary"
         mc:Ignorable="d"
-        Title="Параметры" Width="720" Height="480" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Icon="favicons.ico" ShowInTaskbar="False">
-    <Grid Background="WhiteSmoke">
+        Title="Параметры" Width="720" Height="480" Background="WhiteSmoke" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Icon="favicons.ico" ShowInTaskbar="False">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="240"/>
             <ColumnDefinition Width="480"/>

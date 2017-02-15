@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BSACLibrary"
         mc:Ignorable="d"
-        Title="О программе" Height="300" Width="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Icon="favicons.ico" ShowInTaskbar="False">
+        Title="О программе" Height="300" Width="400" Background="WhiteSmoke" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Icon="favicons.ico" ShowInTaskbar="False">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
