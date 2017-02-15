@@ -6,9 +6,9 @@
         xmlns:gif="http://wpfanimatedgif.codeplex.com"
         xmlns:local="clr-namespace:BSACLibrary"
         mc:Ignorable="d"
-        Title="Картотека периодических изданий" Height="720" Width="1280" WindowStartupLocation="CenterScreen" Icon="favicons.ico" Closed="Window_Closed">
-    <!--Разбиваем форму на таблицу-->
-    <Grid Background="WhiteSmoke">
+        Title="Картотека периодических изданий" Height="700" Width="1200" WindowStartupLocation="CenterScreen" Icon="favicons.ico" Closed="Window_Closed">
+    <!--Разбиваем форму на таблицу--> 
+    <Grid Background="WhiteSmoke" Margin="10,0,10,10">
         <!--Определение строк-->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -16,18 +16,12 @@
             <RowDefinition Height="25"/>
             <RowDefinition Height="15"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
         <!--Определение столбцов-->
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="tBoxInput" Padding="2" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" MinHeight="25" FontSize="14" Foreground="Gray" Text="Поиск информации по ключевому слову или фразе. Например, &quot;802.11ac&quot;" PreviewMouseLeftButtonUp="tBoxInput_PreviewMouseLeftButtonUp" PreviewKeyDown="tBoxInput_PreviewKeyDown" MaxLength="128" VerticalAlignment="Center"/>
-        <ListBox x:Name="searchListBox" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="2" VerticalAlignment="Top"  MinHeight="25" FontSize="14" Visibility="Hidden" MaxHeight="230" MouseLeave="searchListBox_MouseLeave"/>
-        <Image x:Name="gifAnim" Margin="0,0,12,0" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2" gif:ImageBehavior.AnimatedSource="pack://siteoforigin:,,,/Resources/2.gif" Width="22" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Hidden"/>
         <Menu x:Name="menu" Background="WhiteSmoke" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="0">
             <MenuItem Header="_Файл">
                 <MenuItem Header="_Новый">
@@ -65,7 +59,10 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <TabControl BorderBrush="Gainsboro" Background="White" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2">
+        <TextBox x:Name="tBoxInput" Padding="2" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" MinHeight="25" FontSize="14" Foreground="Gray" Text="Поиск информации по ключевому слову или фразе. Например, &quot;802.11ac&quot;" PreviewMouseLeftButtonUp="tBoxInput_PreviewMouseLeftButtonUp" PreviewKeyDown="tBoxInput_PreviewKeyDown" MaxLength="128" VerticalAlignment="Center"/>
+        <ListBox x:Name="searchListBox" Panel.ZIndex="1" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="2" VerticalAlignment="Top"  MinHeight="25" FontSize="14" Visibility="Hidden" MaxHeight="230" MouseLeave="searchListBox_MouseLeave"/>
+        <Image x:Name="gifAnim" Margin="0,0,12,0" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2" gif:ImageBehavior.AnimatedSource="pack://siteoforigin:,,,/Resources/2.gif" Width="22" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Hidden"/>
+        <TabControl BorderBrush="Gainsboro" Background="White" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">
             <TabControl.Resources>
                 <Style TargetType="TabItem">
                     <Setter Property="Template">
@@ -76,7 +73,7 @@
                                         VerticalAlignment="Center"
                                         HorizontalAlignment="Center"
                                         ContentSource="Header"
-                                        Margin="162,5,162,5"/>
+                                        Margin="150,5,150,5"/>
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsSelected" Value="True">
@@ -95,7 +92,7 @@
                 <Label Content="Содержание"/>
             </TabItem>
             <TabItem Header="Газеты" FontSize="16"/>
-            <TabItem Header="Редактирование" FontSize="16" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <TabItem Header="Редактирование" FontSize="16"/>
         </TabControl>
     </Grid>
 </Window>

@@ -90,8 +90,9 @@ namespace BSACLibrary
                 searchListBox.Visibility = Visibility.Hidden;
                 //Приступаем к поиску
                 string mask = "*.pdf"; //Ищем только .pdf файлы
+                string source = @"\\10.90.4.67\doc\Aurora описание\AuroraИнстрНарус\"; //Путь к файлам
                 //string source = @"\\192.168.1.1\Main\Transmission\Complete\Harry Potter 1-7 Reference Quality eBook Collection\"; //Путь к файлам
-                string source = @"D:\\Учеба\";
+                //string source = @"D:\\Учеба\";
                 //Показываем анимацией что программа не зависла
                 gifAnim.Visibility = Visibility.Visible;
                 try
