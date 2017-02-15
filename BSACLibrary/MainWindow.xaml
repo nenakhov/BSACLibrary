@@ -7,14 +7,98 @@
         xmlns:local="clr-namespace:BSACLibrary"
         mc:Ignorable="d"
         Title="Картотека периодических изданий" Background="WhiteSmoke" Height="700" Width="1200" WindowStartupLocation="CenterScreen" Icon="favicons.ico" Closed="Window_Closed">
-    <!--Разбиваем форму на таблицу--> 
+    <Window.Resources>
+        <Style x:Key="LeftCorner" TargetType="{x:Type Button}">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid x:Name="grid">
+                            <Border x:Name="border" Background="Gainsboro" CornerRadius="4,0,0,4" BorderThickness="0">
+                                <ContentPresenter HorizontalAlignment="Center"
+                             VerticalAlignment="Center"
+                             TextElement.FontWeight="Bold"
+                             TextElement.FontSize="16"></ContentPresenter>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="LightGray"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" TargetName="grid" Value="0.25"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="RightCorner" TargetType="{x:Type Button}">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid x:Name="grid">
+                            <Border x:Name="border" Background="Gainsboro" CornerRadius="0,4,4,0" BorderThickness="0">
+                                <ContentPresenter HorizontalAlignment="Center"
+                             VerticalAlignment="Center"
+                             TextElement.FontWeight="Bold"
+                             TextElement.FontSize="16"></ContentPresenter>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="LightGray"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" TargetName="grid" Value="0.25"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="NormalCorner" TargetType="{x:Type Button}">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid x:Name="grid">
+                            <Border x:Name="border" Background="Gainsboro"  BorderThickness="0">
+                                <ContentPresenter HorizontalAlignment="Center"
+                             VerticalAlignment="Center"
+                             TextElement.FontWeight="Bold"
+                             TextElement.FontSize="16"></ContentPresenter>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="LightGray"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" TargetName="grid" Value="0.25"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <!--Разбиваем форму на таблицу-->
     <Grid Background="WhiteSmoke" Margin="10,0,10,10">
         <!--Определение строк-->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="15"/>
             <RowDefinition Height="25"/>
-            <RowDefinition Height="15"/>
+            <RowDefinition Height="4"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <!--Определение столбцов-->
@@ -22,8 +106,11 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Menu x:Name="menu" Background="WhiteSmoke" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0">
+        <Menu x:Name="menu" Background="WhiteSmoke" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0" Margin="-10,0,0,0">
             <MenuItem Header="_Файл">
                 <MenuItem Header="_Новый">
                     <MenuItem.Icon>
@@ -60,45 +147,22 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <TextBox x:Name="tBoxInput" Padding="2" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" MinHeight="25" FontSize="14" Foreground="Gray" Text="Поиск информации по ключевому слову или фразе. Например, &quot;802.11ac&quot;" PreviewMouseLeftButtonUp="tBoxInput_PreviewMouseLeftButtonUp" PreviewKeyDown="tBoxInput_PreviewKeyDown" MaxLength="128" VerticalAlignment="Center"/>
-        <ListBox x:Name="searchListBox" Panel.ZIndex="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="3" Grid.RowSpan="2" VerticalAlignment="Top"  MinHeight="25" FontSize="14" Visibility="Hidden" MaxHeight="230" MouseLeave="searchListBox_MouseLeave"/>
-        <Image x:Name="gifAnim" Margin="0,0,12,0" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="2" gif:ImageBehavior.AnimatedSource="pack://siteoforigin:,,,/Resources/2.gif" Width="22" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Hidden"/>
-        <UniformGrid Grid.ColumnSpan="3" Columns="3" Margin="2,0,2,0">
-            <Canvas x:Name="c1"/>
-            <Canvas x:Name="c2"/>
-            <Canvas x:Name="c3"/>
-        </UniformGrid>
-        <TabControl BorderBrush="Gainsboro" Background="White" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3">
-            <TabControl.Resources>
-                <Style TargetType="TabItem">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="TabItem">
-                                <Border Name="Border" BorderThickness="1,1,1,0" BorderBrush="Gainsboro" CornerRadius="4,4,0,0">
-                                    <ContentPresenter x:Name="ContentSite"
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Center"
-                                        ContentSource="Header"
-                                        Margin="0,10,0,10"/>
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter TargetName="Border" Property="Background" Value="LightGray"/>
-                                    </Trigger>
-                                    <Trigger Property="IsSelected" Value="False">
-                                        <Setter TargetName="Border" Property="Background" Value="WhiteSmoke"/>
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </TabControl.Resources>
-            <TabItem Header="Журналы" FontSize="16"  Margin="-3,0,0,0" Width="{Binding ElementName=c1, Path=ActualWidth}">
-                <Label Content="Содержание"/>
+        <TextBox x:Name="tBoxInput" Padding="2" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="2" MinHeight="25" FontSize="14" Foreground="Gray" Text="Поиск информации по ключевому слову или фразе. Например, &quot;802.11ac&quot;" PreviewMouseLeftButtonUp="tBoxInput_PreviewMouseLeftButtonUp" PreviewKeyDown="tBoxInput_PreviewKeyDown" MaxLength="128" VerticalAlignment="Center"/>
+        <ListBox x:Name="searchListBox" Panel.ZIndex="1" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="3" Grid.RowSpan="3" VerticalAlignment="Top"  MinHeight="25" FontSize="14" Visibility="Hidden" MaxHeight="230" MouseLeave="searchListBox_MouseLeave"/>
+        <Image x:Name="gifAnim" Margin="0,0,2,0" Grid.Column="6" Grid.Row="2" gif:ImageBehavior.AnimatedSource="pack://siteoforigin:,,,/Resources/2.gif" Width="22" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Hidden"/>
+        <Button x:Name="MagazinesBtn" Height="40" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Click="MagazinesBtn_Click" Content="Журналы" Style="{DynamicResource LeftCorner}"/>
+        <Button x:Name="NewspapersBtn" Height="40" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Center"  Click="NewspapersBtn_Click" Content="Газеты" Style="{DynamicResource NormalCorner}"/>
+        <Button x:Name="EditBtn" Height="40" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" VerticalAlignment="Center" Click="EditBtn_Click" Content="Редактор" Style="{DynamicResource RightCorner}"/>
+        <TabControl BorderBrush="Gainsboro" Background="WhiteSmoke" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="6">
+            <TabItem x:Name="Magazines" Width="0" Height="0" Background="WhiteSmoke">
+                <TextBlock Text="Журналы"/>
             </TabItem>
-            <TabItem Header="Газеты" FontSize="16" Width="{Binding ElementName=c2, Path=ActualWidth}"/>
-            <TabItem Header="Редактирование" FontSize="16" Margin="0,0,-4,0" Width="{Binding ElementName=c3, Path=ActualWidth}"/>
+            <TabItem x:Name="Newspapers" Width="0" Height="0" Background="WhiteSmoke">
+                <TextBlock Text="Газеты"/>
+            </TabItem>
+            <TabItem x:Name="Edit" Width="0" Height="0" Background="WhiteSmoke">
+                <TextBlock Text="Редактирование"/>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

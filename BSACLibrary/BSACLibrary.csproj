@@ -92,6 +92,7 @@
     </Compile>
     <Compile Include="AdditionalClasses.cs" />
     <Compile Include="DBConnect.cs" />
+    <Compile Include="Initialize.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

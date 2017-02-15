@@ -1,0 +1,39 @@
+﻿using BSACLibrary.Properties;
+using System.Windows;
+using System.Windows.Controls;
+
+namespace BSACLibrary
+{
+    public static class Initialize
+    {
+        public static void Init()
+        {
+            //Подключаемся к БД если заданы настройки
+            DBConnect.Connect();
+
+            //Если не включен режим администратора спрячем вкладку редактора
+            if (Settings.Default.isAdmin == false)
+            {
+
+                MainWindow mWin = MainWindow.AppWindow;
+
+                mWin.EditBtn.Visibility = Visibility.Hidden;
+                Grid.SetColumn(mWin.MagazinesBtn, 0);
+                Grid.SetColumnSpan(mWin.MagazinesBtn, 3);
+                Grid.SetColumn(mWin.NewspapersBtn, 3);
+                Grid.SetColumnSpan(mWin.NewspapersBtn, 3);
+            }
+            else
+            {
+                MainWindow mWin = MainWindow.AppWindow;
+
+                mWin.EditBtn.Visibility = Visibility.Visible; 
+                Grid.SetColumn(mWin.MagazinesBtn, 0);
+                Grid.SetColumnSpan(mWin.MagazinesBtn, 2);
+                Grid.SetColumn(mWin.NewspapersBtn, 2);
+                Grid.SetColumnSpan(mWin.NewspapersBtn, 2);
+            }
+        }
+
+    }
+}

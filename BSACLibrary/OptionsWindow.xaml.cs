@@ -39,8 +39,8 @@ namespace BSACLibrary
             //Cохраняем переменные в файл конфигурации
             Settings.Default.Save();
 
-            //Повторно подключаемся к БД
-            DBConnect.Connect();
+            //Повторно инициализируем GUI и переподключаемся к бд
+            Initialize.Init();
 
             CancelBt_Click(sender, e);
         }
