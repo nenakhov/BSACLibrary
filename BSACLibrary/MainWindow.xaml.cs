@@ -136,7 +136,7 @@ namespace BSACLibrary
                                         searchListBox.Visibility = Visibility.Visible;
                                         //Форматирование текста, перенос строк
                                         TextBlock txtBlock = new TextBlock();
-                                        txtBlock.MaxWidth = this.ActualWidth - 60;
+                                        txtBlock.MaxWidth = this.ActualWidth - 75;
                                         txtBlock.TextWrapping = TextWrapping.Wrap;
                                         //Добавляем элемент
                                         txtBlock.Inlines.Add(new FileInfo(file).Name + "\n");

@@ -40,10 +40,10 @@
                             HorizontalAlignment="Left"/>
                     <TextBox x:Name="txtBoxIP" Text="" Grid.Row="1" Grid.Column="1" 
                             HorizontalAlignment="Left" Width="150" Height="20" MaxLength="32"/>
-                    <Label x:Name="lblPort" Content="Порт: "  Grid.Row="2" Grid.Column="0" 
+                    <Label x:Name="lblPort" Content="Порт: " Grid.Row="2" Grid.Column="0" 
                             HorizontalAlignment="Left"/>
                     <TextBox x:Name="txtBoxPort" Text="" Grid.Row="2" Grid.Column="1" 
-                            HorizontalAlignment="Left" Width="150" Height="20"  MaxLength="32"/>
+                            HorizontalAlignment="Left" Width="150" Height="20" MaxLength="32"/>
                     <Label x:Name="lblDBName" Content="Имя БД: " Grid.Row="3" Grid.Column="0" 
                             HorizontalAlignment="Left"/>
                     <TextBox x:Name="txtBoxDBName" Text="" Grid.Row="3" Grid.Column="1" 
@@ -64,7 +64,7 @@
                     <Separator Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Width="440" 
                             HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     <CheckBox x:Name="chkBoxAdm" Content="Режим администратора" Margin="4,0,0,0" 
-                            HorizontalAlignment="Left"  Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2"/>
+                            HorizontalAlignment="Left" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2"/>
                 </Grid>
             </TabItem>
         </TabControl>
