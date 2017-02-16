@@ -111,35 +111,35 @@
             <MenuItem Header="_Файл">
                 <MenuItem Header="_Новый">
                     <MenuItem.Icon>
-                        <Image Source="pack://siteoforigin:,,,/Resources/new.png" Stretch="UniformToFill"/>
+                        <Image Source="pack://siteoforigin:,,,/Resources/new.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <!--Добавляем вертикальную полосу-->
                 <Separator></Separator>
                 <MenuItem Header="_Выход" Click="Window_Closed">
                     <MenuItem.Icon>
-                        <Image Source="pack://siteoforigin:,,,/Resources/login.png" Stretch="UniformToFill"/>
+                        <Image Source="pack://siteoforigin:,,,/Resources/login.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="_Опции">
                 <MenuItem Header="_Настройки" Click="OptionsWindow_Open">
                     <MenuItem.Icon>
-                        <Image Source="pack://siteoforigin:,,,/Resources/settings.png" Stretch="UniformToFill"/>
+                        <Image Source="pack://siteoforigin:,,,/Resources/settings.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="_Справка">
                 <MenuItem Header="_Помощь" Click="HelpFile_Open">
                     <MenuItem.Icon>
-                        <Image Source="pack://siteoforigin:,,,/Resources/help.png" Stretch="UniformToFill"/>
+                        <Image Source="pack://siteoforigin:,,,/Resources/help.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <!--Добавляем вертикальную полосу-->
                 <Separator></Separator>
                 <MenuItem Header="_О программе" Click="AboutWindow_Open">
                     <MenuItem.Icon>
-                        <Image Source="pack://siteoforigin:,,,/Resources/about.png" Stretch="UniformToFill"/>
+                        <Image Source="pack://siteoforigin:,,,/Resources/about.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
