@@ -60,9 +60,6 @@ namespace BSACLibrary
                         //Отправляем запрос
                         Query.ExecuteNonQuery();
                     }
-
-                    //Закрываем соединение
-                    Connection.Close();
                 }
                 //В этом блоке перехватываем возможные ошибки в процессе соединения
                 catch (MySqlException ex)
@@ -76,6 +73,11 @@ namespace BSACLibrary
                     {
                         MessageBox.Show(ex.Message);
                     }
+                }
+                finally
+                {
+                    //Закрываем соединение
+                    Connection.Close();
                 }
             }
         }
