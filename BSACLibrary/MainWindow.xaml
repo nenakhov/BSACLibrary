@@ -162,13 +162,20 @@
         <ToggleButton x:Name="EditBtn" Height="40" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" 
                 VerticalAlignment="Center" Content="Редактор" Style="{DynamicResource ToggleRightCorner}"/>
         <TabControl BorderBrush="Gainsboro" Background="WhiteSmoke" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="6">
-            <TabItem x:Name="MagazinesTab" Width="0" Height="0" Background="WhiteSmoke" IsSelected="{Binding IsChecked, ElementName=MagazinesBtn}">
+            <TabControl.Resources>
+                <Style TargetType="TabItem">
+                    <Setter Property="Height" Value="0"/>
+                    <Setter Property="Width" Value="0"/>
+                    <Setter Property="Background" Value="WhiteSmoke"/>
+                </Style>
+            </TabControl.Resources>
+            <TabItem x:Name="MagazinesTab" IsSelected="{Binding IsChecked, ElementName=MagazinesBtn}">
                 <TextBlock Text="Журналы"/>
             </TabItem>
-            <TabItem x:Name="NewspapersTab" Width="0" Height="0" Background="WhiteSmoke" IsSelected="{Binding IsChecked, ElementName=NewspapersBtn}">
+            <TabItem x:Name="NewspapersTab" IsSelected="{Binding IsChecked, ElementName=NewspapersBtn}">
                 <TextBlock Text="Газеты"/>
             </TabItem>
-            <TabItem x:Name="EditTab" Width="0" Height="0" Background="WhiteSmoke" IsSelected="{Binding IsChecked, ElementName=EditBtn}">
+            <TabItem x:Name="EditTab" IsSelected="{Binding IsChecked, ElementName=EditBtn}">
                 <TextBlock Text="Редактирование"/>
             </TabItem>
         </TabControl>
