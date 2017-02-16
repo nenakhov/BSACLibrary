@@ -20,9 +20,9 @@ namespace BSACLibrary
                 {
                     //Отформатируем найденный текст
                     currentPageText = currentPageText.Substring(i, currentPageText.Length - i);
-                    if (currentPageText.Length >= 300)
+                    if (currentPageText.Length >= 400)
                     {
-                        res.textCut = currentPageText.Substring(0, 299).Replace("\n", " ");
+                        res.textCut = currentPageText.Substring(0, 399).Replace("\n", " ");
                     }
                     else
                     {
