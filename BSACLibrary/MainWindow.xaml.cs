@@ -32,7 +32,7 @@ namespace BSACLibrary
         {
             //Открываем окно настроек
             OptionsWindow oWin = new OptionsWindow();
-            oWin.Owner = this;
+            //oWin.Owner = this;
             //ShowDialog в отличии от Show позволяет запретить повторный запуск этого же окна
             oWin.ShowDialog();
         }
@@ -41,7 +41,7 @@ namespace BSACLibrary
         {
             //Открытие окна "О программе"
             AboutWindow aWin = new AboutWindow();
-            aWin.Owner = this;
+            //aWin.Owner = this;
             aWin.ShowDialog();
         }
 
@@ -91,9 +91,8 @@ namespace BSACLibrary
                 searchListBox.Visibility = Visibility.Hidden;
                 //Приступаем к поиску
                 string mask = "*.pdf"; //Ищем только .pdf файлы
-                //string source = @"\\10.90.4.67\doc\Aurora описание\AuroraИнстрНарус\"; //Путь к файлам
+                string source = @"\\10.90.4.67\doc\Aurora описание\AuroraИнстрНарус\"; //Путь к файлам
                 //string source = @"\\192.168.1.1\Main\Transmission\Complete\Harry Potter 1-7 Reference Quality eBook Collection\"; //Путь к файлам
-                string source = @"D:\\";
                 //Показываем анимацией что программа не зависла
                 gifAnim.Visibility = Visibility.Visible;
                 try

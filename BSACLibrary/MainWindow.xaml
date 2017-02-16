@@ -105,35 +105,35 @@
             <MenuItem Header="_Файл">
                 <MenuItem Header="_Новый">
                     <MenuItem.Icon>
-                        <Image Source="pack://siteoforigin:,,,/Resources/add (1).png"/>
+                        <Image Source="pack://siteoforigin:,,,/Resources/add (1).png" Stretch="UniformToFill"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <!--Добавляем вертикальную полосу-->
                 <Separator></Separator>
                 <MenuItem Header="_Выход" Click="Window_Closed">
                     <MenuItem.Icon>
-                        <Image Source="pack://siteoforigin:,,,/Resources/login.png"/>
+                        <Image Source="pack://siteoforigin:,,,/Resources/login.png" Stretch="UniformToFill"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="_Опции">
                 <MenuItem Header="_Настройки" Click="OptionsWindow_Open">
                     <MenuItem.Icon>
-                        <Image Source="pack://siteoforigin:,,,/Resources/list (1).png"/>
+                        <Image Source="pack://siteoforigin:,,,/Resources/list (1).png" Stretch="UniformToFill"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="_Справка">
                 <MenuItem Header="_Помощь" Click="HelpFile_Open">
                     <MenuItem.Icon>
-                        <Image Source="pack://siteoforigin:,,,/Resources/question-circular-button.png"/>
+                        <Image Source="pack://siteoforigin:,,,/Resources/question-circular-button.png" Stretch="UniformToFill"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <!--Добавляем вертикальную полосу-->
                 <Separator></Separator>
                 <MenuItem Header="_О программе" Click="AboutWindow_Open">
                     <MenuItem.Icon>
-                        <Image Source="pack://siteoforigin:,,,/Resources/speech-bubble1.png"/>
+                        <Image Source="pack://siteoforigin:,,,/Resources/speech-bubble1.png" Stretch="UniformToFill"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>

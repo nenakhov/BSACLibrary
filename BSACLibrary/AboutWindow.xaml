@@ -5,30 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BSACLibrary"
         mc:Ignorable="d"
-        Title="О программе" Height="300" Width="400" Background="WhiteSmoke" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Icon="favicons.ico" ShowInTaskbar="False">
-    <Grid>
+        Title="О программе" Height="200" Width="340" Background="WhiteSmoke" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Icon="favicons.ico" ShowInTaskbar="False">
+    <Grid Margin="10,10,10,10" VerticalAlignment="Center" HorizontalAlignment="Center">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="10"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="10"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
         <!-- &quot; - Символ кавычки-->
-        <Label x:Name="lblDev" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="1" Content="Разработчик:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <Label x:Name="lblDevName" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="1" Content="Д. А. Ненахов" Margin="100,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <Label x:Name="LblMen" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="1" Content="Руководитель:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <Label x:Name="lblMenName" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="1" Content="E. А. Кудрицкая" Margin="100,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <Label x:Name="lblAcName" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" Content="УО &quot;Белорусская государственная академия связи&quot;" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-        <Label x:Name="lblYear" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="2" Content="Минск 2017" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <Label Grid.Column="0" Grid.Row="0" Content="Разработчик:" HorizontalAlignment="Left"/>
+        <Label Grid.Column="1" Grid.Row="0" Content="Д. А. Ненахов" Margin="100,0,0,0" HorizontalAlignment="Left"/>
+        <Label Grid.Column="0" Grid.Row="1" Content="Руководитель:" HorizontalAlignment="Left"/>
+        <Label Grid.Column="1" Grid.Row="1" Content="E. А. Кудрицкая" Margin="100,0,0,0" HorizontalAlignment="Left"/>
+        <Label Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" 
+               Content="УО &quot;Белорусская государственная академия связи&quot;" HorizontalAlignment="Center"/>
+        <Label Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" Content="Минск 2017" HorizontalAlignment="Center"/>
+        <Button Width="80" Height="24" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" Content="Ок" 
+                IsCancel="True" IsDefault="True"/>
     </Grid>
 </Window>
