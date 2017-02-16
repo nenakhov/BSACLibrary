@@ -141,22 +141,22 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\login.png" />
+    <Resource Include="Resources\login.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\about.png" />
+    <Resource Include="Resources\about.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\help.png" />
+    <Resource Include="Resources\help.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\new.png" />
+    <Resource Include="Resources\new.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\searching.gif" />
+    <Resource Include="Resources\searching.gif" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\settings.png" />
+    <Resource Include="Resources\settings.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="exeico.ico" />

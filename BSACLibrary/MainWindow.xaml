@@ -15,7 +15,7 @@
                         <Border x:Name="border" Background="Gainsboro" BorderThickness="0" CornerRadius="4,0,0,4">
                             <ContentPresenter HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            TextBlock.FontSize="16"
+                            TextBlock.FontSize="18"
                             TextBlock.FontFamily="Verdana"></ContentPresenter>
                         </Border>
                         <ControlTemplate.Triggers>
@@ -34,7 +34,7 @@
                         <Border x:Name="border" Background="Gainsboro" BorderThickness="0">
                             <ContentPresenter HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            TextBlock.FontSize="16"
+                            TextBlock.FontSize="18"
                             TextBlock.FontFamily="Verdana"></ContentPresenter>
                         </Border>
                         <ControlTemplate.Triggers>
@@ -53,7 +53,7 @@
                         <Border x:Name="border" Background="Gainsboro" BorderThickness="0" CornerRadius="0,4,4,0">
                             <ContentPresenter HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            TextBlock.FontSize="16"
+                            TextBlock.FontSize="18"
                             TextBlock.FontFamily="Verdana"></ContentPresenter>
                         </Border>
                         <ControlTemplate.Triggers>
@@ -96,35 +96,35 @@
             <MenuItem Header="_Файл">
                 <MenuItem Header="_Новый">
                     <MenuItem.Icon>
-                        <Image Source="pack://siteoforigin:,,,/Resources/new.png"/>
+                        <Image Source="Resources/new.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <!--Добавляем вертикальную полосу-->
                 <Separator></Separator>
                 <MenuItem Header="_Выход" Click="Window_Closed">
                     <MenuItem.Icon>
-                        <Image Source="pack://siteoforigin:,,,/Resources/login.png"/>
+                        <Image Source="Resources/login.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="_Опции">
                 <MenuItem Header="_Настройки" Click="OptionsWindow_Open">
                     <MenuItem.Icon>
-                        <Image Source="pack://siteoforigin:,,,/Resources/settings.png"/>
+                        <Image Source="Resources/settings.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="_Справка">
                 <MenuItem Header="_Помощь" Click="HelpFile_Open">
                     <MenuItem.Icon>
-                        <Image Source="pack://siteoforigin:,,,/Resources/help.png"/>
+                        <Image Source="Resources/help.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <!--Добавляем вертикальную полосу-->
                 <Separator></Separator>
                 <MenuItem Header="_О программе" Click="AboutWindow_Open">
                     <MenuItem.Icon>
-                        <Image Source="pack://siteoforigin:,,,/Resources/about.png"/>
+                        <Image Source="Resources/about.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
@@ -138,7 +138,7 @@
                 Grid.RowSpan="3" MinHeight="25" FontSize="14" Visibility="Hidden"
                 VerticalAlignment="Top" MaxHeight="240" MouseLeave="searchListBox_MouseLeave"/>
         <Image x:Name="gifAnim" Margin="0,0,2,0" Grid.Column="6" Grid.Row="2" 
-                gif:ImageBehavior.AnimatedSource="pack://siteoforigin:,,,/Resources/searching.gif" Width="22" 
+                gif:ImageBehavior.AnimatedSource="Resources/searching.gif" Width="22" 
                 HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Hidden"/>
         <RadioButton x:Name="MagazinesBtn" Height="40" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" 
                 VerticalAlignment="Center" Content="ЖУРНАЛЫ" Style="{DynamicResource RadioLeftCorner}" IsChecked="True"/>
