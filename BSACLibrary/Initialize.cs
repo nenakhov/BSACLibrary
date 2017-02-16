@@ -16,7 +16,7 @@ namespace BSACLibrary
             {
 
                 MainWindow mWin = MainWindow.AppWindow;
-                Style style = mWin.FindResource("ToggleRightCorner") as Style;
+                Style style = mWin.FindResource("RadioRightCorner") as Style;
 
                 mWin.EditBtn.Visibility = Visibility.Hidden;
                 mWin.NewspapersBtn.Style = style;
@@ -29,7 +29,7 @@ namespace BSACLibrary
             else
             {
                 MainWindow mWin = MainWindow.AppWindow;
-                Style style = mWin.FindResource("ToggleNormalCorner") as Style;
+                Style style = mWin.FindResource("RadioNormalCorner") as Style;
 
                 mWin.EditBtn.Visibility = Visibility.Visible;
                 mWin.NewspapersBtn.Style = style;

@@ -8,21 +8,18 @@
         mc:Ignorable="d"
         Title="Картотека периодических изданий" Background="WhiteSmoke" Height="700" Width="1200" WindowStartupLocation="CenterScreen" Icon="favicons.ico" Closed="Window_Closed" StateChanged="Window_StateChanged">
     <Window.Resources>
-        <Style x:Key="ToggleLeftCorner" TargetType="{x:Type ToggleButton}">
+        <Style x:Key="RadioLeftCorner" TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type RadioButton}}">
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Padding" Value="1"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ToggleButton}">
-                        <Grid x:Name="grid">
-                            <Border x:Name="border" Background="Gainsboro"  BorderThickness="0" CornerRadius="4,0,0,4">
-                                <ContentPresenter HorizontalAlignment="Center"
+                        <Border x:Name="border" Background="Gainsboro"  BorderThickness="0" CornerRadius="4,0,0,4">
+                            <ContentPresenter HorizontalAlignment="Center"
                              VerticalAlignment="Center"
                              TextBlock.FontWeight="Bold"
                              TextBlock.FontSize="16"></ContentPresenter>
-                            </Border>
-                        </Grid>
+                        </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter Property="Background" TargetName="border" Value="LightGray"/>
@@ -32,21 +29,18 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="ToggleNormalCorner" TargetType="{x:Type ToggleButton}">
+        <Style x:Key="RadioNormalCorner" TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type RadioButton}}">
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Padding" Value="1"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ToggleButton}">
-                        <Grid x:Name="grid">
-                            <Border x:Name="border" Background="Gainsboro"  BorderThickness="0">
-                                <ContentPresenter HorizontalAlignment="Center"
+                        <Border x:Name="border" Background="Gainsboro"  BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center"
                              VerticalAlignment="Center"
                              TextBlock.FontWeight="Bold"
                              TextBlock.FontSize="16"></ContentPresenter>
-                            </Border>
-                        </Grid>
+                        </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter Property="Background" TargetName="border" Value="LightGray"/>
@@ -56,21 +50,18 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="ToggleRightCorner" TargetType="{x:Type ToggleButton}">
+        <Style x:Key="RadioRightCorner" TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type RadioButton}}">
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Padding" Value="1"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ToggleButton}">
-                        <Grid x:Name="grid">
-                            <Border x:Name="border" Background="Gainsboro"  BorderThickness="0" CornerRadius="0,4,4,0">
-                                <ContentPresenter HorizontalAlignment="Center"
+                        <Border x:Name="border" Background="Gainsboro"  BorderThickness="0" CornerRadius="0,4,4,0">
+                            <ContentPresenter HorizontalAlignment="Center"
                              VerticalAlignment="Center"
                              TextBlock.FontWeight="Bold"
                              TextBlock.FontSize="16"></ContentPresenter>
-                            </Border>
-                        </Grid>
+                        </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter Property="Background" TargetName="border" Value="LightGray"/>
@@ -86,9 +77,9 @@
         <!--Определение строк-->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="15"/>
+            <RowDefinition Height="5"/>
             <RowDefinition Height="25"/>
-            <RowDefinition Height="4"/>
+            <RowDefinition Height="5"/>
             <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -101,7 +92,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Menu x:Name="menu" Background="WhiteSmoke" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0" Margin="-10,0,0,0">
+        <Menu x:Name="menu" Background="WhiteSmoke" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0" Margin="-10,0,-10,0">
             <Menu.Resources>
                 <Style TargetType="Image">
                     <Setter Property="Height" Value="16"/>
@@ -149,24 +140,23 @@
                 Text="Поиск информации по ключевому слову или фразе. Например, &quot;802.11ac&quot;" 
                 PreviewMouseLeftButtonUp="tBoxInput_PreviewMouseLeftButtonUp" 
                 PreviewKeyDown="tBoxInput_PreviewKeyDown" MaxLength="128"/>
-        <ListBox x:Name="searchListBox" Panel.ZIndex="1" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="3" 
+        <ListBox x:Name="searchListBox" Panel.ZIndex="10" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="3" 
                 Grid.RowSpan="3" MinHeight="25" FontSize="14" Visibility="Hidden" 
                 VerticalAlignment="Top" MaxHeight="240" MouseLeave="searchListBox_MouseLeave"/>
         <Image x:Name="gifAnim" Margin="0,0,2,0" Grid.Column="6" Grid.Row="2" 
                 gif:ImageBehavior.AnimatedSource="pack://siteoforigin:,,,/Resources/searching.gif" Width="22" 
                 HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Hidden"/>
-        <ToggleButton x:Name="MagazinesBtn" Height="40" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" 
-                VerticalAlignment="Center" Content="Журналы" Style="{DynamicResource ToggleLeftCorner}"/>
-        <ToggleButton x:Name="NewspapersBtn" Height="40" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" 
-                VerticalAlignment="Center" Content="Газеты" Style="{DynamicResource ToggleNormalCorner}"/>
-        <ToggleButton x:Name="EditBtn" Height="40" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" 
-                VerticalAlignment="Center" Content="Редактор" Style="{DynamicResource ToggleRightCorner}"/>
-        <TabControl BorderBrush="Gainsboro" Background="WhiteSmoke" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="6">
+        <RadioButton x:Name="MagazinesBtn" Height="40" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" 
+                VerticalAlignment="Center" Content="Журналы" Style="{DynamicResource RadioLeftCorner}" IsChecked="True"/>
+        <RadioButton x:Name="NewspapersBtn" Height="40" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" 
+                VerticalAlignment="Center" Content="Газеты" Style="{DynamicResource RadioNormalCorner}"/>
+        <RadioButton x:Name="EditBtn" Height="40" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" 
+                VerticalAlignment="Center" Content="Редактор" Style="{DynamicResource RadioRightCorner}"/>
+        <TabControl BorderBrush="Gainsboro" Background="White" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="6">
             <TabControl.Resources>
                 <Style TargetType="TabItem">
                     <Setter Property="Height" Value="0"/>
                     <Setter Property="Width" Value="0"/>
-                    <Setter Property="Background" Value="WhiteSmoke"/>
                 </Style>
             </TabControl.Resources>
             <TabItem x:Name="MagazinesTab" IsSelected="{Binding IsChecked, ElementName=MagazinesBtn}">
