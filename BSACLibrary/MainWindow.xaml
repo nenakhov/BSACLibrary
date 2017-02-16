@@ -9,11 +9,9 @@
         Title="Картотека периодических изданий" Background="WhiteSmoke" Height="700" Width="1200" WindowStartupLocation="CenterScreen" Icon="favicons.ico" Closed="Window_Closed" StateChanged="Window_StateChanged">
     <Window.Resources>
         <Style x:Key="RadioLeftCorner" TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type RadioButton}}">
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <ControlTemplate TargetType="{x:Type RadioButton}">
                         <Border x:Name="border" Background="Gainsboro"  BorderThickness="0" CornerRadius="4,0,0,4">
                             <ContentPresenter HorizontalAlignment="Center"
                              VerticalAlignment="Center"
@@ -30,11 +28,9 @@
             </Setter>
         </Style>
         <Style x:Key="RadioNormalCorner" TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type RadioButton}}">
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <ControlTemplate TargetType="{x:Type RadioButton}">
                         <Border x:Name="border" Background="Gainsboro"  BorderThickness="0">
                             <ContentPresenter HorizontalAlignment="Center"
                              VerticalAlignment="Center"
@@ -51,11 +47,9 @@
             </Setter>
         </Style>
         <Style x:Key="RadioRightCorner" TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type RadioButton}}">
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <ControlTemplate TargetType="{x:Type RadioButton}">
                         <Border x:Name="border" Background="Gainsboro"  BorderThickness="0" CornerRadius="0,4,4,0">
                             <ContentPresenter HorizontalAlignment="Center"
                              VerticalAlignment="Center"
@@ -136,12 +130,12 @@
             </MenuItem>
         </Menu>
         <TextBox x:Name="tBoxInput" Padding="2" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="2" 
-                MinHeight="25" FontSize="14" Foreground="Gray" 
+                MinHeight="25" FontSize="14" Foreground="Gray"
                 Text="Поиск информации по ключевому слову или фразе. Например, &quot;802.11ac&quot;" 
                 PreviewMouseLeftButtonUp="tBoxInput_PreviewMouseLeftButtonUp" 
                 PreviewKeyDown="tBoxInput_PreviewKeyDown" MaxLength="128"/>
-        <ListBox x:Name="searchListBox" Panel.ZIndex="10" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="3" 
-                Grid.RowSpan="3" MinHeight="25" FontSize="14" Visibility="Hidden" 
+        <ListBox x:Name="searchListBox" Panel.ZIndex="5" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="3" 
+                Grid.RowSpan="3" MinHeight="25" FontSize="14" Visibility="Hidden"
                 VerticalAlignment="Top" MaxHeight="240" MouseLeave="searchListBox_MouseLeave"/>
         <Image x:Name="gifAnim" Margin="0,0,2,0" Grid.Column="6" Grid.Row="2" 
                 gif:ImageBehavior.AnimatedSource="pack://siteoforigin:,,,/Resources/searching.gif" Width="22" 
