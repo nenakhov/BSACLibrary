@@ -16,8 +16,11 @@ namespace BSACLibrary
             {
 
                 MainWindow mWin = MainWindow.AppWindow;
+                Style style = mWin.FindResource("ToggleRightCorner") as Style;
 
                 mWin.EditBtn.Visibility = Visibility.Hidden;
+                mWin.NewspapersBtn.Style = style;
+
                 Grid.SetColumn(mWin.MagazinesBtn, 0);
                 Grid.SetColumnSpan(mWin.MagazinesBtn, 3);
                 Grid.SetColumn(mWin.NewspapersBtn, 3);
@@ -26,8 +29,11 @@ namespace BSACLibrary
             else
             {
                 MainWindow mWin = MainWindow.AppWindow;
+                Style style = mWin.FindResource("ToggleNormalCorner") as Style;
 
-                mWin.EditBtn.Visibility = Visibility.Visible; 
+                mWin.EditBtn.Visibility = Visibility.Visible;
+                mWin.NewspapersBtn.Style = style;
+
                 Grid.SetColumn(mWin.MagazinesBtn, 0);
                 Grid.SetColumnSpan(mWin.MagazinesBtn, 2);
                 Grid.SetColumn(mWin.NewspapersBtn, 2);

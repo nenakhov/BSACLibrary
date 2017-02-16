@@ -8,81 +8,72 @@
         mc:Ignorable="d"
         Title="Картотека периодических изданий" Background="WhiteSmoke" Height="700" Width="1200" WindowStartupLocation="CenterScreen" Icon="favicons.ico" Closed="Window_Closed">
     <Window.Resources>
-        <Style x:Key="LeftCorner" TargetType="{x:Type Button}">
+        <Style x:Key="ToggleLeftCorner" TargetType="{x:Type ToggleButton}">
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Padding" Value="1"/>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
                         <Grid x:Name="grid">
-                            <Border x:Name="border" Background="Gainsboro" CornerRadius="4,0,0,4" BorderThickness="0">
+                            <Border x:Name="border" Background="Gainsboro"  BorderThickness="0" CornerRadius="4,0,0,4">
                                 <ContentPresenter HorizontalAlignment="Center"
                              VerticalAlignment="Center"
-                             TextElement.FontWeight="Bold"
-                             TextElement.FontSize="16"></ContentPresenter>
+                             TextBlock.FontWeight="Bold"
+                             TextBlock.FontSize="16"></ContentPresenter>
                             </Border>
                         </Grid>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsPressed" Value="True">
+                            <Trigger Property="IsChecked" Value="True">
                                 <Setter Property="Background" TargetName="border" Value="LightGray"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Opacity" TargetName="grid" Value="0.25"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="RightCorner" TargetType="{x:Type Button}">
+        <Style x:Key="ToggleNormalCorner" TargetType="{x:Type ToggleButton}">
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Padding" Value="1"/>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Grid x:Name="grid">
-                            <Border x:Name="border" Background="Gainsboro" CornerRadius="0,4,4,0" BorderThickness="0">
-                                <ContentPresenter HorizontalAlignment="Center"
-                             VerticalAlignment="Center"
-                             TextElement.FontWeight="Bold"
-                             TextElement.FontSize="16"></ContentPresenter>
-                            </Border>
-                        </Grid>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" TargetName="border" Value="LightGray"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Opacity" TargetName="grid" Value="0.25"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="NormalCorner" TargetType="{x:Type Button}">
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Padding" Value="1"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
                         <Grid x:Name="grid">
                             <Border x:Name="border" Background="Gainsboro"  BorderThickness="0">
                                 <ContentPresenter HorizontalAlignment="Center"
                              VerticalAlignment="Center"
-                             TextElement.FontWeight="Bold"
-                             TextElement.FontSize="16"></ContentPresenter>
+                             TextBlock.FontWeight="Bold"
+                             TextBlock.FontSize="16"></ContentPresenter>
                             </Border>
                         </Grid>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsPressed" Value="True">
+                            <Trigger Property="IsChecked" Value="True">
                                 <Setter Property="Background" TargetName="border" Value="LightGray"/>
                             </Trigger>
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Opacity" TargetName="grid" Value="0.25"/>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ToggleRightCorner" TargetType="{x:Type ToggleButton}">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Grid x:Name="grid">
+                            <Border x:Name="border" Background="Gainsboro"  BorderThickness="0" CornerRadius="0,4,4,0">
+                                <ContentPresenter HorizontalAlignment="Center"
+                             VerticalAlignment="Center"
+                             TextBlock.FontWeight="Bold"
+                             TextBlock.FontSize="16"></ContentPresenter>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="LightGray"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -158,20 +149,20 @@
         <Image x:Name="gifAnim" Margin="0,0,2,0" Grid.Column="6" Grid.Row="2" 
                 gif:ImageBehavior.AnimatedSource="pack://siteoforigin:,,,/Resources/2.gif" Width="22" 
                 HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Hidden"/>
-        <Button x:Name="MagazinesBtn" Height="40" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" 
-                VerticalAlignment="Center" Click="MagazinesBtn_Click" Content="Журналы" Style="{DynamicResource LeftCorner}"/>
-        <Button x:Name="NewspapersBtn" Height="40" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" 
-                VerticalAlignment="Center"  Click="NewspapersBtn_Click" Content="Газеты" Style="{DynamicResource NormalCorner}"/>
-        <Button x:Name="EditBtn" Height="40" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" 
-                VerticalAlignment="Center" Click="EditBtn_Click" Content="Редактор" Style="{DynamicResource RightCorner}"/>
+        <ToggleButton x:Name="MagazinesBtn" Height="40" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" 
+                VerticalAlignment="Center" Content="Журналы" Style="{DynamicResource ToggleLeftCorner}"/>
+        <ToggleButton x:Name="NewspapersBtn" Height="40" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" 
+                VerticalAlignment="Center" Content="Газеты" Style="{DynamicResource ToggleNormalCorner}"/>
+        <ToggleButton x:Name="EditBtn" Height="40" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" 
+                VerticalAlignment="Center" Content="Редактор" Style="{DynamicResource ToggleRightCorner}"/>
         <TabControl BorderBrush="Gainsboro" Background="WhiteSmoke" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="6">
-            <TabItem x:Name="Magazines" Width="0" Height="0" Background="WhiteSmoke">
+            <TabItem x:Name="MagazinesTab" Width="0" Height="0" Background="WhiteSmoke" IsSelected="{Binding IsChecked, ElementName=MagazinesBtn}">
                 <TextBlock Text="Журналы"/>
             </TabItem>
-            <TabItem x:Name="Newspapers" Width="0" Height="0" Background="WhiteSmoke">
+            <TabItem x:Name="NewspapersTab" Width="0" Height="0" Background="WhiteSmoke" IsSelected="{Binding IsChecked, ElementName=NewspapersBtn}">
                 <TextBlock Text="Газеты"/>
             </TabItem>
-            <TabItem x:Name="Edit" Width="0" Height="0" Background="WhiteSmoke">
+            <TabItem x:Name="EditTab" Width="0" Height="0" Background="WhiteSmoke" IsSelected="{Binding IsChecked, ElementName=EditBtn}">
                 <TextBlock Text="Редактирование"/>
             </TabItem>
         </TabControl>

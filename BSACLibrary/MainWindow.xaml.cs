@@ -74,18 +74,6 @@ namespace BSACLibrary
             //Закрываем программу
             App.Current.Shutdown();
         }
-        private void EditBtn_Click(object sender, RoutedEventArgs e)
-        {
-            Edit.IsSelected = true;
-        }
-        private void NewspapersBtn_Click(object sender, RoutedEventArgs e)
-        {
-            Newspapers.IsSelected = true;
-        }
-        private void MagazinesBtn_Click(object sender, RoutedEventArgs e)
-        {
-            Magazines.IsSelected = true;
-        }
         //Реакция на нажатие клавиши в строке поиска
         private void tBoxInput_PreviewKeyDown(object sender, KeyEventArgs e)
         {
