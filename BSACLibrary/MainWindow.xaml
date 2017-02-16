@@ -102,10 +102,16 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Menu x:Name="menu" Background="WhiteSmoke" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0" Margin="-10,0,0,0">
+            <Menu.Resources>
+                <Style TargetType="Image">
+                    <Setter Property="Height" Value="16"/>
+                    <Setter Property="Width" Value="16"/>
+                </Style>
+            </Menu.Resources>
             <MenuItem Header="_Файл">
                 <MenuItem Header="_Новый">
                     <MenuItem.Icon>
-                        <Image Source="pack://siteoforigin:,,,/Resources/add (1).png" Stretch="UniformToFill"/>
+                        <Image Source="pack://siteoforigin:,,,/Resources/new.png" Stretch="UniformToFill"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <!--Добавляем вертикальную полосу-->
@@ -119,21 +125,21 @@
             <MenuItem Header="_Опции">
                 <MenuItem Header="_Настройки" Click="OptionsWindow_Open">
                     <MenuItem.Icon>
-                        <Image Source="pack://siteoforigin:,,,/Resources/list (1).png" Stretch="UniformToFill"/>
+                        <Image Source="pack://siteoforigin:,,,/Resources/settings.png" Stretch="UniformToFill"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="_Справка">
                 <MenuItem Header="_Помощь" Click="HelpFile_Open">
                     <MenuItem.Icon>
-                        <Image Source="pack://siteoforigin:,,,/Resources/question-circular-button.png" Stretch="UniformToFill"/>
+                        <Image Source="pack://siteoforigin:,,,/Resources/help.png" Stretch="UniformToFill"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <!--Добавляем вертикальную полосу-->
                 <Separator></Separator>
                 <MenuItem Header="_О программе" Click="AboutWindow_Open">
                     <MenuItem.Icon>
-                        <Image Source="pack://siteoforigin:,,,/Resources/speech-bubble1.png" Stretch="UniformToFill"/>
+                        <Image Source="pack://siteoforigin:,,,/Resources/about.png" Stretch="UniformToFill"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
@@ -148,7 +154,7 @@
                 MaxHeight="230" MouseLeave="searchListBox_MouseLeave"/>
         <Image x:Name="gifAnim" Margin="0,0,2,0" Grid.Column="6" Grid.Row="2" 
                 gif:ImageBehavior.AnimatedSource="pack://siteoforigin:,,,/Resources/2.gif" Width="22" 
-                HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Hidden"/>
+                HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Hidden" Source="pack://siteoforigin:,,,/Resources/searching.gif"/>
         <ToggleButton x:Name="MagazinesBtn" Height="40" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" 
                 VerticalAlignment="Center" Content="Журналы" Style="{DynamicResource ToggleLeftCorner}"/>
         <ToggleButton x:Name="NewspapersBtn" Height="40" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" 

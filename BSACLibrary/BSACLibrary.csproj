@@ -36,7 +36,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>logogo_0.ico</ApplicationIcon>
+    <ApplicationIcon>exeico.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="itextsharp, Version=5.5.9.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
@@ -141,28 +141,25 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\2.gif" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\login.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\list %281%29.png" />
+    <None Include="Resources\about.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\speech-bubble1.png" />
+    <None Include="Resources\help.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\settings1.png" />
+    <None Include="Resources\new.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\add %281%29.png" />
+    <None Include="Resources\searching.gif" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\question-circular-button.png" />
+    <None Include="Resources\settings.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="logogo_0.ico" />
+    <Resource Include="exeico.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
