@@ -9,6 +9,11 @@
         Title="Картотека периодических изданий" Background="WhiteSmoke" Height="700" Width="1200" WindowStartupLocation="CenterScreen" Icon="favicons.ico" Closed="Window_Closed" StateChanged="Window_StateChanged">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="b2v" />
+
+        <Style TargetType="RadioButton">
+            <Setter Property="Height" Value="40"/>
+        </Style>
+
         <Style x:Key="RadioLeftCorner" TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type RadioButton}}">
             <Setter Property="Template">
                 <Setter.Value>
@@ -131,55 +136,39 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <TextBox x:Name="tBoxInput" Padding="2" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="2" 
-                MinHeight="25" FontSize="14" Foreground="Gray"
-                Text="Поиск информации по ключевому слову или фразе. Например, &quot;802.11ac&quot;" 
-                PreviewMouseLeftButtonUp="tBoxInput_PreviewMouseLeftButtonUp" 
-                PreviewKeyDown="tBoxInput_PreviewKeyDown" MaxLength="128"/>
-        <ListBox x:Name="searchListBox" Panel.ZIndex="5" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="3" 
-                Grid.RowSpan="3" MinHeight="25" FontSize="14" Visibility="Hidden"
+        <TextBox x:Name="tBoxInput" Padding="2" Grid.Column="0" Grid.ColumnSpan="6" MaxLength="128"
+                Grid.Row="2" FontSize="14" Foreground="Gray" PreviewKeyDown="tBoxInput_PreviewKeyDown"
+                Text="Поиск информации по ключевому слову или фразе. Например, &quot;802.11ac&quot;"
+                PreviewMouseLeftButtonUp="tBoxInput_PreviewMouseLeftButtonUp"/>
+        <ListBox x:Name="searchListBox" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="3"
+                Grid.RowSpan="3" FontSize="14" Visibility="Hidden" Panel.ZIndex="5"
                 VerticalAlignment="Top" MaxHeight="240" MouseLeave="searchListBox_MouseLeave"/>
-        <Image x:Name="gifAnim" Margin="0,0,2,0" Grid.Column="6" Grid.Row="2" 
-                gif:ImageBehavior.AnimatedSource="Resources/searching.gif" Width="22" 
+        <Image x:Name="gifAnim" Margin="0,0,2,0" Grid.Column="6" Grid.Row="2"
+                gif:ImageBehavior.AnimatedSource="Resources/searching.gif" Width="22"
                 HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Hidden"/>
-        <RadioButton x:Name="MagazinesBtn" Height="40" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" 
-                VerticalAlignment="Center" Content="ЖУРНАЛЫ" Style="{DynamicResource RadioLeftCorner}" IsChecked="True"/>
-        <RadioButton x:Name="NewspapersBtn" Height="40" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" 
+        <RadioButton x:Name="MagazinesBtn" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" IsChecked="True"
+                VerticalAlignment="Center" Content="ЖУРНАЛЫ" Style="{DynamicResource RadioLeftCorner}"/>
+        <RadioButton x:Name="NewspapersBtn" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2"
                 VerticalAlignment="Center" Content="ГАЗЕТЫ" Style="{DynamicResource RadioNormalCorner}"/>
-        <RadioButton x:Name="EditBtn" Height="40" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" 
+        <RadioButton x:Name="EditBtn" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2"
                 VerticalAlignment="Center" Content="РЕДАКТОР" Style="{DynamicResource RadioRightCorner}"/>
-        <Grid Visibility="{Binding IsChecked,ElementName=MagazinesBtn,Converter={StaticResource b2v}}" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6">
-            <Border Background="PowderBlue" BorderThickness="0" BorderBrush="Black" CornerRadius="4">
-                
-            </Border>
-        </Grid>
-        <Grid Visibility="{Binding IsChecked,ElementName=NewspapersBtn,Converter={StaticResource b2v}}" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6">
-            <Border Background="Blue" BorderThickness="0" BorderBrush="Black" CornerRadius="4">
-
-            </Border>
-        </Grid>
-        <Grid Visibility="{Binding IsChecked,ElementName=EditBtn,Converter={StaticResource b2v}}" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6">
-            <Border Background="YellowGreen" BorderThickness="0" BorderBrush="Black" CornerRadius="4">
-
-            </Border>
-        </Grid>
-
-        <!--<TabControl BorderBrush="Gainsboro" Background="White" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="6">
-            <TabControl.Resources>
-                <Style TargetType="TabItem">
-                    <Setter Property="Height" Value="0"/>
-                    <Setter Property="Width" Value="0"/>
-                </Style>
-            </TabControl.Resources>
-            <TabItem x:Name="MagazinesTab" IsSelected="{Binding IsChecked, ElementName=MagazinesBtn}">
+        <Grid Visibility="{Binding IsChecked,ElementName=MagazinesBtn,Converter={StaticResource b2v}}"
+                Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6">
+            <Border Background="White" BorderThickness="1" BorderBrush="Gainsboro" CornerRadius="4">
                 <TextBlock Text="ЖУРНАЛЫ"/>
-            </TabItem>
-            <TabItem x:Name="NewspapersTab" IsSelected="{Binding IsChecked, ElementName=NewspapersBtn}">
+            </Border>
+        </Grid>
+        <Grid Visibility="{Binding IsChecked,ElementName=NewspapersBtn,Converter={StaticResource b2v}}" 
+                Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6">
+            <Border Background="White" BorderThickness="1" BorderBrush="Gainsboro" CornerRadius="4">
                 <TextBlock Text="ГАЗЕТЫ"/>
-            </TabItem>
-            <TabItem x:Name="EditTab" IsSelected="{Binding IsChecked, ElementName=EditBtn}">
+            </Border>
+        </Grid>
+        <Grid Visibility="{Binding IsChecked,ElementName=EditBtn,Converter={StaticResource b2v}}" 
+                Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6">
+            <Border Background="White" BorderThickness="1" BorderBrush="Gainsboro" CornerRadius="4">
                 <TextBlock Text="РЕДАКТОР"/>
-            </TabItem>
-        </TabControl>-->
+            </Border>
+        </Grid>
     </Grid>
 </Window>
