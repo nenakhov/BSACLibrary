@@ -12,10 +12,10 @@ namespace BSACLibrary
             DBConnect.Connect();
 
             //Если не включен режим администратора спрячем вкладку редактора
+            MainWindow mWin = MainWindow.AppWindow;
+
             if (Settings.Default.isAdmin == false)
             {
-
-                MainWindow mWin = MainWindow.AppWindow;
                 Style style = mWin.FindResource("RadioRightCorner") as Style;
 
                 mWin.EditBtn.Visibility = Visibility.Hidden;
@@ -28,7 +28,6 @@ namespace BSACLibrary
             }
             else
             {
-                MainWindow mWin = MainWindow.AppWindow;
                 Style style = mWin.FindResource("RadioNormalCorner") as Style;
 
                 mWin.EditBtn.Visibility = Visibility.Visible;
@@ -40,6 +39,5 @@ namespace BSACLibrary
                 Grid.SetColumnSpan(mWin.NewspapersBtn, 2);
             }
         }
-
     }
 }
