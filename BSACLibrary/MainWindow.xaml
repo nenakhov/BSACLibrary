@@ -8,6 +8,7 @@
         mc:Ignorable="d"
         Title="Картотека периодических изданий" Background="WhiteSmoke" Height="700" Width="1200" WindowStartupLocation="CenterScreen" Icon="favicons.ico" Closed="Window_Closed" StateChanged="Window_StateChanged">
     <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="b2v" />
         <Style x:Key="RadioLeftCorner" TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type RadioButton}}">
             <Setter Property="Template">
                 <Setter.Value>
@@ -75,6 +76,7 @@
             <RowDefinition Height="25"/>
             <RowDefinition Height="5"/>
             <RowDefinition Height="40"/>
+            <RowDefinition Height="1"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <!--Определение столбцов-->
@@ -146,7 +148,23 @@
                 VerticalAlignment="Center" Content="ГАЗЕТЫ" Style="{DynamicResource RadioNormalCorner}"/>
         <RadioButton x:Name="EditBtn" Height="40" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" 
                 VerticalAlignment="Center" Content="РЕДАКТОР" Style="{DynamicResource RadioRightCorner}"/>
-        <TabControl BorderBrush="Gainsboro" Background="White" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="6">
+        <Grid Visibility="{Binding IsChecked,ElementName=MagazinesBtn,Converter={StaticResource b2v}}" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6">
+            <Border Background="PowderBlue" BorderThickness="0" BorderBrush="Black" CornerRadius="4">
+                
+            </Border>
+        </Grid>
+        <Grid Visibility="{Binding IsChecked,ElementName=NewspapersBtn,Converter={StaticResource b2v}}" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6">
+            <Border Background="Blue" BorderThickness="0" BorderBrush="Black" CornerRadius="4">
+
+            </Border>
+        </Grid>
+        <Grid Visibility="{Binding IsChecked,ElementName=EditBtn,Converter={StaticResource b2v}}" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6">
+            <Border Background="YellowGreen" BorderThickness="0" BorderBrush="Black" CornerRadius="4">
+
+            </Border>
+        </Grid>
+
+        <!--<TabControl BorderBrush="Gainsboro" Background="White" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="6">
             <TabControl.Resources>
                 <Style TargetType="TabItem">
                     <Setter Property="Height" Value="0"/>
@@ -162,6 +180,6 @@
             <TabItem x:Name="EditTab" IsSelected="{Binding IsChecked, ElementName=EditBtn}">
                 <TextBlock Text="РЕДАКТОР"/>
             </TabItem>
-        </TabControl>
+        </TabControl>-->
     </Grid>
 </Window>

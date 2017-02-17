@@ -20,6 +20,7 @@ namespace BSACLibrary
 
                 mWin.EditBtn.Visibility = Visibility.Hidden;
                 mWin.NewspapersBtn.Style = style;
+                mWin.MagazinesBtn.IsChecked = true;
 
                 Grid.SetColumn(mWin.MagazinesBtn, 0);
                 Grid.SetColumnSpan(mWin.MagazinesBtn, 3);
