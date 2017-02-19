@@ -18,7 +18,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type RadioButton}">
-                        <Border x:Name="border" Background="Gainsboro" BorderThickness="0" CornerRadius="4,0,0,4">
+                        <Border Name="border" Background="Gainsboro" BorderThickness="0" CornerRadius="4,0,0,4">
                             <ContentPresenter HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             TextBlock.FontSize="18"
@@ -37,7 +37,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type RadioButton}">
-                        <Border x:Name="border" Background="Gainsboro" BorderThickness="0">
+                        <Border Name="border" Background="Gainsboro" BorderThickness="0">
                             <ContentPresenter HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             TextBlock.FontSize="18"
@@ -56,7 +56,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type RadioButton}">
-                        <Border x:Name="border" Background="Gainsboro" BorderThickness="0" CornerRadius="0,4,4,0">
+                        <Border Name="border" Background="Gainsboro" BorderThickness="0" CornerRadius="0,4,4,0">
                             <ContentPresenter HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             TextBlock.FontSize="18"
@@ -93,7 +93,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Menu x:Name="menu" Background="WhiteSmoke" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0" Margin="-10,0,-10,0">
+        <Menu Name="menu" Background="WhiteSmoke" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0" Margin="-10,0,-10,0">
             <Menu.Resources>
                 <Style TargetType="Image">
                     <Setter Property="Height" Value="16"/>
@@ -136,21 +136,21 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <TextBox x:Name="tBoxInput" Padding="2" Grid.Column="0" Grid.ColumnSpan="6" MaxLength="128"
+        <TextBox Name="tBoxInput" Padding="2" Grid.Column="0" Grid.ColumnSpan="6" MaxLength="128"
                 Grid.Row="2" FontSize="14" Foreground="Gray" PreviewKeyDown="tBoxInput_PreviewKeyDown"
                 Text="Поиск информации по ключевому слову или фразе. Например, &quot;802.11ac&quot;"
                 PreviewMouseLeftButtonUp="tBoxInput_PreviewMouseLeftButtonUp"/>
-        <ListBox x:Name="searchListBox" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="3"
-                Grid.RowSpan="3" FontSize="14" Visibility="Hidden" Panel.ZIndex="5"
+        <ListBox Name="searchListBox" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="3"
+                Grid.RowSpan="4" FontSize="14" Visibility="Hidden" Panel.ZIndex="5"
                 VerticalAlignment="Top" MaxHeight="240" MouseLeave="searchListBox_MouseLeave"/>
-        <Image x:Name="gifAnim" Margin="0,0,2,0" Grid.Column="6" Grid.Row="2"
+        <Image Name="gifAnim" Margin="0,0,2,0" Grid.Column="6" Grid.Row="2"
                 gif:ImageBehavior.AnimatedSource="Resources/searching.gif" Width="22"
                 HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Hidden"/>
-        <RadioButton x:Name="MagazinesBtn" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" IsChecked="True"
+        <RadioButton Name="MagazinesBtn" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" IsChecked="True"
                 VerticalAlignment="Center" Content="ЖУРНАЛЫ" Style="{DynamicResource RadioLeftCorner}"/>
-        <RadioButton x:Name="NewspapersBtn" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2"
+        <RadioButton Name="NewspapersBtn" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2"
                 VerticalAlignment="Center" Content="ГАЗЕТЫ" Style="{DynamicResource RadioNormalCorner}"/>
-        <RadioButton x:Name="EditBtn" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2"
+        <RadioButton Name="EditBtn" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2"
                 VerticalAlignment="Center" Content="РЕДАКТОР" Style="{DynamicResource RadioRightCorner}"/>
         <Grid Visibility="{Binding IsChecked,ElementName=MagazinesBtn,Converter={StaticResource b2v}}"
                 Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6">
@@ -188,9 +188,9 @@
                         <ColumnDefinition Width="150"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <DataGrid x:Name="dbDataGrid" Margin="0,10,0,0" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="9" MinRowHeight="25" 
-                            ItemsSource="{Binding Path=dbBinding}" CanUserResizeRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" CanUserAddRows="False" AutoGenerateColumns="False" ScrollViewer.CanContentScroll="True" 
-                            ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                    <DataGrid Name="dbDataGrid" Margin="0,10,0,0" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="9" MinRowHeight="25" 
+                            ItemsSource="{Binding Path=dbBinding}" CanUserResizeRows="False" CanUserResizeColumns="False" 
+                            CanUserReorderColumns="False" CanUserAddRows="False" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Path=id}" Width="Auto" Header="ID" IsReadOnly="True"/>
                             <DataGridTextColumn Binding="{Binding Path=publication}" Width="Auto" Header="Название издания" IsReadOnly="True"/>
@@ -206,14 +206,14 @@
                     <Label Grid.Row="2" Grid.Column="0">Дата выхода:</Label>
                     <Label Grid.Row="3" Grid.Column="0">Номер:</Label>
                     <Label Grid.Row="4" Grid.Column="0">Расположение файла:</Label>
-                    <TextBox x:Name="addPublName"  Width="150" Height="25" Padding="3" Grid.Row="0" Grid.Column="1"></TextBox>
-                    <RadioButton x:Name="addRadioBtnMagaz" Grid.Row="1" Grid.Column="1" IsChecked="True" VerticalAlignment="Top">Журнал</RadioButton>
-                    <RadioButton x:Name="addRadioBtnNewsp" Grid.Row="1" Grid.Column="1" Margin="0,15,0,0">Газета</RadioButton>
-                    <DatePicker x:Name="addDatePicker"  Width="150" Height="25" Grid.Row="2" Grid.Column="1" Padding="2"/>
-                    <TextBox x:Name="addIssueNmbTxtBox" Width="150" Height="25" Padding="3" Grid.Row="3" Grid.Column="1"/>
-                    <TextBox x:Name="addFilePathTxtBox" Width="80" Height="25" Padding="3" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left"/>
-                    <Button x:Name="addOpenFileBtn"  Height="25" Width="60" Grid.Row="4" Content="Открыть" Grid.Column="1" HorizontalAlignment="Right"/>
-                    <Button x:Name="addEntryBtn" Grid.Column="2" Grid.Row="4" Width="100" Height="25" Click="addEntryBtn_Click">Добавить запись</Button>
+                    <TextBox Name="addPublName"  Width="150" Height="25" Padding="3" Grid.Row="0" Grid.Column="1"></TextBox>
+                    <RadioButton Name="addRadioBtnMagaz" Grid.Row="1" Grid.Column="1" IsChecked="True" VerticalAlignment="Top">Журнал</RadioButton>
+                    <RadioButton Name="addRadioBtnNewsp" Grid.Row="1" Grid.Column="1" Margin="0,15,0,0">Газета</RadioButton>
+                    <DatePicker Name="addDatePicker"  Width="150" Height="25" Grid.Row="2" Grid.Column="1" Padding="2"/>
+                    <TextBox Name="addIssueNmbTxtBox" Width="150" Height="25" Padding="3" Grid.Row="3" Grid.Column="1"/>
+                    <TextBox Name="addFilePathTxtBox" Width="80" Height="25" Padding="3" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left"/>
+                    <Button Name="addOpenFileBtn"  Height="25" Width="60" Grid.Row="4" Content="Открыть" Grid.Column="1" HorizontalAlignment="Right"/>
+                    <Button Name="addEntryBtn" Grid.Column="2" Grid.Row="4" Width="100" Height="25" Click="addEntryBtn_Click">Добавить запись</Button>
 
                     <Border Grid.Row="0" BorderBrush="Black" BorderThickness="1" Grid.Column="4" Grid.ColumnSpan="3" Grid.RowSpan="5" CornerRadius="4"/>
                     <Label  Grid.Row="0" Grid.Column="4">Название издания:</Label>
@@ -228,10 +228,11 @@
                     <TextBox Width="150" Height="25" Padding="3" Grid.Row="3" Grid.Column="5"/>
                     <TextBox Width="80" Height="25" Padding="3" Grid.Row="4" Grid.Column="5" HorizontalAlignment="Left"/>
                     <Button  Height="25" Width="60" Grid.Row="4" Content="Открыть" Grid.Column="5" HorizontalAlignment="Right"/>
-                    <Button x:Name="editEntryBtn" Grid.Column="6" Grid.Row="3" Width="100" Height="24">Изменить запись</Button>
-                    <Button x:Name="delEntryBtn" Grid.Column="6" Grid.Row="4" Width="100" Height="24">Удалить запись</Button>
+                    <Button Name="editEntryBtn" Grid.Column="6" Grid.Row="3" Width="100" Height="24">Изменить запись</Button>
+                    <Button Name="delEntryBtn" Grid.Column="6" Grid.Row="4" Width="100" Height="24">Удалить запись</Button>
 
-                    <Button  x:Name="updEntryBtn" Grid.Column="7" Grid.ColumnSpan="2" Grid.Row="4" Width="100" Height="24" IsDefault="True" Click="updEntryBtn_Click">Обновить список</Button>
+                    <Button  Name="updEntryBtn" Grid.Column="7" Grid.ColumnSpan="2" Grid.Row="4" Width="100" Height="24" 
+                            Click="updEntryBtn_Click">Обновить список</Button>
                 </Grid>
             </Border>
         </Grid>
