@@ -36,15 +36,15 @@ namespace BSACLibrary
                     Query.ExecuteNonQuery();
 
                     //Запрос создание таблицы
-                    Query.CommandText = "CREATE TABLE IF NOT EXISTS `" + // Если такая таблица уже есть не будет ошибки
-                                        Settings.Default.dbTableName + // Имя таблицы 
+                    Query.CommandText = "CREATE TABLE IF NOT EXISTS `" + //Если такая таблица уже есть не будет ошибки
+                                        Settings.Default.dbTableName + //Имя таблицы 
                                         "` (" +
-                                        "`id` INT(6) NOT NULL AUTO_INCREMENT, " + // Cамоинкрементирующееся поле id 
-                                        "`publication` VARCHAR(256) NOT NULL, " + // Название журнала
-                                        "`is_magazine` TINYINT(1) NOT NULL, " + // Является ли журналом или газетой
-                                        "`date` DATE NOT NULL, " + // Дата издания
-                                        "`issue_number` INT(6) NOT NULL, " + // Порядковый номер издания
-                                        "`file_path` VARCHAR(256) NOT NULL, " + // Ссылка на файл \\host\Lib\file.pdf 240 кол-во символов
+                                        "`id` INT(6) NOT NULL AUTO_INCREMENT, " + //Автоинкрементирующееся поле id 
+                                        "`publication` VARCHAR(255) NOT NULL, " + //Название журнала
+                                        "`is_magazine` TINYINT(1) NOT NULL, " + //Является ли журналом или газетой
+                                        "`date` DATE NOT NULL, " + //Дата издания
+                                        "`issue_number` INT(6) NOT NULL, " + //Порядковый номер издания
+                                        "`file_path` VARCHAR(255) NOT NULL, " + //Ссылка на файл \\host\Lib\file.pdf 256 кол-во символов
                                         "PRIMARY KEY(`id`) " +
                                         ") ";
                     //Отправляем запрос

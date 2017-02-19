@@ -188,14 +188,16 @@
                         <ColumnDefinition Width="150"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <DataGrid Margin="0,10,0,0" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="9" MinRowHeight="25">
+                    <DataGrid x:Name="dbDataGrid" Margin="0,10,0,0" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="9" MinRowHeight="25" 
+                            ItemsSource="{Binding Path=dbBinding}" CanUserResizeRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" CanUserAddRows="False" AutoGenerateColumns="False" ScrollViewer.CanContentScroll="True" 
+                            ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible">
                         <DataGrid.Columns>
-                            <DataGridCheckBoxColumn Width="*" Header="ID"/>
-                            <DataGridCheckBoxColumn Width="*" Header="Название издания"/>
-                            <DataGridCheckBoxColumn Width="*" Header="Тип издания"/>
-                            <DataGridCheckBoxColumn Width="*" Header="Дата выпуска"/>
-                            <DataGridCheckBoxColumn Width="*" Header="Номер"/>
-                            <DataGridCheckBoxColumn Width="*" Header="Расположение .pdf файла"/>
+                            <DataGridTextColumn Binding="{Binding Path=id}" Width="Auto" Header="ID" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding Path=publication}" Width="Auto" Header="Название издания" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding Path=is_magazine}" Width="Auto" Header="Тип издания" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding Path=date, StringFormat=\{0:dd.MM.yyyy\}}" Width="Auto" Header="Дата выпуска" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding Path=issue_number}" Width="Auto" Header="Номер" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding Path=file_path}" Width="Auto" Header="Расположение .pdf файла" IsReadOnly="True"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     <Border Grid.Row="0" BorderBrush="Black" BorderThickness="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="5" CornerRadius="4"/>
@@ -226,10 +228,10 @@
                     <TextBox Width="150" Height="25" Padding="3" Grid.Row="3" Grid.Column="5"/>
                     <TextBox Width="80" Height="25" Padding="3" Grid.Row="4" Grid.Column="5" HorizontalAlignment="Left"/>
                     <Button  Height="25" Width="60" Grid.Row="4" Content="Открыть" Grid.Column="5" HorizontalAlignment="Right"/>
-                    <Button x:Name="editEntyBtn" Grid.Column="6" Grid.Row="3" Width="100" Height="24">Изменить запись</Button>
-                    <Button x:Name="delEntyBtn" Grid.Column="6" Grid.Row="4" Width="100" Height="24">Удалить запись</Button>
+                    <Button x:Name="editEntryBtn" Grid.Column="6" Grid.Row="3" Width="100" Height="24">Изменить запись</Button>
+                    <Button x:Name="delEntryBtn" Grid.Column="6" Grid.Row="4" Width="100" Height="24">Удалить запись</Button>
 
-                    <Button Grid.Column="7" Grid.ColumnSpan="2" Grid.Row="4" Width="100" Height="24" IsDefault="True">Обновить список</Button>
+                    <Button  x:Name="updEntryBtn" Grid.Column="7" Grid.ColumnSpan="2" Grid.Row="4" Width="100" Height="24" IsDefault="True" Click="updEntryBtn_Click">Обновить список</Button>
                 </Grid>
             </Border>
         </Grid>

@@ -2,16 +2,20 @@
 
 namespace BSACLibrary
 {
-        public static class Globals
+    /// <summary>
+    /// В этом классе будем описывать глобальные переменные которые могут понадобиться
+    /// </summary>
+    public static class Globals
     {
-        static Globals()
-        {
-            connStr = "";
-        } //Значения по умолчанию
-
         public static string connStr { get; private set; }
 
+        static Globals()
+        {
+            connStr = null;
+        } //Значения по умолчанию
+
         //Метод для изменения глобальной переменной
+        //Формирует строку для подключения к MySQL
         public static void SetConnStr()
         {
             connStr = ("server=" + Settings.Default.dbServerIP +

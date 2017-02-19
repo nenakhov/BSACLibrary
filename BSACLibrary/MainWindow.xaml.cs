@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BSACLibrary.Properties;
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -20,7 +21,7 @@ namespace BSACLibrary
         public static MainWindow AppWindow;
         //Зададим начальные значения для переменных
         private int total = 0, current = 0;
-        private string substring = "", query = "";
+        private string substring = null, query = null;
 
         public MainWindow()
         {
@@ -54,7 +55,7 @@ namespace BSACLibrary
              if (tBoxInput.Text == "Поиск информации по ключевому слову или фразе. Например, \"802.11ac\"")
                 {
                     //Делаем поле ввода пустым
-                    tBoxInput.Text = "";
+                    tBoxInput.Text = null;
                     //Изменяем цвет текста в поле ввода по умолчанию на черный
                     //SolidColorBrush закрашивает область сплошным цветом.
                     tBoxInput.Foreground = new SolidColorBrush(Colors.Black);
@@ -76,8 +77,19 @@ namespace BSACLibrary
 
         private void addEntryBtn_Click(object sender, RoutedEventArgs e)
         {
-            query = "";
 
+        }
+
+        private void updEntryBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+            query = "SELECT id,publication,is_magazine,date,issue_number,file_path FROM " + Settings.Default.dbTableName + ";";
+            QueryExecute addEntry = new QueryExecute();
+            if (addEntry.Connect() == true)
+            {
+                addEntry.Execute(query, true);
+                addEntry.Disconnect();
+            }
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
@@ -162,7 +174,7 @@ namespace BSACLibrary
                                         //Обнуляем счетчики
                                         total = 0;
                                         current = 0;
-                                        substring = "";
+                                        substring = null;
                                         //Прячем анимацию по завершению работы
                                         gifAnim.Visibility = Visibility.Hidden;
                                         //Если ничего не найдено
