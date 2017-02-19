@@ -8,8 +8,11 @@ namespace BSACLibrary
     {
         public static void Init()
         {
-            //Подключаемся к БД если заданы настройки
-            DBConnect.Connect();
+            if ((Settings.Default.dbUsername != "") && (Settings.Default.dbPassword != ""))
+                {
+                    //Подключаемся к БД если заданы настройки
+                    DBConnect.Connect();
+                }
 
             //Если не включен режим администратора спрячем вкладку редактора
             MainWindow mWin = MainWindow.AppWindow;
@@ -29,9 +32,11 @@ namespace BSACLibrary
             }
             else
             {
+                //Либо же наоборот, отобразим ее по умолчанию
                 Style style = mWin.FindResource("RadioNormalCorner") as Style;
 
                 mWin.EditBtn.Visibility = Visibility.Visible;
+                mWin.EditBtn.IsChecked = true;
                 mWin.NewspapersBtn.Style = style;
 
                 Grid.SetColumn(mWin.MagazinesBtn, 0);

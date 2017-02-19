@@ -29,7 +29,7 @@ namespace BSACLibrary
                             res.textCut = currentPageText.Substring(0, 399).Replace("\n", " ");
                         }
                         else
-                        {
+                        {   //Если на найденной странице символов меньше 400, отображаем ее целиком
                             res.textCut = currentPageText.Replace("\n", " ");
                         }
                         res.isFinded = true;
@@ -39,11 +39,13 @@ namespace BSACLibrary
                 res.isFinded = false;
                 return res;
             }
+            //Обработка возможных ошибок
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return null;
             }
+            //При любом результате выполнения программы выше, закроем открытый файл
             finally
             {
                 pdfReader.Close();
