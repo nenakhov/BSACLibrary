@@ -20,7 +20,8 @@ namespace BSACLibrary
         public static MainWindow AppWindow;
         //Зададим начальные значения для переменных
         private int total = 0, current = 0;
-        private string substring = "";
+        private string substring = "", query = "";
+
         public MainWindow()
         {
             InitializeComponent();
@@ -71,6 +72,12 @@ namespace BSACLibrary
         {
             //Закрываем программу
             App.Current.Shutdown();
+        }
+
+        private void addEntryBtn_Click(object sender, RoutedEventArgs e)
+        {
+            query = "";
+
         }
 
         private void Window_StateChanged(object sender, EventArgs e)

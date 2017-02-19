@@ -8,9 +8,12 @@ namespace BSACLibrary
     {
         public static void Init()
         {
+            //Переопределим глобальные переменные
+            Globals.SetConnStr();
+
+            //Подключаемся к БД если заданы настройки
             if ((Settings.Default.dbUsername != "") && (Settings.Default.dbPassword != ""))
                 {
-                    //Подключаемся к БД если заданы настройки
                     DBConnect.Connect();
                 }
 
