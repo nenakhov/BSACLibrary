@@ -1,4 +1,5 @@
 ﻿using BSACLibrary.Properties;
+using Microsoft.Win32;
 using System;
 using System.IO;
 using System.Linq;
@@ -100,15 +101,14 @@ namespace BSACLibrary
             }
         }
 
-        private void updEntryBtn_Click(object sender, RoutedEventArgs e)
+        private void addOpenFileBtn_Click(object sender, RoutedEventArgs e)
         {
-
-            query = "SELECT id,publication,is_magazine,date,issue_number,file_path FROM " + Settings.Default.dbTableName + ";";
-            QueryExecute updEntries = new QueryExecute();
-            if (updEntries.Connect() == true)
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*";
+            //openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (openFileDialog.ShowDialog() == true)
             {
-                updEntries.Execute(query, true);
-                updEntries.Disconnect();
+                addFilePathTxtBox.Text = openFileDialog.FileName;
             }
         }
 

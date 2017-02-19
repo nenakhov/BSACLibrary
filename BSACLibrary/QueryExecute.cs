@@ -39,13 +39,17 @@ namespace BSACLibrary
         {
             try
             {
-                Query = new MySqlCommand();
-                Query.Connection = conn;
-                Query.CommandText = query;
-                Query.ExecuteNonQuery();
+                if (query != null)
+                { 
+                    Query = new MySqlCommand();
+                    Query.Connection = conn;
+                    Query.CommandText = query;
+                    Query.ExecuteNonQuery();
+                }
 
                 if (update == true)
                 {
+                    query = "SELECT id,publication,is_magazine,date,issue_number,file_path FROM " + Settings.Default.dbTableName + ";";
                     MySqlDataAdapter dataAdapt = new MySqlDataAdapter(query, conn);
                     DataSet ds = new DataSet();
                     dataAdapt.Fill(ds, "dbBinding");

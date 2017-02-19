@@ -212,7 +212,7 @@
                     <DatePicker Name="addDatePicker"  Width="150" Height="25" Grid.Row="2" Grid.Column="1" Padding="2"/>
                     <TextBox Name="addIssueNmbTxtBox" Width="150" Height="25" Padding="3" Grid.Row="3" Grid.Column="1"/>
                     <TextBox Name="addFilePathTxtBox" Width="80" Height="25" Padding="3" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left"/>
-                    <Button Name="addOpenFileBtn"  Height="25" Width="60" Grid.Row="4" Content="Открыть" Grid.Column="1" HorizontalAlignment="Right"/>
+                    <Button Name="addOpenFileBtn"  Height="25" Width="60" Grid.Row="4" Content="Открыть" Grid.Column="1" HorizontalAlignment="Right" Click="addOpenFileBtn_Click"/>
                     <Button Name="addEntryBtn" Grid.Column="2" Grid.Row="4" Width="100" Height="25" Click="addEntryBtn_Click">Добавить запись</Button>
 
                     <Border Grid.Row="0" BorderBrush="Black" BorderThickness="1" Grid.Column="4" Grid.ColumnSpan="3" Grid.RowSpan="5" CornerRadius="4"/>
@@ -231,8 +231,6 @@
                     <Button Name="editEntryBtn" Grid.Column="6" Grid.Row="3" Width="100" Height="24">Изменить запись</Button>
                     <Button Name="delEntryBtn" Grid.Column="6" Grid.Row="4" Width="100" Height="24">Удалить запись</Button>
 
-                    <Button  Name="updEntryBtn" Grid.Column="7" Grid.ColumnSpan="2" Grid.Row="4" Width="100" Height="24" 
-                            Click="updEntryBtn_Click">Обновить список</Button>
                 </Grid>
             </Border>
         </Grid>
