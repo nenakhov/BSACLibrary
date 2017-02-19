@@ -1,5 +1,4 @@
-﻿using BSACLibrary.Properties;
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
 using System.Windows;
 
 namespace BSACLibrary
