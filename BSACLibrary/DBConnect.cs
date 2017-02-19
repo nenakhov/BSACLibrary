@@ -17,8 +17,8 @@ namespace BSACLibrary
                     ";port=" + Settings.Default.dbServerPort +
                     //";uid=" + Settings.Default.dbUsername + 
                     //";pwd=" + Settings.Default.dbPassword + 
-                    ";uid=root" +
-                    ";pwd=1544L" +
+                    ";uid=administrator" +
+                    ";pwd=admpwd" +
                     ";");
                 //";database=" + Settings.Default.DBName + ";";
 

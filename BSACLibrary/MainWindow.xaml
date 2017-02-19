@@ -155,7 +155,44 @@
         <Grid Visibility="{Binding IsChecked,ElementName=MagazinesBtn,Converter={StaticResource b2v}}"
                 Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6">
             <Border Background="White" BorderThickness="1" BorderBrush="Gainsboro" CornerRadius="4">
-                <TextBlock Text="ЖУРНАЛЫ"/>
+                <Border Background="White" BorderThickness="1" BorderBrush="Gainsboro" CornerRadius="4">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.85*"/>
+                            <RowDefinition Height="0.15*"/>
+                        </Grid.RowDefinitions>
+                    <!--Определение столбцов-->
+                            <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <DataGrid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" MinRowHeight="25">
+                            <DataGrid.Columns>
+                                <DataGridCheckBoxColumn Width="*" Header="ID"/>
+                                <DataGridCheckBoxColumn Width="*" Header="Название издания"/>
+                                <DataGridCheckBoxColumn Width="*" Header="Тип издания"/>
+                                <DataGridCheckBoxColumn Width="*" Header="Дата выпуска"/>
+                                <DataGridCheckBoxColumn Width="*" Header="Номер"/>
+                                <DataGridCheckBoxColumn Width="*" Header="Расположение .pdf файла"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <Button Margin="0,0,105,29" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Width="80" Height="24" IsDefault="True">Обновить</Button>
+                        <Button Margin="0,0,0,29" Grid.Column="2" Grid.Row="1" Width="100" Height="24" HorizontalAlignment="Right" VerticalAlignment="Center">Добавить запись</Button>
+                        <Button Margin="0,29,0,0" Grid.Column="2" Grid.Row="1" Width="100" Height="24" HorizontalAlignment="Right" VerticalAlignment="Center">Удалить запись</Button>
+                        <!--<Label VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="-5,0,0,0" Grid.Row="1" Grid.Column="0">Название издания</Label>
+                        <TextBox VerticalAlignment="Top" HorizontalAlignment="Left" Width="140" Height="25" Padding="2" Grid.Row="2" Grid.Column="0"></TextBox>
+                        <Label Grid.Row="1" Grid.Column="1" VerticalAlignment="Bottom" Margin="-5,0,0,0" HorizontalAlignment="Left">Тип издания</Label>
+                        <RadioButton VerticalAlignment="Top" Grid.Row="2" Grid.Column="1" IsChecked="True">Журнал</RadioButton>
+                        <RadioButton Grid.Row="2" Grid.Column="1" Margin="0,20,0,0">Газета</RadioButton>
+                        <Label VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="-5,0,0,0" Grid.Row="1" Grid.Column="2">Дата выхода</Label>
+                        <DatePicker VerticalAlignment="Top" HorizontalAlignment="Left" Width="100" Height="26" Grid.Row="2" Grid.Column="2"></DatePicker>
+                        <Label VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="-5,0,0,0" Grid.Row="1" Grid.Column="3">Номер</Label>
+                        <TextBox VerticalAlignment="Top" HorizontalAlignment="Left" Width="100" Height="25" Padding="2" Grid.Row="2" Grid.Column="3"></TextBox>
+                        <Label VerticalAlignment="Bottom" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Left" Margin="-5,0,0,0">Расположение файла</Label>
+                        <Button VerticalAlignment="Top"  HorizontalAlignment="Left" Height="25" Width="80" Grid.Row="2" Content="Открыть" Grid.Column="4"></Button>-->
+                    </Grid>
+                </Border>
             </Border>
         </Grid>
         <Grid Visibility="{Binding IsChecked,ElementName=NewspapersBtn,Converter={StaticResource b2v}}" 
@@ -166,9 +203,7 @@
         </Grid>
         <Grid Visibility="{Binding IsChecked,ElementName=EditBtn,Converter={StaticResource b2v}}" 
                 Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6">
-            <Border Background="White" BorderThickness="1" BorderBrush="Gainsboro" CornerRadius="4">
-                <TextBlock Text="РЕДАКТОР"/>
-            </Border>
+
         </Grid>
     </Grid>
 </Window>
