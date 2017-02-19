@@ -39,22 +39,21 @@ namespace BSACLibrary
         {
             try
             {
+                Query = new MySqlCommand();
+                Query.Connection = conn;
+                Query.CommandText = query;
+                Query.ExecuteNonQuery();
+
                 if (update == true)
                 {
-                    Query = new MySqlCommand();
-                    Query.Connection = conn;
-                    Query.CommandText = query;
-
-                    //Query.ExecuteNonQuery();
-
                     MySqlDataAdapter dataAdapt = new MySqlDataAdapter(query, conn);
                     DataSet ds = new DataSet();
                     dataAdapt.Fill(ds, "dbBinding");
 
                     mWin.dbDataGrid.DataContext = ds;
-    }
+                }
             }
-            //В этом блоке перехватываем возможные ошибки в процессе соединения
+            //В этом блоке перехватываем возможные ошибки
             catch (MySqlException ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -71,7 +70,7 @@ namespace BSACLibrary
                     conn.Close();
                 }
             }
-            //В этом блоке перехватываем возможные ошибки в процессе соединения
+            //В этом блоке перехватываем возможные ошибки
             catch (MySqlException ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);

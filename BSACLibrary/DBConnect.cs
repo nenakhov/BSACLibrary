@@ -44,7 +44,7 @@ namespace BSACLibrary
                                         "`is_magazine` TINYINT(1) NOT NULL, " + //Является ли журналом или газетой
                                         "`date` DATE NOT NULL, " + //Дата издания
                                         "`issue_number` INT(6) NOT NULL, " + //Порядковый номер издания
-                                        "`file_path` VARCHAR(255) NOT NULL, " + //Ссылка на файл \\host\Lib\file.pdf 256 кол-во символов
+                                        "`file_path` VARCHAR(255) NOT NULL, " + //Ссылка на файл \\host\Lib\file.pdf 255 кол-во символов
                                         "PRIMARY KEY(`id`) " +
                                         ") ";
                     //Отправляем запрос

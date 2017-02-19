@@ -77,18 +77,38 @@ namespace BSACLibrary
 
         private void addEntryBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            if (addPublName.Text != "" && addDatePicker.Text != "" && addIssueNmbTxtBox.Text != "")
+            {
+                query = "INSERT INTO " + Settings.Default.dbTableName + " VALUES('" +
+                    null + "', '" +
+                    addPublName.Text + "', '" + 
+                    Convert.ToInt16(addRadioBtnMagaz.IsChecked) + "', '" +
+                    addDatePicker.Text + "', '" + 
+                    addIssueNmbTxtBox.Text + "', '" +
+                    addFilePathTxtBox.Text + 
+                    "');";
+                QueryExecute addEntry = new QueryExecute();
+                if (addEntry.Connect() == true)
+                {
+                    addEntry.Execute(query, true);
+                    addEntry.Disconnect();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Заполните поля");
+            }
         }
 
         private void updEntryBtn_Click(object sender, RoutedEventArgs e)
         {
 
             query = "SELECT id,publication,is_magazine,date,issue_number,file_path FROM " + Settings.Default.dbTableName + ";";
-            QueryExecute addEntry = new QueryExecute();
-            if (addEntry.Connect() == true)
+            QueryExecute updEntries = new QueryExecute();
+            if (updEntries.Connect() == true)
             {
-                addEntry.Execute(query, true);
-                addEntry.Disconnect();
+                updEntries.Execute(query, true);
+                updEntries.Disconnect();
             }
         }
 
