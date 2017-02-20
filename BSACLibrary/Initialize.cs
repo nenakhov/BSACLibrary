@@ -41,13 +41,13 @@ namespace BSACLibrary
                 Grid.SetColumn(mWin.NewspapersBtn, 2);
                 Grid.SetColumnSpan(mWin.NewspapersBtn, 2);
 
-                QueryExecute addEntry = new QueryExecute();
-                if (addEntry.Connect() == true)
+                //Если выбран режим администратора создаем БД и таблицу в ней, если они еще не были созданы
+                //Подключаемся к БД если заданы настройки
+                if ((Settings.Default.dbUsername != "") && (Settings.Default.dbPassword != ""))
                 {
-                    //Подключаемся к БД если заданы настройки
-                    if ((Settings.Default.dbUsername != "") && (Settings.Default.dbPassword != ""))
+                    QueryExecute addEntry = new QueryExecute();
+                    if (addEntry.Connect() == true)
                     {
-                        //Если выбран режим администратора создаем БД и таблицу в ней, если они еще не были созданы
                         string query;
                         //Создаем базу данных
                         query = "CREATE DATABASE IF NOT EXISTS " + // Если такая БД уже есть не будет ошибки
@@ -66,18 +66,18 @@ namespace BSACLibrary
                                             "`id` INT(6) NOT NULL AUTO_INCREMENT, " + //Автоинкрементирующееся поле id 
                                             "`publication` VARCHAR(255) NOT NULL, " + //Название журнала
                                             "`is_magazine` TINYINT(1) NOT NULL, " + //Является ли журналом или газетой
-                                            "`date` DATE NOT NULL, " + //Дата издания
+                                            "`date` DATETIME NOT NULL, " + //Дата издания
                                             "`issue_number` INT(6) NOT NULL, " + //Порядковый номер издания
                                             "`file_path` VARCHAR(255) NOT NULL, " + //Ссылка на файл \\host\Lib\file.pdf 255 кол-во символов
                                             "PRIMARY KEY(`id`) " +
                                             ") ";
                         //Отправляем запрос
                         addEntry.Execute(query, false);
-                        //Отправляем запрос
+                        //Отправляем запрос на обновление таблицу
+                        addEntry.Execute(null, true);
+                        //Закрываем соединение
+                        addEntry.Disconnect();
                     }
-                    addEntry.Execute(null, true);
-                    //Закрываем соединение
-                    addEntry.Disconnect();
                 }
             }
         }
