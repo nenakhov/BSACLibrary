@@ -98,7 +98,7 @@ namespace BSACLibrary
             }
             else
             {
-                MessageBox.Show("Заполните поля");
+                MessageBox.Show("Поля не могут быть пустыми", "Заполните поля", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -146,47 +146,53 @@ namespace BSACLibrary
 
         private void delEntryBtn_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Вы уверены что хотите удалить запись? Действие необратимо.", "Удаление", MessageBoxButton.YesNo);
-            switch (result)
+            if (dbDataGrid.SelectedIndex >= 0)
             {
-                case MessageBoxResult.Yes:
-                    query = "DELETE FROM " + Settings.Default.dbTableName +
-                         " WHERE id = '" + editIdTxtBox.Text +
-                         "';";
-                    QueryExecute addEntry = new QueryExecute();
-                    if (addEntry.Connect() == true)
-                    {
-                        addEntry.Execute(query, true);
-                        addEntry.Disconnect();
-                    }
-                    break;
-                case MessageBoxResult.No:
-                    break;
+                MessageBoxResult result = MessageBox.Show("Вы уверены что хотите удалить запись? Действие необратимо.", "Удаление", MessageBoxButton.YesNo);
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
+                        query = "DELETE FROM " + Settings.Default.dbTableName +
+                             " WHERE id = '" + editIdTxtBox.Text +
+                             "';";
+                        QueryExecute addEntry = new QueryExecute();
+                        if (addEntry.Connect() == true)
+                        {
+                            addEntry.Execute(query, true);
+                            addEntry.Disconnect();
+                        }
+                        break;
+                    case MessageBoxResult.No:
+                        break;
+                }
             }
         }
 
         private void editEntryBtn_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Вы уверены что хотите изменить запись? Действие необратимо.", "Изменение", MessageBoxButton.YesNo);
-            switch (result)
+            if (dbDataGrid.SelectedIndex >= 0)
             {
-                case MessageBoxResult.Yes:
-                    query = "UPDATE " + Settings.Default.dbTableName +
-                        " SET publication='" + editPublName.Text.Replace("'", "''") +
-                        "',is_magazine='" + Convert.ToInt16(editRadioBtnMagaz.IsChecked) +
-                        "',date='" + Convert.ToDateTime(editDatePicker.SelectedDate).ToString("yyyy-MM-dd") +
-                        "',issue_number='" + editIssueNmbTxtBox.Text +
-                        "',file_path='" + editFilePathTxtBox.Text.Replace(@"\", @"\\").Replace("'", "''") +
-                        "' WHERE id='" + editIdTxtBox.Text + "';";
-                    QueryExecute addEntry = new QueryExecute();
-                    if (addEntry.Connect() == true)
-                    {
-                        addEntry.Execute(query, true);
-                        addEntry.Disconnect();
-                    }
-                    break;
-                case MessageBoxResult.No:
-                    break;
+                MessageBoxResult result = MessageBox.Show("Вы уверены что хотите изменить запись? Действие необратимо.", "Изменение", MessageBoxButton.YesNo);
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
+                        query = "UPDATE " + Settings.Default.dbTableName +
+                            " SET publication='" + editPublName.Text.Replace("'", "''") +
+                            "',is_magazine='" + Convert.ToInt16(editRadioBtnMagaz.IsChecked) +
+                            "',date='" + Convert.ToDateTime(editDatePicker.SelectedDate).ToString("yyyy-MM-dd") +
+                            "',issue_number='" + editIssueNmbTxtBox.Text +
+                            "',file_path='" + editFilePathTxtBox.Text.Replace(@"\", @"\\").Replace("'", "''") +
+                            "' WHERE id='" + editIdTxtBox.Text + "';";
+                        QueryExecute addEntry = new QueryExecute();
+                        if (addEntry.Connect() == true)
+                        {
+                            addEntry.Execute(query, true);
+                            addEntry.Disconnect();
+                        }
+                        break;
+                    case MessageBoxResult.No:
+                        break;
+                }
             }
         }
 
