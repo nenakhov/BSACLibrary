@@ -1,6 +1,7 @@
 ﻿using BSACLibrary.Properties;
 using Microsoft.Win32;
 using System;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -82,11 +83,11 @@ namespace BSACLibrary
             {
                 query = "INSERT INTO " + Settings.Default.dbTableName + " VALUES('" +
                     null + "', '" +
-                    addPublName.Text + "', '" + 
+                    addPublName.Text.Replace(@"'", @"\'") + "', '" + 
                     Convert.ToInt16(addRadioBtnMagaz.IsChecked) + "', '" +
                     Convert.ToDateTime(addDatePicker.SelectedDate).ToString("yyyy-MM-dd") + "', '" + 
                     addIssueNmbTxtBox.Text + "', '" +
-                    addFilePathTxtBox.Text.Replace(@"\", @"\\") + 
+                    addFilePathTxtBox.Text.Replace(@"\", @"\\").Replace("'", "''") + 
                     "');";
                 QueryExecute addEntry = new QueryExecute();
                 if (addEntry.Connect() == true)
@@ -105,10 +106,87 @@ namespace BSACLibrary
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*";
-            //openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             if (openFileDialog.ShowDialog() == true)
             {
                 addFilePathTxtBox.Text = openFileDialog.FileName;
+            }
+        }
+
+        //Обработка выбора строки в таблице
+        private void dbDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dbDataGrid.SelectedIndex >= 0)
+            { 
+                DataRowView row = dbDataGrid.SelectedItem as DataRowView;
+                editIdTxtBox.Text = Convert.ToString(row[0]);
+                editPublName.Text = Convert.ToString(row[1]);
+                if (Convert.ToBoolean(row[2]) == true)
+                {
+                    editRadioBtnMagaz.IsChecked = true;
+                }
+                else
+                {
+                    editRadioBtnNewsp.IsChecked = true;
+                }
+                editDatePicker.SelectedDate = Convert.ToDateTime(row[3]);
+                editIssueNmbTxtBox.Text = Convert.ToString(row[4]);
+                editFilePathTxtBox.Text = Convert.ToString(row[5]);
+            }
+        }
+
+        private void editOpenFileBtn_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                editFilePathTxtBox.Text = openFileDialog.FileName;
+            }
+        }
+
+        private void delEntryBtn_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Вы уверены что хотите удалить запись? Действие необратимо.", "Удаление", MessageBoxButton.YesNo);
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    query = "DELETE FROM " + Settings.Default.dbTableName +
+                         " WHERE id = '" + editIdTxtBox.Text +
+                         "';";
+                    QueryExecute addEntry = new QueryExecute();
+                    if (addEntry.Connect() == true)
+                    {
+                        addEntry.Execute(query, true);
+                        addEntry.Disconnect();
+                    }
+                    break;
+                case MessageBoxResult.No:
+                    break;
+            }
+        }
+
+        private void editEntryBtn_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Вы уверены что хотите изменить запись? Действие необратимо.", "Изменение", MessageBoxButton.YesNo);
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    query = "UPDATE " + Settings.Default.dbTableName +
+                        " SET publication='" + editPublName.Text.Replace("'", "''") +
+                        "',is_magazine='" + Convert.ToInt16(editRadioBtnMagaz.IsChecked) +
+                        "',date='" + Convert.ToDateTime(editDatePicker.SelectedDate).ToString("yyyy-MM-dd") +
+                        "',issue_number='" + editIssueNmbTxtBox.Text +
+                        "',file_path='" + editFilePathTxtBox.Text.Replace(@"\", @"\\").Replace("'", "''") +
+                        "' WHERE id='" + editIdTxtBox.Text + "';";
+                    QueryExecute addEntry = new QueryExecute();
+                    if (addEntry.Connect() == true)
+                    {
+                        addEntry.Execute(query, true);
+                        addEntry.Disconnect();
+                    }
+                    break;
+                case MessageBoxResult.No:
+                    break;
             }
         }
 
@@ -127,7 +205,7 @@ namespace BSACLibrary
                 case WindowState.Normal:
                     break;
             }
-    }
+        }
 
         //Реакция на нажатие клавиши в строке поиска
         private void tBoxInput_PreviewKeyDown(object sender, KeyEventArgs e)

@@ -186,8 +186,8 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <DataGrid Name="dbDataGrid" Margin="0,10,0,0" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="9" MinRowHeight="25" 
-                            ItemsSource="{Binding Path=dbBinding}" CanUserResizeRows="False" CanUserResizeColumns="False" 
-                            CanUserReorderColumns="False" CanUserAddRows="False" AutoGenerateColumns="False">
+                            ItemsSource="{Binding Path=dbBinding}" CanUserResizeRows="False" CanUserResizeColumns="False" SelectionMode="Single"
+                            CanUserReorderColumns="False" CanUserAddRows="False" AutoGenerateColumns="False" SelectionChanged="dbDataGrid_SelectionChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Path=id}" Width="Auto" Header="ID" IsReadOnly="True">
                                 <DataGridTextColumn.ElementStyle>
@@ -242,15 +242,17 @@
                     <Label Grid.Row="2" Grid.Column="4">Дата выхода:</Label>
                     <Label Grid.Row="3" Grid.Column="4">Номер:</Label>
                     <Label Grid.Row="4" Grid.Column="4">Расположение файла:</Label>
-                    <TextBox  Width="150" Height="25" Padding="3" Grid.Row="0" Grid.Column="5"/>
-                    <RadioButton GroupName="edt" Grid.Row="1" Grid.Column="5" IsChecked="True" VerticalAlignment="Top">Журнал</RadioButton>
-                    <RadioButton GroupName="edt" Grid.Row="1" Grid.Column="5" Margin="0,15,0,0">Газета</RadioButton>
-                    <DatePicker  Width="150" Height="25" Grid.Row="2" Grid.Column="5" Padding="2"/>
-                    <TextBox Width="150" Height="25" Padding="3" Grid.Row="3" Grid.Column="5"/>
-                    <TextBox Width="80" Height="25" Padding="3" Grid.Row="4" Grid.Column="5" HorizontalAlignment="Left"/>
-                    <Button  Height="25" Width="60" Grid.Row="4" Content="Открыть" Grid.Column="5" HorizontalAlignment="Right"/>
-                    <Button Name="editEntryBtn" Grid.Column="6" Grid.Row="3" Width="100" Height="24">Изменить запись</Button>
-                    <Button Name="delEntryBtn" Grid.Column="6" Grid.Row="4" Width="100" Height="24">Удалить запись</Button>
+                    <TextBox Name="editPublName"  Width="150" Height="25" Padding="3" Grid.Row="0" Grid.Column="5"/>
+                    <RadioButton Name="editRadioBtnMagaz" GroupName="edt" Grid.Row="1" Grid.Column="5" IsChecked="True" VerticalAlignment="Top">Журнал</RadioButton>
+                    <RadioButton Name="editRadioBtnNewsp" GroupName="edt" Grid.Row="1" Grid.Column="5" Margin="0,15,0,0">Газета</RadioButton>
+                    <DatePicker  Name="editDatePicker" Width="150" Height="25" Grid.Row="2" Grid.Column="5" Padding="2"/>
+                    <TextBox Name="editIssueNmbTxtBox" Width="150" Height="25" Padding="3" Grid.Row="3" Grid.Column="5"/>
+                    <TextBox  Name="editFilePathTxtBox" Width="80" Height="25" Padding="3" Grid.Row="4" Grid.Column="5" HorizontalAlignment="Left"/>
+                    <Button Name="editOpenFileBtn" Height="25" Width="60" Grid.Row="4" Content="Открыть" Grid.Column="5" HorizontalAlignment="Right" Click="editOpenFileBtn_Click"/>
+                    <Label Content="ID:" Grid.Row="0" Grid.Column="6" HorizontalAlignment="Left" Margin="60,0,0,0"/>
+                    <TextBox  Name="editIdTxtBox" IsEnabled="False" MinWidth="30" Width="Auto" Height="25" Padding="3" Grid.Row="0" Grid.Column="6" Margin="92,0,0,0" HorizontalAlignment="Left"/>
+                    <Button Name="editEntryBtn" Grid.Column="6" Grid.Row="3" Width="100" Height="24" Click="editEntryBtn_Click">Изменить запись</Button>
+                    <Button Name="delEntryBtn" Grid.Column="6" Grid.Row="4" Width="100" Height="24" Click="delEntryBtn_Click">Удалить запись</Button>
 
                 </Grid>
             </Border>
