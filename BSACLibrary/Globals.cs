@@ -22,7 +22,7 @@ namespace BSACLibrary
             ";port=" + Settings.Default.dbServerPort +
             ";uid=" + Settings.Default.dbUsername +
             ";pwd=" + Settings.Default.dbPassword +
-            ";charset=cp1251;");
+            ";charset=cp1251;convert zero datetime=true;");
         }
     }
 }

@@ -84,9 +84,9 @@ namespace BSACLibrary
                     null + "', '" +
                     addPublName.Text + "', '" + 
                     Convert.ToInt16(addRadioBtnMagaz.IsChecked) + "', '" +
-                    addDatePicker.Text + "', '" + 
+                    Convert.ToDateTime(addDatePicker.SelectedDate).ToString("yyyy-MM-dd") + "', '" + 
                     addIssueNmbTxtBox.Text + "', '" +
-                    addFilePathTxtBox.Text + 
+                    addFilePathTxtBox.Text.Replace(@"\", @"\\") + 
                     "');";
                 QueryExecute addEntry = new QueryExecute();
                 if (addEntry.Connect() == true)

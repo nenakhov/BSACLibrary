@@ -30,7 +30,15 @@ namespace BSACLibrary
             //В этом блоке перехватываем возможные ошибки в процессе соединения
             catch (MySqlException ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                //Unable to connect to any of the specified MySQL hosts.
+                if (ex.Message == "Unable to connect to any of the specified MySQL hosts.")
+                {
+                    MessageBox.Show("Проверьте настройки подключения к MySQL", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
                 return false;
             }
         }

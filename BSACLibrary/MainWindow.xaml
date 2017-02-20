@@ -8,11 +8,8 @@
         mc:Ignorable="d"
         Title="Картотека периодических изданий" Background="WhiteSmoke" MinHeight="700" MinWidth="1200" Height="700" Width="1200" WindowStartupLocation="CenterScreen" Icon="favicons.ico" Closed="Window_Closed" StateChanged="Window_StateChanged">
     <Window.Resources>
+        <local:BoolToStringConverter x:Key="BooleanToStringConverter" FalseValue="Газета" TrueValue="Журнал" />
         <BooleanToVisibilityConverter x:Key="b2v" />
-
-        <Style TargetType="RadioButton">
-            <Setter Property="Height" Value="40"/>
-        </Style>
 
         <Style x:Key="RadioLeftCorner" TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type RadioButton}}">
             <Setter Property="Template">
@@ -146,11 +143,11 @@
         <Image Name="gifAnim" Margin="0,0,2,0" Grid.Column="6" Grid.Row="2"
                 gif:ImageBehavior.AnimatedSource="Resources/searching.gif" Width="22"
                 HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Hidden"/>
-        <RadioButton Name="MagazinesBtn" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" IsChecked="True"
+        <RadioButton Height="40" Name="MagazinesBtn" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" IsChecked="True"
                 VerticalAlignment="Center" Content="ЖУРНАЛЫ" Style="{DynamicResource RadioLeftCorner}"/>
-        <RadioButton Name="NewspapersBtn" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2"
+        <RadioButton Height="40" Name="NewspapersBtn" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2"
                 VerticalAlignment="Center" Content="ГАЗЕТЫ" Style="{DynamicResource RadioNormalCorner}"/>
-        <RadioButton Name="EditBtn" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2"
+        <RadioButton Height="40" Name="EditBtn" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2"
                 VerticalAlignment="Center" Content="РЕДАКТОР" Style="{DynamicResource RadioRightCorner}"/>
         <Grid Visibility="{Binding IsChecked,ElementName=MagazinesBtn,Converter={StaticResource b2v}}"
                 Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6">
@@ -192,11 +189,35 @@
                             ItemsSource="{Binding Path=dbBinding}" CanUserResizeRows="False" CanUserResizeColumns="False" 
                             CanUserReorderColumns="False" CanUserAddRows="False" AutoGenerateColumns="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Path=id}" Width="Auto" Header="ID" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding Path=id}" Width="Auto" Header="ID" IsReadOnly="True">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="TextAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
                             <DataGridTextColumn Binding="{Binding Path=publication}" Width="Auto" Header="Название издания" IsReadOnly="True"/>
-                            <DataGridTextColumn Binding="{Binding Path=is_magazine}" Width="Auto" Header="Тип издания" IsReadOnly="True"/>
-                            <DataGridTextColumn Binding="{Binding Path=date, StringFormat=\{0:dd.MM.yyyy\}}" Width="Auto" Header="Дата выпуска" IsReadOnly="True"/>
-                            <DataGridTextColumn Binding="{Binding Path=issue_number}" Width="Auto" Header="Номер" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding Path=is_magazine, Converter={StaticResource BooleanToStringConverter}}" Width="Auto" Header="Тип издания" IsReadOnly="True">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="TextAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding Path=date, StringFormat=\{0:dd.MM.yyyy\}}" Width="Auto" Header="Дата выпуска" IsReadOnly="True">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="TextAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding Path=issue_number}" Width="Auto" Header="Номер" IsReadOnly="True">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="TextAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
                             <DataGridTextColumn Binding="{Binding Path=file_path}" Width="Auto" Header="Расположение .pdf файла" IsReadOnly="True"/>
                         </DataGrid.Columns>
                     </DataGrid>
@@ -209,7 +230,7 @@
                     <TextBox Name="addPublName"  Width="150" Height="25" Padding="3" Grid.Row="0" Grid.Column="1"></TextBox>
                     <RadioButton Name="addRadioBtnMagaz" GroupName="add" Grid.Row="1" Grid.Column="1" IsChecked="True" VerticalAlignment="Top">Журнал</RadioButton>
                     <RadioButton Name="addRadioBtnNewsp" GroupName="add" Grid.Row="1" Grid.Column="1" Margin="0,15,0,0">Газета</RadioButton>
-                    <DatePicker Name="addDatePicker"  Width="150" Height="25" Grid.Row="2" Grid.Column="1" Padding="2"/>
+                    <DatePicker Name="addDatePicker"  Width="150" Height="25" Grid.Row="2" Grid.Column="1" Padding="2" FirstDayOfWeek="Monday" SelectedDateFormat="Short"/>
                     <TextBox Name="addIssueNmbTxtBox" Width="150" Height="25" Padding="3" Grid.Row="3" Grid.Column="1"/>
                     <TextBox Name="addFilePathTxtBox" Width="80" Height="25" Padding="3" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left"/>
                     <Button Name="addOpenFileBtn"  Height="25" Width="60" Grid.Row="4" Content="Открыть" Grid.Column="1" HorizontalAlignment="Right" Click="addOpenFileBtn_Click"/>
