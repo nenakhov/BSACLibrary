@@ -201,9 +201,11 @@ namespace BSACLibrary
                 }
             }
         }
-
+        
+        //Обработка клика по окну программы
         private void Window_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
+            //Если выпадающий список результатов поиска был открыт, то закроем его.
             if (searchListBox.IsMouseDirectlyOver == false) searchListBox.Visibility = Visibility.Hidden;
         }
 
