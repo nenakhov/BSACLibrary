@@ -238,6 +238,12 @@ namespace BSACLibrary
                     FindFiles.Disconnect();
                 }
 
+                if (filesList == null)
+                {
+                    MessageBox.Show("В базе данных отсутствую .pdf файлы.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
                 //Показываем анимацией что программа не зависла
                 gifAnim.Visibility = Visibility.Visible;
                 try
