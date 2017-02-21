@@ -45,8 +45,8 @@ namespace BSACLibrary
                 //Подключаемся к БД если заданы настройки
                 if ((Settings.Default.dbUsername != "") && (Settings.Default.dbPassword != ""))
                 {
-                    QueryExecute addEntry = new QueryExecute();
-                    if (addEntry.Connect() == true)
+                    QueryExecute Query = new QueryExecute();
+                    if (Query.Connect() == true)
                     {
                         string query;
                         //Создаем базу данных
@@ -54,11 +54,11 @@ namespace BSACLibrary
                             "`" + Settings.Default.dbName +
                             "` CHARACTER SET cp1251 COLLATE cp1251_general_ci;";
                         //Отправляем запрос
-                        addEntry.Execute(query, false);
+                        Query.Execute(query, false);
                         //Выбираем БД с которой будем работать
                         query = "USE " + Settings.Default.dbName + ";";
                         //Отправляем запрос
-                        addEntry.Execute(query, false);
+                        Query.Execute(query, false);
                         //Запрос создание таблицы
                         query = "CREATE TABLE IF NOT EXISTS `" + //Если такая таблица уже есть не будет ошибки
                                             Settings.Default.dbTableName + //Имя таблицы 
@@ -72,11 +72,11 @@ namespace BSACLibrary
                                             "PRIMARY KEY(`id`) " +
                                             ") ";
                         //Отправляем запрос
-                        addEntry.Execute(query, false);
+                        Query.Execute(query, false);
                         //Отправляем запрос на обновление таблицу
-                        addEntry.Execute(null, true);
+                        Query.Execute(null, true);
                         //Закрываем соединение
-                        addEntry.Disconnect();
+                        Query.Disconnect();
                     }
                 }
             }

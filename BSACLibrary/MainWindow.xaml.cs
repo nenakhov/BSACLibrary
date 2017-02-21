@@ -1,6 +1,7 @@
 ﻿using BSACLibrary.Properties;
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -24,6 +25,7 @@ namespace BSACLibrary
         //Зададим начальные значения для переменных
         private int total = 0, current = 0;
         private string substring = null, query = null;
+        private List<string> filesList = null;
 
         public MainWindow()
         {
@@ -62,8 +64,7 @@ namespace BSACLibrary
                     //SolidColorBrush закрашивает область сплошным цветом.
                     tBoxInput.Foreground = new SolidColorBrush(Colors.Black);
                 }
-            else if (searchListBox.Items.Count > 0)
-                searchListBox.Visibility = Visibility.Visible;
+            else if (searchListBox.Items.Count > 0) searchListBox.Visibility = Visibility.Visible;
         }
 
         private void searchListBox_MouseLeave(object sender, MouseEventArgs e)
@@ -106,10 +107,7 @@ namespace BSACLibrary
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*";
-            if (openFileDialog.ShowDialog() == true)
-            {
-                addFilePathTxtBox.Text = openFileDialog.FileName;
-            }
+            if (openFileDialog.ShowDialog() == true) addFilePathTxtBox.Text = openFileDialog.FileName;
         }
 
         //Обработка выбора строки в таблице
@@ -123,14 +121,10 @@ namespace BSACLibrary
                 DataRowView row = dbDataGrid.SelectedItem as DataRowView;
                 editIdTxtBox.Text = Convert.ToString(row[0]);
                 editPublName.Text = Convert.ToString(row[1]);
-                if (Convert.ToBoolean(row[2]) == true)
-                {
-                    editRadioBtnMagaz.IsChecked = true;
-                }
-                else
-                {
-                    editRadioBtnNewsp.IsChecked = true;
-                }
+
+                if (Convert.ToBoolean(row[2]) == true) editRadioBtnMagaz.IsChecked = true;
+                else editRadioBtnNewsp.IsChecked = true;
+
                 editDatePicker.SelectedDate = Convert.ToDateTime(row[3]);
                 editIssueNmbTxtBox.Text = Convert.ToString(row[4]);
                 editFilePathTxtBox.Text = Convert.ToString(row[5]);
@@ -146,10 +140,7 @@ namespace BSACLibrary
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*";
-            if (openFileDialog.ShowDialog() == true)
-            {
-                editFilePathTxtBox.Text = openFileDialog.FileName;
-            }
+            if (openFileDialog.ShowDialog() == true) editFilePathTxtBox.Text = openFileDialog.FileName;
         }
 
         private void delEntryBtn_Click(object sender, RoutedEventArgs e)
@@ -236,29 +227,32 @@ namespace BSACLibrary
                 //Очищаем элементы списка
                 searchListBox.Items.Clear();
                 searchListBox.Visibility = Visibility.Hidden;
-                //Приступаем к поиску
-                string mask = "*.pdf"; //Ищем только .pdf файлы
-                //string source = @"\\10.90.4.67\doc\Aurora описание\AuroraИнстрНарус\"; //Путь к файлам
-                string source = @"\\192.168.1.1\Main\Transmission\Complete\Harry Potter 1-7 Reference Quality eBook Collection\"; //Путь к файлам
-                //string source = @"D:/";
+                //Выбираем из БД путь ко всем имеющимся pdf файлам
+                query = "SELECT file_path FROM " + Settings.Default.dbTableName + ";";
+
+                QueryExecute FindFiles = new QueryExecute();
+                if (FindFiles.Connect() == true)
+                {
+                    //Записываем список всех файлов в массив
+                    filesList = FindFiles.ExecuteAnRead(query);
+                    FindFiles.Disconnect();
+                }
+
                 //Показываем анимацией что программа не зависла
                 gifAnim.Visibility = Visibility.Visible;
                 try
                 {
-                    string[] files = Directory.GetFiles(source, mask, SearchOption.AllDirectories); //Записываем список всех файлов в массив
-
-                    total = files.Count();
+                    total = filesList.Count();
                     substring = tBoxInput.Text.ToLower();
 
                     //Запуск поиска фоном, исключаем зависание GUI
                     Task.Factory.StartNew(() => //Источник https://msdn.microsoft.com/en-us/library/dd997392.aspx
                                                 //Многопоточный цикл foreach, использует все доступные ядра/потоки процессора
-                        Parallel.ForEach(files, file =>
+                        Parallel.ForEach(filesList, file =>
                         {
-                            //Console.WriteLine(new FileInfo(file).Name); //Имя файла 
-                            //Console.WriteLine(file); //Полный путь к файлу
-
+                            //Поиск строки запроса в pdf файле
                             pdfSearchResponse searchResponse = pdfSearch.SearchPdfFile(file, substring);
+                            //Если строка нашлась
                             if (searchResponse.isFinded == true)
                             {
                                 Dispatcher.BeginInvoke(DispatcherPriority.Normal,
@@ -294,7 +288,7 @@ namespace BSACLibrary
                                         {
                                             //Добавляем элемент
                                             searchListBox.Visibility = Visibility.Visible;
-                                            searchListBox.Items.Add("Совпадений нет.");
+                                            searchListBox.Items.Add("По вашему запросу ничего не найдено.");
                                         }
                                     }
                                 });

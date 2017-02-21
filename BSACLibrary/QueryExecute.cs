@@ -1,5 +1,6 @@
 ﻿using BSACLibrary.Properties;
 using MySql.Data.MySqlClient;
+using System.Collections.Generic;
 using System.Data;
 using System.Windows;
 
@@ -18,10 +19,11 @@ namespace BSACLibrary
                 conn = new MySqlConnection(Globals.connStr);
                 conn.Open();
 
-                Query = new MySqlCommand();
-                Query.Connection = conn;
                 //Выбираем БД с которой будем работать
-                Query.CommandText = "USE " + Settings.Default.dbName + ";";
+                string query = "USE " + Settings.Default.dbName + ";";
+
+                Query = new MySqlCommand(query, conn);
+                
                 //Отправляем запрос
                 Query.ExecuteNonQuery();
 
@@ -49,19 +51,18 @@ namespace BSACLibrary
             {
                 if (query != null)
                 { 
-                    Query = new MySqlCommand();
-                    Query.Connection = conn;
-                    Query.CommandText = query;
+                    Query = new MySqlCommand(query, conn);
                     Query.ExecuteNonQuery();
                 }
 
                 if (update == true)
                 {
+                    //Отправка запроса на обновление списка изданий из БД
                     query = "SELECT id,publication,is_magazine,date,issue_number,file_path FROM " + Settings.Default.dbTableName + ";";
                     MySqlDataAdapter dataAdapt = new MySqlDataAdapter(query, conn);
                     DataSet ds = new DataSet();
                     dataAdapt.Fill(ds, "dbBinding");
-
+                    //Заполняем таблицу в редакторе
                     mWin.dbDataGrid.DataContext = ds;
                 }
             }
@@ -69,6 +70,38 @@ namespace BSACLibrary
             catch (MySqlException ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        //Метод выполняющий команду и возвращающий результат в виде массива
+        public List<string> ExecuteAnRead(string query)
+        {
+            try
+            {
+                if (query != null)
+                {
+                    Query = new MySqlCommand(query, conn);
+                    Query.ExecuteNonQuery();
+                    MySqlDataReader Reader;
+                    Reader = Query.ExecuteReader();
+                    //Cоздаем необходимые переменные
+                    List<string> newList = new List<string>();
+                    string curPath = null;
+
+                    while (Reader.Read())
+                    {
+                        curPath = Reader.GetString(0);
+                        //Если путь введен, т.е. его длинна больше нуля запишем в переменную
+                        if (curPath.Length > 0) newList.Add(curPath);
+                    }
+                    return newList;
+                }
+                else return null;
+            }
+            //В этом блоке перехватываем возможные ошибки
+            catch (MySqlException ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
             }
         }
 
