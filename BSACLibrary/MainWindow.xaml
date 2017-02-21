@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:BSACLibrary"
         mc:Ignorable="d"
         Title="Картотека периодических изданий" Background="WhiteSmoke" MinHeight="700" MinWidth="1200" Height="700" 
-        Width="1200" WindowStartupLocation="CenterScreen" Icon="favicons.ico" Closed="Window_Closed" StateChanged="Window_StateChanged">
+        Width="1200" WindowStartupLocation="CenterScreen" Icon="favicons.ico" Closed="Window_Closed" StateChanged="Window_StateChanged" PreviewMouseDown="Window_PreviewMouseDown">
     <Window.Style>
         <Style TargetType="Window">
             <Style.Triggers>

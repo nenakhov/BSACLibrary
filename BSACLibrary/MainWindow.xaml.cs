@@ -23,9 +23,10 @@ namespace BSACLibrary
     {
         public static MainWindow AppWindow;
         //Зададим начальные значения для переменных
-        private int total = 0, current = 0;
-        private string substring = null, query = null;
-        private List<string> filesList = null;
+        int total = 0, current = 0;
+        string substring = null, query = null;
+        List<string> filesList = null;
+        pdfSearch curSearch = new pdfSearch();
 
         public MainWindow()
         {
@@ -201,6 +202,11 @@ namespace BSACLibrary
             }
         }
 
+        private void Window_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (searchListBox.IsMouseDirectlyOver == false) searchListBox.Visibility = Visibility.Hidden;
+        }
+
         private void Window_StateChanged(object sender, EventArgs e)
         {
             switch (this.WindowState)
@@ -265,7 +271,7 @@ namespace BSACLibrary
                         Parallel.ForEach(filesList, file =>
                         {
                             //Поиск строки запроса в pdf файле
-                            pdfSearchResponse searchResponse = pdfSearch.SearchPdfFile(file, substring);
+                            pdfSearchResponse searchResponse = curSearch.SearchPdfFile(file, substring);
                             //Если строка нашлась
                             if (searchResponse.isFinded == true)
                             {
@@ -308,6 +314,8 @@ namespace BSACLibrary
                                 });
                         })
                     );
+                    //Установим фокус на выпадающий список результатов
+                    FocusManager.SetFocusedElement(this, searchListBox);
                 }
                 catch (Exception ex)
                 {

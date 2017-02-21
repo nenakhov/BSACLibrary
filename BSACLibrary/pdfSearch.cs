@@ -5,9 +5,9 @@ using iTextSharp.text.pdf.parser;
 
 namespace BSACLibrary
 {
-    public static class pdfSearch
+    public class pdfSearch
     {
-        public static pdfSearchResponse SearchPdfFile(string fileName, string searchText)
+        public pdfSearchResponse SearchPdfFile(string fileName, string searchText)
         {
             PdfReader pdfReader = new PdfReader(fileName);
             pdfSearchResponse res = new pdfSearchResponse();
