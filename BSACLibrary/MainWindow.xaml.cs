@@ -90,11 +90,13 @@ namespace BSACLibrary
                     addIssueNmbTxtBox.Text + "', '" +
                     addFilePathTxtBox.Text.Replace(@"\", @"\\").Replace("'", "''") + 
                     "');";
-                QueryExecute addEntry = new QueryExecute();
-                if (addEntry.Connect() == true)
+                using (QueryExecute addEntry = new QueryExecute())
                 {
-                    addEntry.Execute(query, true);
-                    addEntry.Disconnect();
+                    if (addEntry.Connect() == true)
+                    {
+                        addEntry.Execute(query, true);
+                        addEntry.Disconnect();
+                    }
                 }
             }
             else
@@ -154,11 +156,13 @@ namespace BSACLibrary
                         query = "DELETE FROM " + Settings.Default.dbTableName +
                              " WHERE id = '" + editIdTxtBox.Text +
                              "';";
-                        QueryExecute delEntry = new QueryExecute();
-                        if (delEntry.Connect() == true)
+                        using (QueryExecute delEntry = new QueryExecute())
                         {
-                            delEntry.Execute(query, true);
-                            delEntry.Disconnect();
+                            if (delEntry.Connect() == true)
+                            {
+                                delEntry.Execute(query, true);
+                                delEntry.Disconnect();
+                            }
                         }
                         break;
                     case MessageBoxResult.No:
@@ -182,11 +186,13 @@ namespace BSACLibrary
                             "',issue_number='" + editIssueNmbTxtBox.Text +
                             "',file_path='" + editFilePathTxtBox.Text.Replace(@"\", @"\\").Replace("'", "''") +
                             "' WHERE id='" + editIdTxtBox.Text + "';";
-                        QueryExecute editEntry = new QueryExecute();
-                        if (editEntry.Connect() == true)
+                        using (QueryExecute editEntry = new QueryExecute())
                         {
-                            editEntry.Execute(query, true);
-                            editEntry.Disconnect();
+                            if (editEntry.Connect() == true)
+                            {
+                                editEntry.Execute(query, true);
+                                editEntry.Disconnect();
+                            }
                         }
                         break;
                     case MessageBoxResult.No:
@@ -230,12 +236,14 @@ namespace BSACLibrary
                 //Выбираем из БД путь ко всем имеющимся pdf файлам
                 query = "SELECT file_path FROM " + Settings.Default.dbTableName + ";";
 
-                QueryExecute FindFiles = new QueryExecute();
-                if (FindFiles.Connect() == true)
+                using (QueryExecute FindFiles = new QueryExecute())
                 {
-                    //Записываем список всех файлов в массив
-                    filesList = FindFiles.ExecuteAnRead(query);
-                    FindFiles.Disconnect();
+                    if (FindFiles.Connect() == true)
+                    {
+                        //Записываем список всех файлов в массив
+                        filesList = FindFiles.ExecuteAnRead(query);
+                        FindFiles.Disconnect();
+                    }
                 }
 
                 if (filesList == null)

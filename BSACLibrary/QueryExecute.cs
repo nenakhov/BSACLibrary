@@ -1,15 +1,16 @@
 ﻿using BSACLibrary.Properties;
 using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Windows;
 
 namespace BSACLibrary
 {
-    public class QueryExecute
+    public class QueryExecute : IDisposable
     {
-        private MySqlConnection conn = null;
-        private MySqlCommand Query = null;
+        MySqlConnection conn = null;
+        MySqlCommand Query = null;
         MainWindow mWin = MainWindow.AppWindow;
 
         public bool Connect()
@@ -45,6 +46,7 @@ namespace BSACLibrary
             }
         }
 
+        //Метод выполняющий SQL запрос, не возвращает результата
         public void Execute(string query, bool update)
         {
             try
@@ -119,6 +121,21 @@ namespace BSACLibrary
             catch (MySqlException ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                Query.Dispose();
+                conn.Dispose();
             }
         }
     }
