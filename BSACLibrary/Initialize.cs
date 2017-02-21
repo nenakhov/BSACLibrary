@@ -80,6 +80,21 @@ namespace BSACLibrary
                     }
                 }
             }
+            if (Globals.isConnected == true)
+            {
+                //Выбираем из БД путь ко всем имеющимся pdf файлам
+                string query = "SELECT file_path FROM " + Settings.Default.dbTableName + ";";
+
+                using (QueryExecute FindFiles = new QueryExecute())
+                {
+                    if (FindFiles.Connect() == true)
+                    {
+                        //Записываем список всех файлов в массив
+                        mWin.filesList = FindFiles.ExecuteAnRead(query);
+                        FindFiles.Disconnect();
+                    }
+                }
+            }
         }
     }
 }

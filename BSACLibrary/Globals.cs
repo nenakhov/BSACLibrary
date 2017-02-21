@@ -8,10 +8,12 @@ namespace BSACLibrary
     public static class Globals
     {
         public static string connStr { get; private set; }
+        public static bool isConnected { get; set; }
 
         static Globals()
         {
             connStr = null;
+            isConnected = false;
         } //Значения по умолчанию
 
         //Метод для изменения глобальной переменной

@@ -28,6 +28,8 @@ namespace BSACLibrary
                 //Отправляем запрос
                 Query.ExecuteNonQuery();
 
+                //Отмечаем в глобальной переменной что есть связь с БД
+                Globals.isConnected = true;
                 return true;
             }
             //В этом блоке перехватываем возможные ошибки в процессе соединения
@@ -42,6 +44,8 @@ namespace BSACLibrary
                 {
                     MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
+                //Отметим что нет соединения с БД
+                Globals.isConnected = false;
                 return false;
             }
         }

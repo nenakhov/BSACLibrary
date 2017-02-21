@@ -25,8 +25,7 @@ namespace BSACLibrary
         //Зададим начальные значения для переменных
         int total = 0, current = 0;
         string substring = null, query = null;
-        List<string> filesList = null;
-        pdfSearch curSearch = new pdfSearch();
+        public List<string> filesList = null;
 
         public MainWindow()
         {
@@ -35,7 +34,8 @@ namespace BSACLibrary
             //Инициализация подключения к БД и др. процессов
             Initialize.Init();
         }
-    private void OptionsWindow_Open(object sender, RoutedEventArgs e)
+
+        private void OptionsWindow_Open(object sender, RoutedEventArgs e)
         {
             //Открываем окно настроек
             OptionsWindow oWin = new OptionsWindow();
@@ -241,22 +241,10 @@ namespace BSACLibrary
                 //Очищаем элементы списка
                 searchListBox.Items.Clear();
                 searchListBox.Visibility = Visibility.Hidden;
-                //Выбираем из БД путь ко всем имеющимся pdf файлам
-                query = "SELECT file_path FROM " + Settings.Default.dbTableName + ";";
-
-                using (QueryExecute FindFiles = new QueryExecute())
-                {
-                    if (FindFiles.Connect() == true)
-                    {
-                        //Записываем список всех файлов в массив
-                        filesList = FindFiles.ExecuteAnRead(query);
-                        FindFiles.Disconnect();
-                    }
-                }
 
                 if (filesList == null)
                 {
-                    MessageBox.Show("В базе данных отсутствую .pdf файлы.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("В базе данных отсутствуют .pdf файлы.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
@@ -273,7 +261,7 @@ namespace BSACLibrary
                         Parallel.ForEach(filesList, file =>
                         {
                             //Поиск строки запроса в pdf файле
-                            pdfSearchResponse searchResponse = curSearch.SearchPdfFile(file, substring);
+                            pdfSearchResponse searchResponse = pdfSearch.SearchPdfFile(file, substring);
                             //Если строка нашлась
                             if (searchResponse.isFinded == true)
                             {
