@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:BSACLibrary"
         mc:Ignorable="d"
         Title="Картотека периодических изданий" Background="WhiteSmoke" MinHeight="700" MinWidth="1200" Height="700" 
-        Width="1200" WindowStartupLocation="CenterScreen" Icon="favicons.ico" Closed="Window_Closed" StateChanged="Window_StateChanged" PreviewMouseDown="Window_PreviewMouseDown">
+        Width="1200" WindowStartupLocation="CenterScreen" Icon="favicons.ico" Closed="Window_Closed" StateChanged="Window_StateChanged" PreviewMouseUp="Window_PreviewMouseUp">
     <Window.Style>
         <Style TargetType="Window">
             <Style.Triggers>
@@ -150,7 +150,7 @@
                 PreviewMouseLeftButtonUp="tBoxInput_PreviewMouseLeftButtonUp"/>
         <ListBox Name="searchListBox" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="3"
                 Grid.RowSpan="4" FontSize="14" Visibility="Hidden" Panel.ZIndex="5"
-                VerticalAlignment="Top" MaxHeight="240" MouseLeave="searchListBox_MouseLeave"/>
+                VerticalAlignment="Top" MaxHeight="240" MouseLeave="searchListBox_MouseLeave" PreviewMouseLeftButtonUp="searchListBox_PreviewMouseLeftButtonUp"/>
         <Image Name="gifAnim" Margin="0,0,2,0" Grid.Column="6" Grid.Row="2"
                 gif:ImageBehavior.AnimatedSource="Resources/searching.gif" Width="22"
                 HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Hidden"/>

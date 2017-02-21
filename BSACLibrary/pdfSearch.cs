@@ -5,15 +5,16 @@ using iTextSharp.text.pdf.parser;
 
 namespace BSACLibrary
 {
-    public static class pdfSearch
+    public static class PdfSearch
     {
-        public static pdfSearchResponse SearchPdfFile(string fileName, string searchText)
+        public static pdfSearchResponse SearchInPdfFile(string fileName, string searchText)
         {
-            PdfReader pdfReader = new PdfReader(fileName);
             pdfSearchResponse res = new pdfSearchResponse();
+
             try
             {
-
+                PdfReader pdfReader = new PdfReader(fileName);
+                
                 for (int page = 1; page <= pdfReader.NumberOfPages; page++)
                 {
                     ITextExtractionStrategy strategy = new SimpleTextExtractionStrategy();
@@ -33,22 +34,17 @@ namespace BSACLibrary
                             res.textCut = currentPageText.Replace("\n", " ");
                         }
                         res.isFinded = true;
-                        return res;
+                        break;
                     }
                 }
-                res.isFinded = false;
+                pdfReader.Close();
                 return res;
             }
             //Обработка возможных ошибок
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                return null;
-            }
-            //При любом результате выполнения программы выше, закроем открытый файл
-            finally
-            {
-                pdfReader.Close();
+                return res;
             }
         }
     }

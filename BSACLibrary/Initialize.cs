@@ -77,20 +77,26 @@ namespace BSACLibrary
                         Query.Execute(null, true);
                         //Закрываем соединение
                         Query.Disconnect();
+
+                        UpdateFilesDescription();
                     }
                 }
             }
+        }
+        public static void UpdateFilesDescription()
+        {
             if (Globals.isConnected == true)
             {
                 //Выбираем из БД путь ко всем имеющимся pdf файлам
-                string query = "SELECT file_path FROM " + Settings.Default.dbTableName + ";";
+                string query = "SELECT * FROM " + Settings.Default.dbTableName + ";";
 
                 using (QueryExecute FindFiles = new QueryExecute())
                 {
                     if (FindFiles.Connect() == true)
                     {
+                        MainWindow mWin = MainWindow.AppWindow;
                         //Записываем список всех файлов в массив
-                        mWin.filesList = FindFiles.ExecuteAnRead(query);
+                        mWin.filesList = FindFiles.ExecuteAndReadFilesDescription(query);
                         FindFiles.Disconnect();
                     }
                 }

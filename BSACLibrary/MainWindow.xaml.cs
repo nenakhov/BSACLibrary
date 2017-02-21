@@ -25,7 +25,8 @@ namespace BSACLibrary
         //Зададим начальные значения для переменных
         int total = 0, current = 0;
         string substring = null, query = null;
-        public List<string> filesList = null;
+        public List<pdfDescription> filesList = new List<pdfDescription>();
+        List<string> foundedFiles = new List<string>();
 
         public MainWindow()
         {
@@ -203,10 +204,32 @@ namespace BSACLibrary
         }
         
         //Обработка клика по окну программы
-        private void Window_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        private void Window_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
             //Если выпадающий список результатов поиска был открыт, то закроем его.
-            if (searchListBox.IsMouseDirectlyOver == false) searchListBox.Visibility = Visibility.Hidden;
+            //Необходимо для того чтобы при щелчке на любом другом элементе программы список прятался
+            if (searchListBox.IsMouseOver == false) searchListBox.Visibility = Visibility.Hidden;
+        }
+
+        //Обработка клика по элементу в списке
+        private void searchListBox_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            //Если выбран элемент списка
+            if (searchListBox.SelectedIndex >= 0)
+            {
+                try
+                {
+                    System.Diagnostics.Process proc = new System.Diagnostics.Process();
+                    proc.StartInfo.FileName = foundedFiles[searchListBox.SelectedIndex];
+                    proc.StartInfo.UseShellExecute = true;
+                    proc.Start();
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                searchListBox.SelectedIndex = -1;
+            }
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
@@ -251,7 +274,10 @@ namespace BSACLibrary
                 //Показываем анимацией что программа не зависла
                 gifAnim.Visibility = Visibility.Visible;
                 try
-                {
+                {   
+                    //Очистим коллекцию с путями к найденным файлам
+                    foundedFiles.Clear();
+                    //Задаем начальное значение переменных, поисковый запрос переведем в нижний регистр букв
                     total = filesList.Count();
                     substring = tBoxInput.Text.ToLower();
 
@@ -260,8 +286,15 @@ namespace BSACLibrary
                                                 //Многопоточный цикл foreach, использует все доступные ядра/потоки процессора
                         Parallel.ForEach(filesList, file =>
                         {
+                            //Если путь к файлу не задан пропустим его и перейдем к следующему
+                            if (file.file_path.Length <= 0)
+                            {
+                                //Инкрементируем переменную отвечающую за количество пройденных файлом
+                                Interlocked.Increment(ref current);
+                                return;
+                            }
                             //Поиск строки запроса в pdf файле
-                            pdfSearchResponse searchResponse = pdfSearch.SearchPdfFile(file, substring);
+                            pdfSearchResponse searchResponse = PdfSearch.SearchInPdfFile(file.file_path, substring);
                             //Если строка нашлась
                             if (searchResponse.isFinded == true)
                             {
@@ -275,9 +308,11 @@ namespace BSACLibrary
                                         txtBlock.MaxWidth = this.ActualWidth - 75;
                                         txtBlock.TextWrapping = TextWrapping.Wrap;
                                         //Добавляем элемент
-                                        txtBlock.Inlines.Add(new FileInfo(file).Name + "\n");
+                                        txtBlock.Inlines.Add(new FileInfo(file.file_path).Name + "\n");
                                         txtBlock.Inlines.Add(new Run(searchResponse.textCut + "...") { Foreground = Brushes.Gray, FontSize = 12 });
                                         searchListBox.Items.Add(txtBlock);
+                                        //Так же добавим найденный файл в коллекцию
+                                        foundedFiles.Add(file.file_path);
                                     });
                             }
                             Interlocked.Increment(ref current);

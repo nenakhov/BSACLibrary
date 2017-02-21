@@ -70,6 +70,8 @@ namespace BSACLibrary
                     dataAdapt.Fill(ds, "dbBinding");
                     //Заполняем таблицу в редакторе
                     mWin.dbDataGrid.DataContext = ds;
+                    //Обновим информацию о файлах для поиска
+                    Initialize.UpdateFilesDescription();
                 }
             }
             //В этом блоке перехватываем возможные ошибки
@@ -79,7 +81,7 @@ namespace BSACLibrary
             }
         }
         //Метод выполняющий команду и возвращающий результат в виде массива
-        public List<string> ExecuteAnRead(string query)
+        public List<pdfDescription> ExecuteAndReadFilesDescription(string query)
         {
             try
             {
@@ -90,14 +92,22 @@ namespace BSACLibrary
                     MySqlDataReader Reader;
                     Reader = Query.ExecuteReader();
                     //Cоздаем необходимые переменные
-                    List<string> newList = new List<string>();
-                    string curPath = null;
+                    List<pdfDescription> newList = new List<pdfDescription>();
 
                     while (Reader.Read())
                     {
-                        curPath = Reader.GetString(0);
-                        //Если путь введен, т.е. его длинна больше нуля запишем в переменную
-                        if (curPath.Length > 0) newList.Add(curPath);
+                        //Присвоими полученные от MySQL значения соответсвующему классу
+                        pdfDescription curFile = new pdfDescription();
+
+                        curFile.id = Convert.ToInt32(Reader.GetString(0));
+                        curFile.publication = Reader.GetString(1);
+                        curFile.is_magazine = Convert.ToBoolean(Reader.GetString(2));
+                        curFile.date = Convert.ToDateTime(Reader.GetString(3));
+                        curFile.issue_number = Convert.ToInt32(Reader.GetString(4));
+                        curFile.file_path = Reader.GetString(5);
+
+                        //И запишем данные в массив
+                        newList.Add(curFile);
                     }
                     return newList;
                 }
