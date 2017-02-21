@@ -116,7 +116,10 @@ namespace BSACLibrary
         private void dbDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (dbDataGrid.SelectedIndex >= 0)
-            { 
+            {
+                this.editEntryBtn.IsEnabled = true;
+                this.delEntryBtn.IsEnabled = true;
+
                 DataRowView row = dbDataGrid.SelectedItem as DataRowView;
                 editIdTxtBox.Text = Convert.ToString(row[0]);
                 editPublName.Text = Convert.ToString(row[1]);
@@ -131,6 +134,11 @@ namespace BSACLibrary
                 editDatePicker.SelectedDate = Convert.ToDateTime(row[3]);
                 editIssueNmbTxtBox.Text = Convert.ToString(row[4]);
                 editFilePathTxtBox.Text = Convert.ToString(row[5]);
+            }
+            else
+            {
+                this.editEntryBtn.IsEnabled = false;
+                this.delEntryBtn.IsEnabled = false;
             }
         }
 
