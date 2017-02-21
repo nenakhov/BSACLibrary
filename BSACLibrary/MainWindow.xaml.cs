@@ -154,11 +154,11 @@ namespace BSACLibrary
                         query = "DELETE FROM " + Settings.Default.dbTableName +
                              " WHERE id = '" + editIdTxtBox.Text +
                              "';";
-                        QueryExecute addEntry = new QueryExecute();
-                        if (addEntry.Connect() == true)
+                        QueryExecute delEntry = new QueryExecute();
+                        if (delEntry.Connect() == true)
                         {
-                            addEntry.Execute(query, true);
-                            addEntry.Disconnect();
+                            delEntry.Execute(query, true);
+                            delEntry.Disconnect();
                         }
                         break;
                     case MessageBoxResult.No:
@@ -182,11 +182,11 @@ namespace BSACLibrary
                             "',issue_number='" + editIssueNmbTxtBox.Text +
                             "',file_path='" + editFilePathTxtBox.Text.Replace(@"\", @"\\").Replace("'", "''") +
                             "' WHERE id='" + editIdTxtBox.Text + "';";
-                        QueryExecute addEntry = new QueryExecute();
-                        if (addEntry.Connect() == true)
+                        QueryExecute editEntry = new QueryExecute();
+                        if (editEntry.Connect() == true)
                         {
-                            addEntry.Execute(query, true);
-                            addEntry.Disconnect();
+                            editEntry.Execute(query, true);
+                            editEntry.Disconnect();
                         }
                         break;
                     case MessageBoxResult.No:
