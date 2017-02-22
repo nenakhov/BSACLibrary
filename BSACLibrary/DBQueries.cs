@@ -16,6 +16,7 @@ namespace BSACLibrary
         {
             try
             {
+                //Созданое таким образом соединение будет автоматически закрыто
                 using (MySqlConnection conn = new MySqlConnection(Globals.connectionString))
                 {
                     //Открываем соединение
@@ -23,11 +24,8 @@ namespace BSACLibrary
 
                     //Отмечаем в глобальной переменной что есть связь с БД
                     Globals.isConnected = true;
-
-                    //Закроем соединение с БД и выгрузим лишнее из памяти
-                    conn.Dispose();
-                    return true;
                 }
+                return true;
             }
             //В этом блоке перехватываем возможные ошибки в процессе соединения
             catch (MySqlException ex)
@@ -61,8 +59,6 @@ namespace BSACLibrary
 
                         MySqlCommand cmd = new MySqlCommand(query, conn);
                         cmd.ExecuteNonQuery();
-                        //Закроем соединение с БД и выгрузим лишнее из памяти
-                        conn.Dispose();
                     }
                 }
             }
@@ -92,8 +88,6 @@ namespace BSACLibrary
                     mWin.dbDataGrid.DataContext = newDataSet;
                     //Обновим информацию о файлах для поиска
                     Initialize.UpdateFilesDescription();
-                    //Закроем соединение с БД и выгрузим лишнее из памяти
-                    conn.Dispose();
                 }
             }
             //В этом блоке перехватываем возможные ошибки
@@ -110,6 +104,7 @@ namespace BSACLibrary
             {
                 if (query != null)
                 {
+                    List<pdfDescription> newList;
                     using (MySqlConnection conn = new MySqlConnection(Globals.connectionString))
                     {
                         //Открываем соединение
@@ -120,7 +115,7 @@ namespace BSACLibrary
                         MySqlDataReader Reader;
                         Reader = cmd.ExecuteReader();
                         //Cоздаем необходимые переменные
-                        List<pdfDescription> newList = new List<pdfDescription>();
+                        newList = new List<pdfDescription>();
 
                         while (Reader.Read())
                         {
@@ -137,10 +132,8 @@ namespace BSACLibrary
                             //И запишем данные в массив
                             newList.Add(curFile);
                         }
-                        //Закроем соединение с БД и выгрузим лишнее из памяти
-                        conn.Dispose();
-                        return newList;
                     }
+                    return newList;
                 }
                 else return null;
             }
@@ -200,9 +193,6 @@ namespace BSACLibrary
                         ";pwd=" + Settings.Default.dbPassword +
                         ";database=" + Settings.Default.dbName +
                         ";charset=cp1251;convert zero datetime=true;");
-
-                    //Закроем соединение с БД и выгрузим лишнее из памяти
-                    conn.Dispose();
                 }
             }
             //В этом блоке перехватываем возможные ошибки
