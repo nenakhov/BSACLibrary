@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -44,16 +45,27 @@ namespace BSACLibrary
             oWin.ShowDialog();
         }
 
+        //Открытие окна "О программе" по нажатию соответствующего пункта меню
         private void AboutWindow_Open(object sender, RoutedEventArgs e)
         {
-            //Открытие окна "О программе"
             AboutWindow aWin = new AboutWindow();
             aWin.ShowDialog();
         }
 
+        //Вызов из файла помощи из меню программы
         private void HelpFile_Open(object sender, RoutedEventArgs e)
         {
-            //Ссылка на документ FAQ
+            try
+            {
+                System.Diagnostics.Process proc = new System.Diagnostics.Process();
+                proc.StartInfo.FileName = AppDomain.CurrentDomain.BaseDirectory + "readme.pdf";
+                proc.StartInfo.UseShellExecute = true;
+                proc.Start();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
         //Обработка клика по полю ввода
         private void tBoxInput_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -114,7 +126,7 @@ namespace BSACLibrary
             if (openFileDialog.ShowDialog() == true) addFilePathTxtBox.Text = openFileDialog.FileName;
         }
 
-        //Обработка выбора строки в таблице
+        //Обработка выбора строки в таблице редактора
         private void dbDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (dbDataGrid.SelectedIndex >= 0)
@@ -232,21 +244,20 @@ namespace BSACLibrary
             }
         }
 
-        private void Window_StateChanged(object sender, EventArgs e)
+        //Метод для очистки выпадающего списка при изменении размера окна
+        private void Window_SizeChanged(object sender, EventArgs e)
         {
-            switch (this.WindowState)
-            {
-                case WindowState.Maximized:
-                    //Очистим выпадающий список при разворачивании окна
-                    //Избавимся от графических "артефактов"
-                    searchListBox.Items.Clear();
-                    searchListBox.Visibility = Visibility.Hidden;
-                    break;
-                case WindowState.Minimized:
-                    break;
-                case WindowState.Normal:
-                    break;
-            }
+            //Избавимся от графических "артефактов"
+            searchListBox.Items.Clear();
+            searchListBox.Visibility = Visibility.Hidden;
+        }
+
+        //Источник: http://stackoverflow.com/questions/1268552/how-do-i-get-a-textbox-to-only-accept-numeric-input-in-wpf
+        //Регулярное выражение для проверки вводимых символов в поля редактора
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
 
         //Реакция на нажатие клавиши в строке поиска

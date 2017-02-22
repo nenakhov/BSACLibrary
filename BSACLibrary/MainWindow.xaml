@@ -7,17 +7,18 @@
         xmlns:local="clr-namespace:BSACLibrary"
         mc:Ignorable="d"
         Title="Картотека периодических изданий" Background="WhiteSmoke" MinHeight="700" MinWidth="1200" Height="700" 
-        Width="1200" WindowStartupLocation="CenterScreen" Icon="favicons.ico" Closed="Window_Closed" StateChanged="Window_StateChanged" PreviewMouseUp="Window_PreviewMouseUp">
+        Width="1200" WindowStartupLocation="CenterScreen" Icon="favicons.ico" Closed="Window_Closed" SizeChanged="Window_SizeChanged" PreviewMouseUp="Window_PreviewMouseUp">
     <Window.Style>
         <Style TargetType="Window">
             <Style.Triggers>
                 <Trigger Property="WindowState" Value="Maximized">
-                    <Setter Property="MaxWidth" Value="9999" />
-                    <Setter Property="MaxHeight" Value="9999"></Setter>
+                    <Setter Property="MaxWidth" Value="9999"/>
+                    <Setter Property="MaxHeight" Value="9999"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
     </Window.Style>
+    
     <Window.Resources>
         <local:BoolToStringConverter x:Key="BooleanToStringConverter" FalseValue="Газета" TrueValue="Журнал" />
         <BooleanToVisibilityConverter x:Key="b2v" />
@@ -165,6 +166,7 @@
             <Border Background="White" BorderThickness="1" BorderBrush="Gainsboro" CornerRadius="4">
                 <TextBlock Text="ЖУРНАЛЫ"/>
             </Border>
+
         </Grid>
         <Grid Visibility="{Binding IsChecked,ElementName=NewspapersBtn,Converter={StaticResource b2v}}" 
                 Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6">
@@ -247,16 +249,17 @@
                     <Label Grid.Row="2" Grid.Column="0">Дата выхода:</Label>
                     <Label Grid.Row="3" Grid.Column="0">Номер:</Label>
                     <Label Grid.Row="4" Grid.Column="0">Расположение файла:</Label>
-                    <TextBox Name="addPublName"  Width="270" Height="25" Padding="3" Grid.Row="0" Grid.Column="1"/>
+                    <TextBox Name="addPublName"  Width="270" Height="25" Padding="3" Grid.Row="0" Grid.Column="1" MaxLength="255"/>
                     <RadioButton Name="addRadioBtnMagaz" GroupName="add" Grid.Row="1" Grid.Column="1" IsChecked="True" 
                             VerticalAlignment="Top">Журнал</RadioButton>
                     <RadioButton Name="addRadioBtnNewsp" GroupName="add" Grid.Row="1" Grid.Column="1" 
                             Margin="0,15,0,0">Газета</RadioButton>
                     <DatePicker Name="addDatePicker"  Width="270" Height="25" Grid.Row="2" Grid.Column="1" Padding="2" 
                             FirstDayOfWeek="Monday" SelectedDateFormat="Short"/>
-                    <TextBox Name="addIssueNmbTxtBox" Width="270" Height="25" Padding="3" Grid.Row="3" Grid.Column="1"/>
-                    <TextBox Name="addFilePathTxtBox" Width="200" Height="25" Padding="3" 
-                            Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left"/>
+                    <TextBox Name="addIssueNmbTxtBox" Width="270" Height="25" Padding="3" Grid.Row="3" Grid.Column="1" 
+                             MaxLength="32" PreviewTextInput="NumberValidationTextBox"/>
+                    <TextBox Name="addFilePathTxtBox" Width="200" Height="25" Padding="3" Grid.Row="4" Grid.Column="1"
+                            HorizontalAlignment="Left"  MaxLength="255"/>
                     <Button Name="addOpenFileBtn"  Height="25" Width="60" Grid.Row="4" Content="Открыть" 
                             Grid.Column="1" HorizontalAlignment="Right" Click="addOpenFileBtn_Click"/>
                     <Button Name="addEntryBtn" Grid.Column="2" Grid.Row="4" Width="120" Height="25" 
@@ -269,14 +272,15 @@
                     <Label Grid.Row="2" Grid.Column="4">Дата выхода:</Label>
                     <Label Grid.Row="3" Grid.Column="4">Номер:</Label>
                     <Label Grid.Row="4" Grid.Column="4">Расположение файла:</Label>
-                    <TextBox Name="editPublName"  Width="270" Height="25" Padding="3" Grid.Row="0" Grid.Column="5"/>
+                    <TextBox Name="editPublName"  Width="270" Height="25" Padding="3" Grid.Row="0" Grid.Column="5" MaxLength="255"/>
                     <RadioButton Name="editRadioBtnMagaz" GroupName="edt" Grid.Row="1" Grid.Column="5" 
                             IsChecked="True" VerticalAlignment="Top">Журнал</RadioButton>
                     <RadioButton Name="editRadioBtnNewsp" GroupName="edt" Grid.Row="1" Grid.Column="5" 
                             Margin="0,15,0,0">Газета</RadioButton>
                     <DatePicker  Name="editDatePicker" Width="270" Height="25" Grid.Row="2" Grid.Column="5" Padding="2"/>
-                    <TextBox Name="editIssueNmbTxtBox" Width="270" Height="25" Padding="3" Grid.Row="3" Grid.Column="5"/>
-                    <TextBox  Name="editFilePathTxtBox" Width="200" Height="25" 
+                    <TextBox Name="editIssueNmbTxtBox" Width="270" Height="25" Padding="3" Grid.Row="3" Grid.Column="5"
+                             MaxLength="32" PreviewTextInput="NumberValidationTextBox"/>
+                    <TextBox  Name="editFilePathTxtBox" Width="200" Height="25" MaxLength="255" 
                             Padding="3" Grid.Row="4" Grid.Column="5"  HorizontalAlignment="Left"/>
                     <Button Name="editOpenFileBtn" Height="25" Width="60" Grid.Row="4" Content="Открыть" Grid.Column="5" 
                             HorizontalAlignment="Right" Click="editOpenFileBtn_Click"/>
