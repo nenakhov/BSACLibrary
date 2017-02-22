@@ -103,13 +103,11 @@ namespace BSACLibrary
                     addIssueNmbTxtBox.Text + "', '" +
                     addFilePathTxtBox.Text.Replace(@"\", @"\\").Replace("'", "''") + 
                     "');";
-                using (QueryExecute addEntry = new QueryExecute())
+                DBQueries addEntry = new DBQueries();
+                if (Globals.isConnected == true)
                 {
-                    if (addEntry.Connect() == true)
-                    {
-                        addEntry.Execute(query, true);
-                        addEntry.Disconnect();
-                    }
+                    addEntry.Execute(query);
+                    addEntry.UpdateDataGrid();
                 }
             }
             else
@@ -169,13 +167,11 @@ namespace BSACLibrary
                         query = "DELETE FROM " + Settings.Default.dbTableName +
                              " WHERE id = '" + editIdTxtBox.Text +
                              "';";
-                        using (QueryExecute delEntry = new QueryExecute())
+                        DBQueries delEntry = new DBQueries();
+                        if (Globals.isConnected == true)
                         {
-                            if (delEntry.Connect() == true)
-                            {
-                                delEntry.Execute(query, true);
-                                delEntry.Disconnect();
-                            }
+                            delEntry.Execute(query);
+                            delEntry.UpdateDataGrid();
                         }
                         break;
                     case MessageBoxResult.No:
@@ -199,13 +195,11 @@ namespace BSACLibrary
                             "',issue_number='" + editIssueNmbTxtBox.Text +
                             "',file_path='" + editFilePathTxtBox.Text.Replace(@"\", @"\\").Replace("'", "''") +
                             "' WHERE id='" + editIdTxtBox.Text + "';";
-                        using (QueryExecute editEntry = new QueryExecute())
+                        DBQueries editEntry = new DBQueries();
+                        if (Globals.isConnected == true)
                         {
-                            if (editEntry.Connect() == true)
-                            {
-                                editEntry.Execute(query, true);
-                                editEntry.Disconnect();
-                            }
+                            editEntry.Execute(query);
+                            editEntry.UpdateDataGrid();
                         }
                         break;
                     case MessageBoxResult.No:
@@ -254,7 +248,7 @@ namespace BSACLibrary
 
         //Источник: http://stackoverflow.com/questions/1268552/how-do-i-get-a-textbox-to-only-accept-numeric-input-in-wpf
         //Регулярное выражение для проверки вводимых символов в поля редактора
-        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);

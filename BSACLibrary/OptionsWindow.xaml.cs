@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 using BSACLibrary.Properties;
+using System.Windows.Input;
+using System.Text.RegularExpressions;
 
 namespace BSACLibrary
 {
@@ -21,11 +23,14 @@ namespace BSACLibrary
             chkBoxAdm.IsChecked = Settings.Default.isAdmin;
             //chkBoxAdm.IsChecked = false;
         }
+
         //Закрываем окно по нажатии "Отмена"
         private void CancelBt_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
+        
+        //Клик по кнопке ОК
         private void OkBt_Click(object sender, RoutedEventArgs e)
         {
             //Присваиваем значения переменным
@@ -43,6 +48,13 @@ namespace BSACLibrary
             Initialize.Init();
 
             CancelBt_Click(sender, e);
+        }
+
+        //Запрет на ввод специальных символов решает проблему возможности SQL-инъекции
+        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^a-zA-Z0-9_]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
     }
 }

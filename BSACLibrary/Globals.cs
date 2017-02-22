@@ -7,20 +7,25 @@ namespace BSACLibrary
     /// </summary>
     public static class Globals
     {
-        public static string connStr { get; private set; }
+        public static string connectionString { get; set; }
         public static bool isConnected { get; set; }
 
         static Globals()
         {
-            connStr = null;
+            //Значения по умолчанию
+            connectionString = ("server=" + Settings.Default.dbServerIP +
+            ";port=" + Settings.Default.dbServerPort +
+            ";uid=" + Settings.Default.dbUsername +
+            ";pwd=" + Settings.Default.dbPassword +
+            ";charset=cp1251;convert zero datetime=true;");
             isConnected = false;
-        } //Значения по умолчанию
+        }
 
         //Метод для изменения глобальной переменной
         //Формирует строку для подключения к MySQL
-        public static void SetConnStr()
+        public static void SetConnectionString()
         {
-            connStr = ("server=" + Settings.Default.dbServerIP +
+            connectionString = ("server=" + Settings.Default.dbServerIP +
             ";port=" + Settings.Default.dbServerPort +
             ";uid=" + Settings.Default.dbUsername +
             ";pwd=" + Settings.Default.dbPassword +

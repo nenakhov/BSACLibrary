@@ -72,7 +72,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Globals.cs" />
-    <Compile Include="QueryExecute.cs" />
+    <Compile Include="DBQueries.cs" />
     <Page Include="AboutWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

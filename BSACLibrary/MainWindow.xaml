@@ -257,7 +257,7 @@
                     <DatePicker Name="addDatePicker"  Width="270" Height="25" Grid.Row="2" Grid.Column="1" Padding="2" 
                             FirstDayOfWeek="Monday" SelectedDateFormat="Short"/>
                     <TextBox Name="addIssueNmbTxtBox" Width="270" Height="25" Padding="3" Grid.Row="3" Grid.Column="1" 
-                             MaxLength="32" PreviewTextInput="NumberValidationTextBox"/>
+                             MaxLength="32" PreviewTextInput="TextBox_PreviewTextInput"/>
                     <TextBox Name="addFilePathTxtBox" Width="200" Height="25" Padding="3" Grid.Row="4" Grid.Column="1"
                             HorizontalAlignment="Left"  MaxLength="255"/>
                     <Button Name="addOpenFileBtn"  Height="25" Width="60" Grid.Row="4" Content="Открыть" 
@@ -279,7 +279,7 @@
                             Margin="0,15,0,0">Газета</RadioButton>
                     <DatePicker  Name="editDatePicker" Width="270" Height="25" Grid.Row="2" Grid.Column="5" Padding="2"/>
                     <TextBox Name="editIssueNmbTxtBox" Width="270" Height="25" Padding="3" Grid.Row="3" Grid.Column="5"
-                             MaxLength="32" PreviewTextInput="NumberValidationTextBox"/>
+                             MaxLength="32" PreviewTextInput="TextBox_PreviewTextInput"/>
                     <TextBox  Name="editFilePathTxtBox" Width="200" Height="25" MaxLength="255" 
                             Padding="3" Grid.Row="4" Grid.Column="5"  HorizontalAlignment="Left"/>
                     <Button Name="editOpenFileBtn" Height="25" Width="60" Grid.Row="4" Content="Открыть" Grid.Column="5" 

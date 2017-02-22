@@ -1,4 +1,5 @@
 ﻿using BSACLibrary.Properties;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -9,7 +10,10 @@ namespace BSACLibrary
         public static void Init()
         {
             //Переопределим глобальные переменные
-            Globals.SetConnStr();
+            Globals.SetConnectionString();
+
+            DBQueries Query = new DBQueries();
+            if (Query.CheckIfConnectionExists() == false) return;
 
             //Если не включен режим администратора спрячем вкладку редактора
             MainWindow mWin = MainWindow.AppWindow;
@@ -45,61 +49,34 @@ namespace BSACLibrary
                 //Подключаемся к БД если заданы настройки
                 if ((Settings.Default.dbUsername != "") && (Settings.Default.dbPassword != ""))
                 {
-                    QueryExecute Query = new QueryExecute();
-                    if (Query.Connect() == true)
+                    try
                     {
-                        string query;
-                        //Создаем базу данных
-                        query = "CREATE DATABASE IF NOT EXISTS " + // Если такая БД уже есть не будет ошибки
-                            "`" + Settings.Default.dbName +
-                            "` CHARACTER SET cp1251 COLLATE cp1251_general_ci;";
-                        //Отправляем запрос
-                        Query.Execute(query, false);
-                        //Выбираем БД с которой будем работать
-                        query = "USE " + Settings.Default.dbName + ";";
-                        //Отправляем запрос
-                        Query.Execute(query, false);
-                        //Запрос создание таблицы
-                        query = "CREATE TABLE IF NOT EXISTS `" + //Если такая таблица уже есть не будет ошибки
-                                            Settings.Default.dbTableName + //Имя таблицы 
-                                            "` (" +
-                                            "`id` INT(6) NOT NULL AUTO_INCREMENT, " + //Автоинкрементирующееся поле id 
-                                            "`publication` VARCHAR(255) NOT NULL, " + //Название журнала
-                                            "`is_magazine` TINYINT(1) NOT NULL, " + //Является ли журналом или газетой
-                                            "`date` DATETIME NOT NULL, " + //Дата издания
-                                            "`issue_number` INT(6) NOT NULL, " + //Порядковый номер издания
-                                            "`file_path` VARCHAR(255) NOT NULL, " + //Ссылка на файл \\host\Lib\file.pdf 255 кол-во символов
-                                            "PRIMARY KEY(`id`) " +
-                                            ") ";
-                        //Отправляем запрос
-                        Query.Execute(query, false);
-                        //Отправляем запрос на обновление таблицу
-                        Query.Execute(null, true);
-                        //Закрываем соединение
-                        Query.Disconnect();
-
-                        UpdateFilesDescription();
+                        //Отправляем запрос на создание БД и таблицы в ней
+                        Query.DataBaseCreate();
                     }
+                    catch(Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                    //Отправляем запрос на обновление таблицы
+                    Query.UpdateDataGrid();
                 }
             }
+            //Обновим массив со списком pdf файлов
+            UpdateFilesDescription();
         }
         public static void UpdateFilesDescription()
         {
+            //Выбираем из БД путь ко всем имеющимся pdf файлам
+            string query = "SELECT * FROM " + Settings.Default.dbTableName + ";";
+
+            DBQueries FindFiles = new DBQueries();
             if (Globals.isConnected == true)
             {
-                //Выбираем из БД путь ко всем имеющимся pdf файлам
-                string query = "SELECT * FROM " + Settings.Default.dbTableName + ";";
-
-                using (QueryExecute FindFiles = new QueryExecute())
-                {
-                    if (FindFiles.Connect() == true)
-                    {
-                        MainWindow mWin = MainWindow.AppWindow;
-                        //Записываем список всех файлов в массив
-                        mWin.filesList = FindFiles.ExecuteAndReadFilesDescription(query);
-                        FindFiles.Disconnect();
-                    }
-                }
+                MainWindow mWin = MainWindow.AppWindow;
+                //Записываем список всех файлов в массив
+                mWin.filesList = FindFiles.ExecuteAndReadFilesDescription(query);
             }
         }
     }
