@@ -17,6 +17,7 @@ namespace BSACLibrary
         {
             try
             {
+                //Открываем соединение
                 conn = new MySqlConnection(Globals.connStr);
                 conn.Open();
 

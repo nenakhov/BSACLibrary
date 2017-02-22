@@ -3,7 +3,6 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -223,14 +222,15 @@ namespace BSACLibrary
             if (searchListBox.IsMouseOver == false) searchListBox.Visibility = Visibility.Hidden;
         }
 
-        //Обработка клика по элементу в списке
+        //Обработка клика по выпадающему списку результатов поиска
         private void searchListBox_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            //Если выбран элемент списка
+            //Если был выбран любой элемент списка
             if (searchListBox.SelectedIndex >= 0)
             {
                 try
                 {
+                    //Откроем соответствующий файл
                     System.Diagnostics.Process proc = new System.Diagnostics.Process();
                     proc.StartInfo.FileName = foundedFiles[searchListBox.SelectedIndex];
                     proc.StartInfo.UseShellExecute = true;
@@ -297,7 +297,7 @@ namespace BSACLibrary
                                                 //Многопоточный цикл foreach, использует все доступные ядра/потоки процессора
                         Parallel.ForEach(filesList, file =>
                         {
-                            //Если путь к файлу не задан пропустим его и перейдем к следующему
+                            //Если в БД путь к файлу не задан пропустим его и перейдем к следующему
                             if (file.file_path.Length <= 0)
                             {
                                 //Инкрементируем переменную отвечающую за количество пройденных файлом
@@ -318,8 +318,9 @@ namespace BSACLibrary
                                         TextBlock txtBlock = new TextBlock();
                                         txtBlock.MaxWidth = this.ActualWidth - 75;
                                         txtBlock.TextWrapping = TextWrapping.Wrap;
-                                        //Добавляем элемент
-                                        txtBlock.Inlines.Add(new FileInfo(file.file_path).Name + "\n");
+                                        //Добавляем найденный файл в результаты поиска
+                                        //Его название и часть текста, начинающегося с поискового запроса
+                                        txtBlock.Inlines.Add(file.publication + "\n");
                                         txtBlock.Inlines.Add(new Run(searchResponse.textCut + "...") { Foreground = Brushes.Gray, FontSize = 12 });
                                         searchListBox.Items.Add(txtBlock);
                                         //Так же добавим найденный файл в коллекцию
@@ -333,10 +334,6 @@ namespace BSACLibrary
                                     //Если поиск завершился
                                     if (current == total)
                                     {
-                                        //Обнуляем счетчики
-                                        total = 0;
-                                        current = 0;
-                                        substring = null;
                                         //Прячем анимацию по завершению работы
                                         gifAnim.Visibility = Visibility.Hidden;
                                         //Если ничего не найдено
@@ -355,7 +352,7 @@ namespace BSACLibrary
                 }
                 catch (Exception ex)
                 {
-                    //Игнорируем возможные исключения
+                    //Вывод сообщения о возникшей ошибке
                     MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
