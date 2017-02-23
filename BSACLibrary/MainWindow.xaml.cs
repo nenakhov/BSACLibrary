@@ -32,8 +32,14 @@ namespace BSACLibrary
         {
             InitializeComponent();
             AppWindow = this;
-            //Инициализация подключения к БД и др. процессов
-            Initialize.Init();
+            //Инициализация подключения к БД и др. процессов в фоне
+            Task.Factory.StartNew(() =>
+                Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+                    (ThreadStart)delegate ()
+                    {
+                        Initialize.Init();
+                    })
+            );
         }
 
         private void OptionsWindow_Open(object sender, RoutedEventArgs e)
@@ -103,12 +109,8 @@ namespace BSACLibrary
                     addIssueNmbTxtBox.Text + "', '" +
                     addFilePathTxtBox.Text.Replace(@"\", @"\\").Replace("'", "''") + 
                     "');";
-                DBQueries addEntry = new DBQueries();
-                if (Globals.isConnected == true)
-                {
-                    addEntry.Execute(query);
-                    addEntry.UpdateDataGrid();
-                }
+                DBQueries.Execute(query);
+                DBQueries.UpdateDataGrid();
             }
             else
             {
@@ -167,12 +169,8 @@ namespace BSACLibrary
                         query = "DELETE FROM " + Settings.Default.dbTableName +
                              " WHERE id = '" + editIdTxtBox.Text +
                              "';";
-                        DBQueries delEntry = new DBQueries();
-                        if (Globals.isConnected == true)
-                        {
-                            delEntry.Execute(query);
-                            delEntry.UpdateDataGrid();
-                        }
+                        DBQueries.Execute(query);
+                        DBQueries.UpdateDataGrid();
                         break;
                     case MessageBoxResult.No:
                         break;
@@ -195,12 +193,8 @@ namespace BSACLibrary
                             "',issue_number='" + editIssueNmbTxtBox.Text +
                             "',file_path='" + editFilePathTxtBox.Text.Replace(@"\", @"\\").Replace("'", "''") +
                             "' WHERE id='" + editIdTxtBox.Text + "';";
-                        DBQueries editEntry = new DBQueries();
-                        if (Globals.isConnected == true)
-                        {
-                            editEntry.Execute(query);
-                            editEntry.UpdateDataGrid();
-                        }
+                        DBQueries.Execute(query);
+                        DBQueries.UpdateDataGrid();
                         break;
                     case MessageBoxResult.No:
                         break;
@@ -288,7 +282,7 @@ namespace BSACLibrary
 
                     //Запуск поиска фоном, исключаем зависание GUI
                     Task.Factory.StartNew(() => //Источник https://msdn.microsoft.com/en-us/library/dd997392.aspx
-                                                //Многопоточный цикл foreach, использует все доступные ядра/потоки процессора
+                        //Многопоточный цикл foreach, использует все доступные ядра/потоки процессора
                         Parallel.ForEach(filesList, file =>
                         {
                             //Если в БД путь к файлу не задан пропустим его и перейдем к следующему
@@ -328,6 +322,10 @@ namespace BSACLibrary
                                     //Если поиск завершился
                                     if (current == total)
                                     {
+                                        //Обнуляем счетчки
+                                        total = 0;
+                                        current = 0;
+                                        substring = null;
                                         //Прячем анимацию по завершению работы
                                         gifAnim.Visibility = Visibility.Hidden;
                                         //Если ничего не найдено

@@ -7,17 +7,14 @@ namespace BSACLibrary
 {
     public static class Initialize
     {
+        private static MainWindow mWin = MainWindow.AppWindow;
+
         public static void Init()
         {
             //Переопределим глобальные переменные
             Globals.SetConnectionString();
 
-            DBQueries Query = new DBQueries();
-            if (Query.CheckIfConnectionExists() == false) return;
-
             //Если не включен режим администратора спрячем вкладку редактора
-            MainWindow mWin = MainWindow.AppWindow;
-
             if (Settings.Default.isAdmin == false)
             {
                 Style style = mWin.FindResource("RadioRightCorner") as Style;
@@ -52,15 +49,23 @@ namespace BSACLibrary
                     try
                     {
                         //Отправляем запрос на создание БД и таблицы в ней
-                        Query.DataBaseCreate();
+                        DBQueries.DataBaseCreate();
+                        //Отправляем запрос на обновление таблицы
+                        DBQueries.UpdateDataGrid();
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                        //Unable to connect to any of the specified MySQL hosts.
+                        if (ex.Message == "Unable to connect to any of the specified MySQL hosts.")
+                        {
+                            MessageBox.Show("Нет соединения с сервером MySQL", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                        else
+                        {
+                            MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
                         return;
                     }
-                    //Отправляем запрос на обновление таблицы
-                    Query.UpdateDataGrid();
                 }
             }
             //Обновим массив со списком pdf файлов
@@ -69,14 +74,14 @@ namespace BSACLibrary
         public static void UpdateFilesDescription()
         {
             //Выбираем из БД путь ко всем имеющимся pdf файлам
-            string query = "SELECT * FROM " + Settings.Default.dbTableName + ";";
-
-            DBQueries FindFiles = new DBQueries();
-            if (Globals.isConnected == true)
-            {
-                MainWindow mWin = MainWindow.AppWindow;
+            try
+            { 
                 //Записываем список всех файлов в массив
-                mWin.filesList = FindFiles.ExecuteAndReadFilesDescription(query);
+                mWin.filesList = DBQueries.ExecuteAndReadFilesDescription("SELECT * FROM " + Settings.Default.dbTableName + ";");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

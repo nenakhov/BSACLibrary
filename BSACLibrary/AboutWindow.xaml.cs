@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
+using System.Windows.Navigation;
 
 namespace BSACLibrary
 {
@@ -10,6 +12,11 @@ namespace BSACLibrary
         public AboutWindow()
         {
             InitializeComponent();
+        }
+        private void OnNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            Process.Start(e.Uri.AbsoluteUri);
+            e.Handled = true;
         }
     }
 }

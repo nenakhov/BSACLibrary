@@ -8,7 +8,6 @@ namespace BSACLibrary
     public static class Globals
     {
         public static string connectionString { get; set; }
-        public static bool isConnected { get; set; }
 
         static Globals()
         {
@@ -18,7 +17,6 @@ namespace BSACLibrary
             ";uid=" + Settings.Default.dbUsername +
             ";pwd=" + Settings.Default.dbPassword +
             ";charset=cp1251;convert zero datetime=true;");
-            isConnected = false;
         }
 
         //Метод для изменения глобальной переменной

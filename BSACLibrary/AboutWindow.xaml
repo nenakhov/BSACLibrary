@@ -21,7 +21,12 @@
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
         <Label Grid.Column="0" Grid.Row="0" Content="Разработчик:" HorizontalAlignment="Left"/>
-        <Label Grid.Column="1" Grid.Row="0" Content="Д. А. Ненахов" Margin="100,0,0,0" HorizontalAlignment="Left"/>
+        <TextBlock Grid.Column="1" Grid.Row="0"  Margin="105,0,0,0" HorizontalAlignment="Left">          
+            <!--Гиперссылка для вызова почтового клиента-->
+            <Hyperlink NavigateUri="mailto:nenakhov@in.mtis.by?subject=Картотека учета переодических изданий" RequestNavigate="OnNavigate">
+                Д. А. Ненахов
+            </Hyperlink>
+        </TextBlock>
         <Label Grid.Column="0" Grid.Row="1" Content="Руководитель:" HorizontalAlignment="Left"/>
         <Label Grid.Column="1" Grid.Row="1" Content="E. А. Кудрицкая" Margin="100,0,0,0" HorizontalAlignment="Left"/>
         <!-- &quot; - Символ кавычки-->

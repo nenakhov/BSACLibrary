@@ -2,6 +2,8 @@
 using BSACLibrary.Properties;
 using System.Windows.Input;
 using System.Text.RegularExpressions;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace BSACLibrary
 {
@@ -45,7 +47,13 @@ namespace BSACLibrary
             Settings.Default.Save();
 
             //Повторно инициализируем GUI и переподключаемся к бд
-            Initialize.Init();
+            System.Threading.Tasks.Task.Factory.StartNew(() =>
+                Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+                (ThreadStart)delegate ()
+                {
+                    Initialize.Init();
+                })
+            );
 
             CancelBt_Click(sender, e);
         }

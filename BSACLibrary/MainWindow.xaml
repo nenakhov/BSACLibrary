@@ -149,9 +149,9 @@
                 Grid.Row="2" FontSize="14" Foreground="Gray" PreviewKeyDown="tBoxInput_PreviewKeyDown"
                 Text="Поиск информации по ключевому слову или фразе. Например, &quot;802.11ac&quot;"
                 PreviewMouseLeftButtonUp="tBoxInput_PreviewMouseLeftButtonUp"/>
-        <ListBox Name="searchListBox" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="3"
-                Grid.RowSpan="4" FontSize="14" Visibility="Hidden" Panel.ZIndex="5"
-                VerticalAlignment="Top" MaxHeight="240" MouseLeave="searchListBox_MouseLeave" PreviewMouseLeftButtonUp="searchListBox_PreviewMouseLeftButtonUp"/>
+        <ListBox Name="searchListBox" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="3" Grid.RowSpan="4" FontSize="14"
+                Visibility="Hidden" Panel.ZIndex="5" VerticalAlignment="Top" MaxHeight="240"
+                MouseLeave="searchListBox_MouseLeave" PreviewMouseLeftButtonUp="searchListBox_PreviewMouseLeftButtonUp"/>
         <Image Name="gifAnim" Margin="0,0,2,0" Grid.Column="6" Grid.Row="2"
                 gif:ImageBehavior.AnimatedSource="Resources/searching.gif" Width="22"
                 HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Hidden"/>
