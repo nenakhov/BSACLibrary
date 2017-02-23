@@ -128,6 +128,7 @@ namespace BSACLibrary
                 cmd = new MySqlCommand(query, conn);
                 cmd.ExecuteNonQuery();
 
+                //Добавим в строку подключения БД после ее создания для использования по умолчанию
                 Globals.connectionString = ("server=" + Settings.Default.dbServerIP +
                     ";port=" + Settings.Default.dbServerPort +
                     ";uid=" + Settings.Default.dbUsername +
