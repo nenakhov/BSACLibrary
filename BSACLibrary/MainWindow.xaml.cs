@@ -9,7 +9,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -26,7 +25,7 @@ namespace BSACLibrary
         int total = 0, current = 0;
         string substring = null, query = null;
         public List<pdfDescription> filesList = new List<pdfDescription>();
-        List<string> foundedFiles = new List<string>();
+
 
         public MainWindow()
         {
@@ -218,9 +217,11 @@ namespace BSACLibrary
             {
                 try
                 {
+                    //Приводим объект из списку к типу pdfDescription
+                    pdfDescription selectedFile = searchListBox.Items[searchListBox.SelectedIndex] as pdfDescription;
                     //Откроем соответствующий файл
                     System.Diagnostics.Process proc = new System.Diagnostics.Process();
-                    proc.StartInfo.FileName = foundedFiles[searchListBox.SelectedIndex];
+                    proc.StartInfo.FileName = selectedFile.file_path;
                     proc.StartInfo.UseShellExecute = true;
                     proc.Start();
                 }
@@ -275,7 +276,6 @@ namespace BSACLibrary
                 try
                 {   
                     //Очистим коллекцию с путями к найденным файлам
-                    foundedFiles.Clear();
                     //Задаем начальное значение переменных, поисковый запрос переведем в нижний регистр букв
                     total = filesList.Count();
                     substring = tBoxInput.Text.ToLower();
@@ -302,17 +302,10 @@ namespace BSACLibrary
                                     {
                                         //Делаем выпадающий список видимым
                                         searchListBox.Visibility = Visibility.Visible;
-                                        //Форматирование текста, перенос строк
-                                        TextBlock txtBlock = new TextBlock();
-                                        txtBlock.MaxWidth = this.ActualWidth - 75;
-                                        txtBlock.TextWrapping = TextWrapping.Wrap;
-                                        //Добавляем найденный файл в результаты поиска
-                                        //Его название и часть текста, начинающегося с поискового запроса
-                                        txtBlock.Inlines.Add(file.publication + "\n");
-                                        txtBlock.Inlines.Add(new Run(searchResponse.textCut + "...") { Foreground = Brushes.Gray, FontSize = 12 });
-                                        searchListBox.Items.Add(txtBlock);
-                                        //Так же добавим найденный файл в коллекцию
-                                        foundedFiles.Add(file.file_path);
+                                        ////Добавляем найденный файл в результаты поиска
+                                        ////Его название и часть текста, начинающегося с поискового запроса
+                                        file.founded_text = searchResponse.founded_text + "...";
+                                        searchListBox.Items.Add(file);
                                     });
                             }
                             Interlocked.Increment(ref current);

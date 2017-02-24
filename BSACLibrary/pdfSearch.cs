@@ -27,11 +27,11 @@ namespace BSACLibrary
                         currentPageText = currentPageText.Substring(i, currentPageText.Length - i);
                         if (currentPageText.Length >= 400)
                         {
-                            res.textCut = currentPageText.Substring(0, 399).Replace("\n", " ");
+                            res.founded_text = currentPageText.Substring(0, 399).Replace("\n", " ");
                         }
                         else
                         {   //Если на найденной странице символов меньше 400, отображаем ее целиком
-                            res.textCut = currentPageText.Replace("\n", " ");
+                            res.founded_text = currentPageText.Replace("\n", " ");
                         }
                         res.isFinded = true;
                         break;

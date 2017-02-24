@@ -18,10 +18,16 @@
             </Style.Triggers>
         </Style>
     </Window.Style>
-    
     <Window.Resources>
-        <local:BoolToStringConverter x:Key="BooleanToStringConverter" FalseValue="Газета" TrueValue="Журнал" />
-        <BooleanToVisibilityConverter x:Key="b2v" />
+        <DataTemplate DataType="{x:Type local:pdfDescription}">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="{Binding publication}"/>
+                <TextBlock TextWrapping="Wrap" Foreground="Gray" FontSize="12" Text="{Binding founded_text}"
+                        MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}}"/>
+            </StackPanel>
+        </DataTemplate>
+        <local:BoolToStringConverter x:Key="BooleanToStringConverter" FalseValue="Газета" TrueValue="Журнал"/>
+        <BooleanToVisibilityConverter x:Key="b2v"/>
 
         <Style x:Key="RadioLeftCorner" TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type RadioButton}}">
             <Setter Property="Template">
@@ -149,9 +155,11 @@
                 Grid.Row="2" FontSize="14" Foreground="Gray" PreviewKeyDown="tBoxInput_PreviewKeyDown"
                 Text="Поиск информации по ключевому слову или фразе. Например, &quot;802.11ac&quot;"
                 PreviewMouseLeftButtonUp="tBoxInput_PreviewMouseLeftButtonUp"/>
-        <ListBox Name="searchListBox" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="3" Grid.RowSpan="4" FontSize="14"
-                Visibility="Hidden" Panel.ZIndex="5" VerticalAlignment="Top" MaxHeight="240"
-                MouseLeave="searchListBox_MouseLeave" PreviewMouseLeftButtonUp="searchListBox_PreviewMouseLeftButtonUp"/>
+
+        <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" Name="searchListBox" Grid.Column="0" Grid.ColumnSpan="6"
+                 Grid.Row="3" Grid.RowSpan="4" Panel.ZIndex="5" VerticalAlignment="Top" MaxHeight="240" Visibility="Hidden"
+                 MouseLeave="searchListBox_MouseLeave" FontSize="14" PreviewMouseLeftButtonUp="searchListBox_PreviewMouseLeftButtonUp"/>
+
         <Image Name="gifAnim" Margin="0,0,2,0" Grid.Column="6" Grid.Row="2"
                 gif:ImageBehavior.AnimatedSource="Resources/searching.gif" Width="22"
                 HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Hidden"/>
@@ -164,9 +172,8 @@
         <Grid Visibility="{Binding IsChecked,ElementName=MagazinesBtn,Converter={StaticResource b2v}}"
                 Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6">
             <Border Background="White" BorderThickness="1" BorderBrush="Gainsboro" CornerRadius="4">
-                <TextBlock Text="ЖУРНАЛЫ"/>
-            </Border>
 
+            </Border>
         </Grid>
         <Grid Visibility="{Binding IsChecked,ElementName=NewspapersBtn,Converter={StaticResource b2v}}" 
                 Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6">

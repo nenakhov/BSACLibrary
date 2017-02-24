@@ -7,7 +7,7 @@ namespace BSACLibrary
     public class pdfSearchResponse
     {
         public bool isFinded { get; set; }
-        public string textCut { get; set; }
+        public string founded_text { get; set; }
     }
 
     //Отдельный класс для информации о каждом PDF файле
@@ -19,6 +19,7 @@ namespace BSACLibrary
         public DateTime date { get; set; }
         public int issue_number { get; set; }
         public string file_path { get; set; }
+        public string founded_text { get; set; }
     }
 
     //Класс для конвертирования bool значения в строку
