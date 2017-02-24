@@ -7,44 +7,43 @@ namespace BSACLibrary
 {
     public static class PdfSearch
     {
-        public static pdfSearchResponse SearchInPdfFile(string fileName, string searchText)
+        public static pdfDescription SearchInPdfFile(pdfDescription file, string substring)
         {
-            pdfSearchResponse res = new pdfSearchResponse();
-
+            //Обнулим значение переменной
+            file.founded_text = null;
             try
             {
-                PdfReader pdfReader = new PdfReader(fileName);
-                
-                for (int page = 1; page <= pdfReader.NumberOfPages; page++)
+                using (PdfReader pdfReader = new PdfReader(file.file_path))
                 {
-                    ITextExtractionStrategy strategy = new SimpleTextExtractionStrategy();
-                    string currentPageText = PdfTextExtractor.GetTextFromPage(pdfReader, page, strategy);
-                    string currentPageTextLower = currentPageText.ToLower();
-                    int i = currentPageTextLower.IndexOf(searchText);
-                    if (i != -1)
+                    for (int page = 1; page <= pdfReader.NumberOfPages; page++)
                     {
-                        //Отформатируем найденный текст
-                        currentPageText = currentPageText.Substring(i, currentPageText.Length - i);
-                        if (currentPageText.Length >= 400)
+                        ITextExtractionStrategy strategy = new SimpleTextExtractionStrategy();
+                        string currentPageText = PdfTextExtractor.GetTextFromPage(pdfReader, page, strategy);
+                        string currentPageTextLower = currentPageText.ToLower();
+                        int i = currentPageTextLower.IndexOf(substring);
+                        if (i != -1)
                         {
-                            res.founded_text = currentPageText.Substring(0, 399).Replace("\n", " ");
+                            //Отформатируем найденный текст
+                            currentPageText = currentPageText.Substring(i, currentPageText.Length - i);
+                            if (currentPageText.Length >= 400)
+                            {
+                                file.founded_text = currentPageText.Substring(0, 399).Replace("\n", " ") + "...";
+                            }
+                            else
+                            {   //Если на найденной странице символов меньше 400, отображаем ее целиком
+                                file.founded_text = currentPageText.Replace("\n", " ") + "...";
+                            }
+                            return file;
                         }
-                        else
-                        {   //Если на найденной странице символов меньше 400, отображаем ее целиком
-                            res.founded_text = currentPageText.Replace("\n", " ");
-                        }
-                        res.isFinded = true;
-                        break;
                     }
+                    return file;
                 }
-                pdfReader.Close();
-                return res;
             }
             //Обработка возможных ошибок
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                return res;
+                return file;
             }
         }
     }

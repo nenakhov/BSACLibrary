@@ -21,9 +21,9 @@ namespace BSACLibrary
     public partial class MainWindow : Window
     {
         public static MainWindow AppWindow;
-        //Зададим начальные значения для переменных
-        int total = 0, current = 0;
-        string substring = null, query = null;
+        //Создаем необходимые переменные
+        int total, current;
+        string substring, query;
         public List<pdfDescription> filesList = new List<pdfDescription>();
 
 
@@ -71,6 +71,7 @@ namespace BSACLibrary
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
         //Обработка клика по полю ввода
         private void tBoxInput_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
@@ -87,9 +88,10 @@ namespace BSACLibrary
 
         private void searchListBox_MouseLeave(object sender, MouseEventArgs e)
         {
-            //Скрыть если мышь увели за пределы
+            //Скрыть выпадающий список если мышь увели за его пределы
             searchListBox.Visibility = Visibility.Hidden;
         }
+
         private void Window_Closed(object sender, EventArgs e)
         {
             //Закрываем программу
@@ -98,7 +100,7 @@ namespace BSACLibrary
 
         private void addEntryBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (addPublName.Text != "" && addDatePicker.Text != "" && addIssueNmbTxtBox.Text != "")
+            if (string.IsNullOrEmpty(addPublName.Text) == false && string.IsNullOrEmpty(addDatePicker.Text) == false && string.IsNullOrEmpty(addIssueNmbTxtBox.Text) == false)
             {
                 query = "INSERT INTO " + Settings.Default.dbTableName + " VALUES('" +
                     null + "', '" +
@@ -286,16 +288,16 @@ namespace BSACLibrary
                         Parallel.ForEach(filesList, file =>
                         {
                             //Если в БД путь к файлу не задан пропустим его и перейдем к следующему
-                            if (file.file_path.Length <= 0)
+                            if (string.IsNullOrEmpty(file.file_path))
                             {
                                 //Инкрементируем переменную отвечающую за количество пройденных файлом
                                 Interlocked.Increment(ref current);
                                 return;
                             }
                             //Поиск строки запроса в pdf файле
-                            pdfSearchResponse searchResponse = PdfSearch.SearchInPdfFile(file.file_path, substring);
-                            //Если строка нашлась
-                            if (searchResponse.isFinded == true)
+                            PdfSearch.SearchInPdfFile(file, substring);
+                        //Если строка нашлась
+                        if (string.IsNullOrEmpty(file.founded_text) == false)
                             {
                                 Dispatcher.BeginInvoke(DispatcherPriority.Normal,
                                     (ThreadStart)delegate ()
@@ -304,7 +306,6 @@ namespace BSACLibrary
                                         searchListBox.Visibility = Visibility.Visible;
                                         ////Добавляем найденный файл в результаты поиска
                                         ////Его название и часть текста, начинающегося с поискового запроса
-                                        file.founded_text = searchResponse.founded_text + "...";
                                         searchListBox.Items.Add(file);
                                     });
                             }

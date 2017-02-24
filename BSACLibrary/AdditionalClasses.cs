@@ -3,13 +3,6 @@ using System.Windows.Data;
 
 namespace BSACLibrary
 {
-    //Отдельный класс для возврата более чем одной переменной от функции поиска
-    public class pdfSearchResponse
-    {
-        public bool isFinded { get; set; }
-        public string founded_text { get; set; }
-    }
-
     //Отдельный класс для информации о каждом PDF файле
     public class pdfDescription
     {

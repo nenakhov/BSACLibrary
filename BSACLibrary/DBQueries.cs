@@ -15,17 +15,14 @@ namespace BSACLibrary
         //Метод выполняющий SQL запрос, не возвращает результата
         public static void Execute(string query)
         {
-            if (query != null)
+            //Созданое таким образом соединение будет автоматически закрыто
+            using (MySqlConnection conn = new MySqlConnection(Globals.connectionString))
             {
-                //Созданое таким образом соединение будет автоматически закрыто
-                using (MySqlConnection conn = new MySqlConnection(Globals.connectionString))
-                {
-                    //Открываем соединение
-                    conn.Open();
+                //Открываем соединение
+                conn.Open();
 
-                    MySqlCommand cmd = new MySqlCommand(query, conn);
-                    cmd.ExecuteNonQuery();
-                }
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.ExecuteNonQuery();
             }
         }
 
@@ -52,40 +49,35 @@ namespace BSACLibrary
         //Метод выполняющий команду и возвращающий результат в виде массива
         public static List<pdfDescription> ExecuteAndReadFilesDescription(string query)
         {
-            if (query != null)
+            using (MySqlConnection conn = new MySqlConnection(Globals.connectionString))
             {
-                List<pdfDescription> newList;
-                using (MySqlConnection conn = new MySqlConnection(Globals.connectionString))
+                //Открываем соединение
+                conn.Open();
+
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.ExecuteNonQuery();
+                MySqlDataReader Reader;
+                Reader = cmd.ExecuteReader();
+                //Cоздаем необходимые переменные
+                List<pdfDescription> newList = new List<pdfDescription>();
+
+                while (Reader.Read())
                 {
-                    //Открываем соединение
-                    conn.Open();
+                    //Присвоими полученные от MySQL значения соответсвующему классу
+                    pdfDescription curFile = new pdfDescription();
 
-                    MySqlCommand cmd = new MySqlCommand(query, conn);
-                    cmd.ExecuteNonQuery();
-                    MySqlDataReader Reader;
-                    Reader = cmd.ExecuteReader();
-                    //Cоздаем необходимые переменные
-                    newList = new List<pdfDescription>();
+                    curFile.id = Convert.ToInt32(Reader.GetString(0));
+                    curFile.publication = Reader.GetString(1);
+                    curFile.is_magazine = Convert.ToBoolean(Reader.GetString(2));
+                    curFile.date = Convert.ToDateTime(Reader.GetString(3));
+                    curFile.issue_number = Convert.ToInt32(Reader.GetString(4));
+                    curFile.file_path = Reader.GetString(5);
 
-                    while (Reader.Read())
-                    {
-                        //Присвоими полученные от MySQL значения соответсвующему классу
-                        pdfDescription curFile = new pdfDescription();
-
-                        curFile.id = Convert.ToInt32(Reader.GetString(0));
-                        curFile.publication = Reader.GetString(1);
-                        curFile.is_magazine = Convert.ToBoolean(Reader.GetString(2));
-                        curFile.date = Convert.ToDateTime(Reader.GetString(3));
-                        curFile.issue_number = Convert.ToInt32(Reader.GetString(4));
-                        curFile.file_path = Reader.GetString(5);
-
-                        //И запишем данные в массив
-                        newList.Add(curFile);
-                    }
+                    //И запишем данные в массив
+                    newList.Add(curFile);
                 }
                 return newList;
             }
-            else return null;
         }
 
         //Метод для создания БД и таблицы, если они отсутсвуют
