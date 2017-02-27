@@ -14,38 +14,24 @@ namespace BSACLibrary
             //Переопределим глобальные переменные
             Globals.SetConnectionString();
 
-            //Если не включен режим администратора спрячем вкладку редактора
-            if (Settings.Default.isAdmin == false)
+            //Если заданы настройки подключения
+            if ((string.IsNullOrEmpty(Settings.Default.dbUsername) == false) && string.IsNullOrEmpty(Settings.Default.dbPassword) == false)
             {
-                Style style = mWin.FindResource("RadioRightCorner") as Style;
-
-                mWin.EditBtn.Visibility = Visibility.Hidden;
-                mWin.NewspapersBtn.Style = style;
-                mWin.MagazinesBtn.IsChecked = true;
-
-                Grid.SetColumn(mWin.MagazinesBtn, 0);
-                Grid.SetColumnSpan(mWin.MagazinesBtn, 3);
-                Grid.SetColumn(mWin.NewspapersBtn, 3);
-                Grid.SetColumnSpan(mWin.NewspapersBtn, 3);
-            }
-            else
-            {
-                //Либо же наоборот, отобразим ее по умолчанию
-                Style style = mWin.FindResource("RadioNormalCorner") as Style;
-
-                mWin.EditBtn.Visibility = Visibility.Visible;
-                mWin.EditBtn.IsChecked = true;
-                mWin.NewspapersBtn.Style = style;
-
-                Grid.SetColumn(mWin.MagazinesBtn, 0);
-                Grid.SetColumnSpan(mWin.MagazinesBtn, 2);
-                Grid.SetColumn(mWin.NewspapersBtn, 2);
-                Grid.SetColumnSpan(mWin.NewspapersBtn, 2);
-
-                //Если выбран режим администратора создаем БД и таблицу в ней, если они еще не были созданы
-                //Подключаемся к БД если заданы настройки
-                if ((Settings.Default.dbUsername != "") && (Settings.Default.dbPassword != ""))
+                //Если включен режим администратора
+                if (Settings.Default.isAdmin == true)
                 {
+                    //Отобразим вкладку редактора
+                    Style style = mWin.FindResource("RadioNormalCorner") as Style;
+
+                    mWin.EditBtn.Visibility = Visibility.Visible;
+                    mWin.EditBtn.IsChecked = true;
+                    mWin.NewspapersBtn.Style = style;
+
+                    Grid.SetColumn(mWin.MagazinesBtn, 0);
+                    Grid.SetColumnSpan(mWin.MagazinesBtn, 2);
+                    Grid.SetColumn(mWin.NewspapersBtn, 2);
+                    Grid.SetColumnSpan(mWin.NewspapersBtn, 2);
+                    //Создаем БД и таблицу в ней, если они еще не были созданы
                     try
                     {
                         //Отправляем запрос на создание БД и таблицы в ней
@@ -67,9 +53,39 @@ namespace BSACLibrary
                         return;
                     }
                 }
+                //Иначе спрячем вкладку редактора и применим соответствующее оформление
+                else
+                {
+                    Style style = mWin.FindResource("RadioRightCorner") as Style;
+
+                    mWin.EditBtn.Visibility = Visibility.Hidden;
+                    mWin.NewspapersBtn.Style = style;
+                    mWin.MagazinesBtn.IsChecked = true;
+
+                    Grid.SetColumn(mWin.MagazinesBtn, 0);
+                    Grid.SetColumnSpan(mWin.MagazinesBtn, 3);
+                    Grid.SetColumn(mWin.NewspapersBtn, 3);
+                    Grid.SetColumnSpan(mWin.NewspapersBtn, 3);
+                }
+                try
+                {
+                    //Обновим массив со списком pdf файлов
+                    UpdateFilesDescription();
+                }
+                catch (Exception ex)
+                {
+                    //Unable to connect to any of the specified MySQL hosts.
+                    if (ex.Message == "Unable to connect to any of the specified MySQL hosts.")
+                    {
+                        MessageBox.Show("Нет соединения с сервером MySQL", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    else
+                    {
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    return;
+                }
             }
-            //Обновим массив со списком pdf файлов
-            UpdateFilesDescription();
         }
         public static void UpdateFilesDescription()
         {
