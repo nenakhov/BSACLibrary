@@ -186,11 +186,11 @@
             <Border Background="White" BorderThickness="1" BorderBrush="Gainsboro" CornerRadius="4">
                 <Grid Margin="10">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="32"/>
-                        <RowDefinition Height="32"/>
-                        <RowDefinition Height="32"/>
-                        <RowDefinition Height="32"/>
-                        <RowDefinition Height="32"/>
+                        <RowDefinition Height="36"/>
+                        <RowDefinition Height="36"/>
+                        <RowDefinition Height="36"/>
+                        <RowDefinition Height="36"/>
+                        <RowDefinition Height="36"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <!--Определение столбцов-->
@@ -251,16 +251,16 @@
                     </DataGrid>
                     <Border Grid.Row="0" BorderBrush="Black" BorderThickness="1" Grid.Column="0" 
                             Grid.ColumnSpan="3" Grid.RowSpan="5" CornerRadius="4"/>
-                    <Label Grid.Row="0" Grid.Column="0">Название издания:</Label>
-                    <Label Grid.Row="1" Grid.Column="0">Тип издания:</Label>
-                    <Label Grid.Row="2" Grid.Column="0">Дата выхода:</Label>
-                    <Label Grid.Row="3" Grid.Column="0">Номер:</Label>
-                    <Label Grid.Row="4" Grid.Column="0">Расположение файла:</Label>
+                    <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">Название издания:</Label>
+                    <Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center">Тип издания:</Label>
+                    <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center">Дата выхода:</Label>
+                    <Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center">Номер:</Label>
+                    <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center">Расположение файла:</Label>
                     <TextBox Name="addPublName"  Width="270" Height="25" Padding="3" Grid.Row="0" Grid.Column="1" MaxLength="255"/>
                     <RadioButton Name="addRadioBtnMagaz" GroupName="add" Grid.Row="1" Grid.Column="1" IsChecked="True" 
                             VerticalAlignment="Top">Журнал</RadioButton>
                     <RadioButton Name="addRadioBtnNewsp" GroupName="add" Grid.Row="1" Grid.Column="1" 
-                            Margin="0,15,0,0">Газета</RadioButton>
+                            Margin="0,17,0,0">Газета</RadioButton>
                     <DatePicker Name="addDatePicker"  Width="270" Height="25" Grid.Row="2" Grid.Column="1" Padding="2" 
                             FirstDayOfWeek="Monday" SelectedDateFormat="Short"/>
                     <TextBox Name="addIssueNmbTxtBox" Width="270" Height="25" Padding="3" Grid.Row="3" Grid.Column="1" 
@@ -269,21 +269,21 @@
                             HorizontalAlignment="Left"  MaxLength="255"/>
                     <Button Name="addOpenFileBtn"  Height="25" Width="60" Grid.Row="4" Content="Открыть" 
                             Grid.Column="1" HorizontalAlignment="Right" Click="addOpenFileBtn_Click"/>
-                    <Button Name="addEntryBtn" Grid.Column="2" Grid.Row="4" Width="120" Height="25" 
+                    <Button Name="addEntryBtn" Grid.Column="2" Grid.Row="4" Width="120" Height="25"
                             Click="addEntryBtn_Click" HorizontalAlignment="Right" Margin="0,0,6,0">Добавить запись</Button>
 
                     <Border Grid.Row="0" BorderBrush="Black" BorderThickness="1" Grid.Column="4" 
                             Grid.ColumnSpan="3" Grid.RowSpan="5" CornerRadius="4"/>
-                    <Label  Grid.Row="0" Grid.Column="4">Название издания:</Label>
-                    <Label Grid.Row="1" Grid.Column="4">Тип издания:</Label>
-                    <Label Grid.Row="2" Grid.Column="4">Дата выхода:</Label>
-                    <Label Grid.Row="3" Grid.Column="4">Номер:</Label>
-                    <Label Grid.Row="4" Grid.Column="4">Расположение файла:</Label>
+                    <Label Grid.Row="0" Grid.Column="4" VerticalAlignment="Center">Название издания:</Label>
+                    <Label Grid.Row="1" Grid.Column="4" VerticalAlignment="Center">Тип издания:</Label>
+                    <Label Grid.Row="2" Grid.Column="4" VerticalAlignment="Center">Дата выхода:</Label>
+                    <Label Grid.Row="3" Grid.Column="4" VerticalAlignment="Center">Номер:</Label>
+                    <Label Grid.Row="4" Grid.Column="4" VerticalAlignment="Center">Расположение файла:</Label>
                     <TextBox Name="editPublName"  Width="270" Height="25" Padding="3" Grid.Row="0" Grid.Column="5" MaxLength="255"/>
                     <RadioButton Name="editRadioBtnMagaz" GroupName="edt" Grid.Row="1" Grid.Column="5" 
                             IsChecked="True" VerticalAlignment="Top">Журнал</RadioButton>
                     <RadioButton Name="editRadioBtnNewsp" GroupName="edt" Grid.Row="1" Grid.Column="5" 
-                            Margin="0,15,0,0">Газета</RadioButton>
+                            Margin="0,17,0,0">Газета</RadioButton>
                     <DatePicker  Name="editDatePicker" Width="270" Height="25" Grid.Row="2" Grid.Column="5" Padding="2"/>
                     <TextBox Name="editIssueNmbTxtBox" Width="270" Height="25" Padding="3" Grid.Row="3" Grid.Column="5"
                              MaxLength="32" PreviewTextInput="TextBox_PreviewTextInput"/>
