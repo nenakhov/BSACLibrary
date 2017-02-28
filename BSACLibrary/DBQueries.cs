@@ -10,15 +10,22 @@ namespace BSACLibrary
     {
 
         private static MainWindow mWin = MainWindow.AppWindow;
+        private static string connectionString = ("server=" + Settings.Default.dbServerIP +
+            ";port=" + Settings.Default.dbServerPort +
+            ";uid=" + Settings.Default.dbUsername +
+            ";pwd=" + Settings.Default.dbPassword +
+            ";charset=cp1251;convert zero datetime=true;");
 
         //Метод выполняющий SQL запрос, не возвращает результата
         public static void Execute(string query)
         {
             //Созданое таким образом соединение будет автоматически закрыто
-            using (MySqlConnection conn = new MySqlConnection(Globals.connectionString))
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
                 //Открываем соединение
                 conn.Open();
+                //Выбор БД для использования по умолчанию
+                conn.ChangeDatabase(Settings.Default.dbTableName);
 
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 cmd.ExecuteNonQuery();
@@ -28,10 +35,11 @@ namespace BSACLibrary
         //Отдельный метод для обновления DataGrid таблицы в редакторе
         public static void UpdateDataGrid()
         {
-            using (MySqlConnection conn = new MySqlConnection(Globals.connectionString))
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
                 //Открываем соединение
                 conn.Open();
+                conn.ChangeDatabase(Settings.Default.dbTableName);
 
                 //Отправка запроса на обновление списка изданий из БД
                 MySqlDataAdapter newDataAdapter = new MySqlDataAdapter("SELECT id,publication,is_magazine,date,issue_number,file_path FROM " + Settings.Default.dbTableName, conn);
@@ -48,10 +56,11 @@ namespace BSACLibrary
         //Метод выполняющий команду и возвращающий результат в виде массива
         public static List<pdfDescription> ExecuteAndReadFilesDescription(string query)
         {
-            using (MySqlConnection conn = new MySqlConnection(Globals.connectionString))
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
                 //Открываем соединение
                 conn.Open();
+                conn.ChangeDatabase(Settings.Default.dbTableName);
 
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 cmd.ExecuteNonQuery();
@@ -83,7 +92,7 @@ namespace BSACLibrary
         public static void DataBaseCreate()
     {
             //Откроем новое соединение
-            using (MySqlConnection conn = new MySqlConnection(Globals.connectionString))
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
                 conn.Open();
 
@@ -97,10 +106,7 @@ namespace BSACLibrary
                 cmd.ExecuteNonQuery();
 
                 //Выбираем БД с которой будем работать
-                query = "USE " + Settings.Default.dbName + ";";
-                //Отправляем запрос
-                cmd = new MySqlCommand(query, conn);
-                cmd.ExecuteNonQuery();
+                conn.ChangeDatabase(Settings.Default.dbTableName);
 
                 //Запрос для создания таблицы
                 //Если такая таблица уже есть в БД ошибки не будет (IF NOT EXISTS)
@@ -118,14 +124,6 @@ namespace BSACLibrary
                 //Отправляем запрос
                 cmd = new MySqlCommand(query, conn);
                 cmd.ExecuteNonQuery();
-
-                //Добавим в строку подключения БД после ее создания для использования по умолчанию
-                Globals.connectionString = ("server=" + Settings.Default.dbServerIP +
-                    ";port=" + Settings.Default.dbServerPort +
-                    ";uid=" + Settings.Default.dbUsername +
-                    ";pwd=" + Settings.Default.dbPassword +
-                    ";database=" + Settings.Default.dbName +
-                    ";charset=cp1251;convert zero datetime=true;");
             }
         }
     }

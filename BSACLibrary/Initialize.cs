@@ -11,9 +11,6 @@ namespace BSACLibrary
 
         public static void Init()
         {
-            //Переопределим глобальные переменные
-            Globals.SetConnectionString();
-
             //Если заданы настройки подключения
             if ((string.IsNullOrEmpty(Settings.Default.dbUsername) == false) && string.IsNullOrEmpty(Settings.Default.dbPassword) == false)
             {
