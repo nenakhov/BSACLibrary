@@ -38,7 +38,15 @@ namespace BSACLibrary
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                        //Unable to connect to any of the specified MySQL hosts.
+                        if (ex.Message == "Unable to connect to any of the specified MySQL hosts.")
+                        {
+                            MessageBox.Show("Нет соединения с сервером MySQL", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                        else
+                        {
+                            MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
                         return;
                     }
                 }
@@ -59,16 +67,24 @@ namespace BSACLibrary
                 try
                 {
                     //Обновим массив со списком pdf файлов
-                    UpdateFilesDescription();
+                    UpdateFilesDescriptions();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    //Unable to connect to any of the specified MySQL hosts.
+                    if (ex.Message == "Unable to connect to any of the specified MySQL hosts.")
+                    {
+                        MessageBox.Show("Нет соединения с сервером MySQL", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    else
+                    {
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                     return;
                 }
             }
         }
-        public static void UpdateFilesDescription()
+        public static void UpdateFilesDescriptions()
         {
             //Выбираем из БД путь ко всем имеющимся pdf файлам
             try
@@ -78,7 +94,16 @@ namespace BSACLibrary
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                //Unable to connect to any of the specified MySQL hosts.
+                if (ex.Message == "Unable to connect to any of the specified MySQL hosts.")
+                {
+                    MessageBox.Show("Нет соединения с сервером MySQL", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                return;
             }
         }
     }

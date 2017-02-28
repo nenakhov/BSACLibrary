@@ -35,7 +35,7 @@
                         <RowDefinition Height="25"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="Настройки подключения к СУБД SQL" Grid.Row="0" Grid.ColumnSpan="2" 
+                    <TextBlock Text="Настройки подключения к СУБД MySQL" Grid.Row="0" Grid.ColumnSpan="2" 
                             HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     <Label Name="lblIP" Content="Адрес сервера: " Grid.Row="1" Grid.Column="0" 
                             HorizontalAlignment="Left"/>
