@@ -69,11 +69,10 @@ namespace BSACLibrary
                 //Cоздаем необходимые переменные
                 List<pdfDescription> newList = new List<pdfDescription>();
 
+                //Присвоими полученные от MySQL значения соответсвующему классу
+                pdfDescription curFile = new pdfDescription();
                 while (Reader.Read())
                 {
-                    //Присвоими полученные от MySQL значения соответсвующему классу
-                    pdfDescription curFile = new pdfDescription();
-
                     curFile.id = Convert.ToInt32(Reader.GetString(0));
                     curFile.publication = Reader.GetString(1);
                     curFile.is_magazine = Convert.ToBoolean(Reader.GetString(2));
@@ -81,7 +80,7 @@ namespace BSACLibrary
                     curFile.issue_number = Convert.ToInt32(Reader.GetString(4));
                     curFile.file_path = Reader.GetString(5);
 
-                    //И запишем данные в массив
+                    //Запишем данные в массив
                     newList.Add(curFile);
                 }
                 return newList;
