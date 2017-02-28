@@ -45,6 +45,7 @@ namespace BSACLibrary
         {
             //Открываем окно настроек
             OptionsWindow oWin = new OptionsWindow();
+            oWin.Owner = this;
             //ShowDialog в отличии от Show позволяет запретить повторный запуск этого же окна
             oWin.ShowDialog();
         }
@@ -53,6 +54,7 @@ namespace BSACLibrary
         private void AboutWindow_Open(object sender, RoutedEventArgs e)
         {
             AboutWindow aWin = new AboutWindow();
+            aWin.Owner = this;
             aWin.ShowDialog();
         }
 

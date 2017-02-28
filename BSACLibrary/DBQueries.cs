@@ -1,8 +1,8 @@
 ﻿using BSACLibrary.Properties;
-using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace BSACLibrary
 {
@@ -10,24 +10,24 @@ namespace BSACLibrary
     {
 
         private static MainWindow mWin = MainWindow.AppWindow;
-        private static string connectionString = ("server=" + Settings.Default.dbServerIP +
-            ";port=" + Settings.Default.dbServerPort +
-            ";uid=" + Settings.Default.dbUsername +
-            ";pwd=" + Settings.Default.dbPassword +
-            ";charset=cp1251;convert zero datetime=true;");
+        private static string connectionString = ("Server=" + Settings.Default.dbServerIP +
+            "; Port=" + Settings.Default.dbServerPort +
+            "; Uid=" + Settings.Default.dbUsername +
+            "; Pwd=" + Settings.Default.dbPassword +
+            "; CharSet=cp1251; ConvertZeroDateTime=True;");
 
         //Метод выполняющий SQL запрос, не возвращает результата
         public static void Execute(string query)
         {
             //Созданое таким образом соединение будет автоматически закрыто
-            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 //Открываем соединение
                 conn.Open();
                 //Выбор БД для использования по умолчанию
                 conn.ChangeDatabase(Settings.Default.dbTableName);
 
-                MySqlCommand cmd = new MySqlCommand(query, conn);
+                SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.ExecuteNonQuery();
             }
         }
@@ -35,14 +35,14 @@ namespace BSACLibrary
         //Отдельный метод для обновления DataGrid таблицы в редакторе
         public static void UpdateDataGrid()
         {
-            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 //Открываем соединение
                 conn.Open();
-                //conn.ChangeDatabase(Settings.Default.dbTableName);
+                conn.ChangeDatabase(Settings.Default.dbTableName);
 
                 //Отправка запроса на обновление списка изданий из БД
-                MySqlDataAdapter newDataAdapter = new MySqlDataAdapter("SELECT id,publication,is_magazine,date,issue_number,file_path FROM " + Settings.Default.dbTableName, conn);
+                SqlDataAdapter newDataAdapter = new SqlDataAdapter("SELECT id,publication,is_magazine,date,issue_number,file_path FROM " + Settings.Default.dbTableName, conn);
 
                 DataSet newDataSet = new DataSet();
                 newDataAdapter.Fill(newDataSet, "dbBinding");
@@ -56,20 +56,20 @@ namespace BSACLibrary
         //Метод выполняющий команду и возвращающий результат в виде массива
         public static List<pdfDescription> ExecuteAndReadFilesDescription(string query)
         {
-            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 //Открываем соединение
                 conn.Open();
-                //conn.ChangeDatabase(Settings.Default.dbTableName);
+                conn.ChangeDatabase(Settings.Default.dbTableName);
 
-                MySqlCommand cmd = new MySqlCommand(query, conn);
+                SqlCommand cmd = new SqlCommand(query, conn);
                 //cmd.ExecuteNonQuery();
-                MySqlDataReader Reader = cmd.ExecuteReader();
+                SqlDataReader Reader = cmd.ExecuteReader();
 
                 //Cоздаем необходимые переменные
                 List<pdfDescription> newList = new List<pdfDescription>();
 
-                //Присвоими полученные от MySQL значения соответсвующему классу
+                //Присвоими полученные от SQL значения соответсвующему классу
                 pdfDescription curFile = new pdfDescription();
                 while (Reader.Read())
                 {
@@ -91,7 +91,7 @@ namespace BSACLibrary
         public static void DataBaseCreate()
     {
             //Откроем новое соединение
-            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
 
@@ -101,7 +101,7 @@ namespace BSACLibrary
                                             "`" + Settings.Default.dbName +
                                             "` CHARACTER SET cp1251 COLLATE cp1251_general_ci;";
                 //Отправляем запрос
-                MySqlCommand cmd = new MySqlCommand(query, conn);
+                SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.ExecuteNonQuery();
 
                 //Выбираем БД с которой будем работать
@@ -121,7 +121,7 @@ namespace BSACLibrary
                                     "PRIMARY KEY(`id`) " +
                                     ") ";
                 //Отправляем запрос
-                cmd = new MySqlCommand(query, conn);
+                cmd = new SqlCommand(query, conn);
                 cmd.ExecuteNonQuery();
             }
         }

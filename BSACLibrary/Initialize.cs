@@ -38,15 +38,7 @@ namespace BSACLibrary
                     }
                     catch (Exception ex)
                     {
-                        //Unable to connect to any of the specified MySQL hosts.
-                        if (ex.Message == "Unable to connect to any of the specified MySQL hosts.")
-                        {
-                            MessageBox.Show("Нет соединения с сервером MySQL", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                        }
-                        else
-                        {
-                            MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                        }
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
                 }
@@ -71,15 +63,7 @@ namespace BSACLibrary
                 }
                 catch (Exception ex)
                 {
-                    //Unable to connect to any of the specified MySQL hosts.
-                    if (ex.Message == "Unable to connect to any of the specified MySQL hosts.")
-                    {
-                        MessageBox.Show("Нет соединения с сервером MySQL", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    else
-                    {
-                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
             }
