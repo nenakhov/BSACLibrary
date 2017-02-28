@@ -39,7 +39,7 @@ namespace BSACLibrary
             {
                 //Открываем соединение
                 conn.Open();
-                conn.ChangeDatabase(Settings.Default.dbTableName);
+                //conn.ChangeDatabase(Settings.Default.dbTableName);
 
                 //Отправка запроса на обновление списка изданий из БД
                 MySqlDataAdapter newDataAdapter = new MySqlDataAdapter("SELECT id,publication,is_magazine,date,issue_number,file_path FROM " + Settings.Default.dbTableName, conn);
@@ -60,12 +60,12 @@ namespace BSACLibrary
             {
                 //Открываем соединение
                 conn.Open();
-                conn.ChangeDatabase(Settings.Default.dbTableName);
+                //conn.ChangeDatabase(Settings.Default.dbTableName);
 
                 MySqlCommand cmd = new MySqlCommand(query, conn);
-                cmd.ExecuteNonQuery();
-                MySqlDataReader Reader;
-                Reader = cmd.ExecuteReader();
+                //cmd.ExecuteNonQuery();
+                MySqlDataReader Reader = cmd.ExecuteReader();
+
                 //Cоздаем необходимые переменные
                 List<pdfDescription> newList = new List<pdfDescription>();
 
