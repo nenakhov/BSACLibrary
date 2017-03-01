@@ -9,7 +9,7 @@ namespace BSACLibrary
     public static class DBQueries
     {
         private static MainWindow mWin = MainWindow.AppWindow;
-        
+
         //Метод возвращает строку подключения к БД
         private static string connectionString()
         {
@@ -18,7 +18,7 @@ namespace BSACLibrary
             stringBuilder.Port = Convert.ToUInt32(Settings.Default.dbServerPort);
             stringBuilder.UserID = Settings.Default.dbUsername;
             stringBuilder.Password = Settings.Default.dbPassword;
-            stringBuilder.CharacterSet = "cp1251";
+            stringBuilder.CharacterSet = "utf8";
             stringBuilder.ConvertZeroDateTime = true;
             return stringBuilder.ConnectionString;
         }
@@ -107,7 +107,7 @@ namespace BSACLibrary
                 //Если такая БД уже есть ошибки не будет (IF NOT EXISTS)
                 string query = "CREATE DATABASE IF NOT EXISTS " +
                                             "`" + Settings.Default.dbName +
-                                            "` CHARACTER SET cp1251 COLLATE cp1251_general_ci;";
+                                            "` CHARACTER SET utf8 COLLATE utf8_general_ci;";
                 //Отправляем запрос
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 cmd.ExecuteNonQuery();
