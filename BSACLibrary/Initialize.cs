@@ -88,9 +88,20 @@ namespace BSACLibrary
         {
             //Выбираем из БД путь ко всем имеющимся pdf файлам
             try
-            { 
+            {
+                //Очистим выпадающий список из уже существующих наименований
+                mWin.addPublNameCmbBox.Items.Clear();
                 //Записываем список всех файлов в массив
                 mWin.filesList = DBQueries.ExecuteAndReadFilesDescription("SELECT * FROM " + Settings.Default.dbTableName + ";");
+                //Заполним список наименований заново
+                foreach (pdfDescription file in mWin.filesList)
+                {
+                    //Исключим повторяющиеся записи
+                    if (mWin.addPublNameCmbBox.Items.Contains(file.publication) == false)
+                    {
+                        mWin.addPublNameCmbBox.Items.Add(file.publication);
+                    }
+                }
             }
             catch (Exception ex)
             {

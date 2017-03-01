@@ -26,7 +26,6 @@ namespace BSACLibrary
         string substring, query;
         public List<pdfDescription> filesList = new List<pdfDescription>();
 
-
         public MainWindow()
         {
             InitializeComponent();
@@ -102,11 +101,11 @@ namespace BSACLibrary
 
         private void addEntryBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(addPublName.Text) == false && string.IsNullOrEmpty(addDatePicker.Text) == false && string.IsNullOrEmpty(addIssueNmbTxtBox.Text) == false)
+            if (string.IsNullOrEmpty(addPublNameCmbBox.Text) == false && string.IsNullOrEmpty(addDatePicker.Text) == false && string.IsNullOrEmpty(addIssueNmbTxtBox.Text) == false)
             {
                 query = "INSERT INTO " + Settings.Default.dbTableName + " VALUES('" +
                     null + "', '" +
-                    addPublName.Text.Replace(@"'", @"\'") + "', '" + 
+                    addPublNameCmbBox.Text.Replace(@"'", @"\'") + "', '" + 
                     Convert.ToInt16(addRadioBtnMagaz.IsChecked) + "', '" +
                     Convert.ToDateTime(addDatePicker.SelectedDate).ToString("yyyy-MM-dd") + "', '" + 
                     addIssueNmbTxtBox.Text + "', '" +

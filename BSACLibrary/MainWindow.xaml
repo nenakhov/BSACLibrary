@@ -251,7 +251,13 @@
                     <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center">Дата выхода:</Label>
                     <Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center">Номер:</Label>
                     <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center">Расположение файла:</Label>
-                    <TextBox Name="addPublName"  Width="270" Height="25" Padding="3" Grid.Row="0" Grid.Column="1" MaxLength="255"/>
+                    <ComboBox Name="addPublNameCmbBox"  Width="270" Height="25" Padding="3" Grid.Row="0" Grid.Column="1" IsEditable="True">
+                        <ComboBox.Resources>
+                            <Style TargetType="{x:Type TextBox}">
+                                <Setter Property="MaxLength" Value="255"/>
+                            </Style>
+                        </ComboBox.Resources>
+                    </ComboBox>
                     <RadioButton Name="addRadioBtnMagaz" GroupName="add" Grid.Row="1" Grid.Column="1" IsChecked="True" 
                             VerticalAlignment="Top">Журнал</RadioButton>
                     <RadioButton Name="addRadioBtnNewsp" GroupName="add" Grid.Row="1" Grid.Column="1" 
