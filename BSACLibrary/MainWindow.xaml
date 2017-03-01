@@ -6,22 +6,17 @@
         xmlns:gif="http://wpfanimatedgif.codeplex.com"
         xmlns:local="clr-namespace:BSACLibrary"
         mc:Ignorable="d"
-        Title="Картотека периодических изданий" Background="WhiteSmoke" MinHeight="700" MinWidth="1200" Height="700" 
+        Title="Картотека периодических изданий" Background="WhiteSmoke" MinHeight="700" MinWidth="1200" Height="700" ScrollViewer.VerticalScrollBarVisibility="Disabled"
         Width="1200" WindowStartupLocation="CenterScreen" Icon="favicons.ico" Closed="Window_Closed" SizeChanged="Window_SizeChanged" PreviewMouseUp="Window_PreviewMouseUp">
-    <Window.Style>
-        <Style TargetType="Window">
-            <Style.Triggers>
-                <Trigger Property="WindowState" Value="Maximized">
-                    <Setter Property="MaxWidth" Value="9999"/>
-                    <Setter Property="MaxHeight" Value="9999"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </Window.Style>
+    
     <Window.Resources>
         <DataTemplate DataType="{x:Type local:pdfDescription}">
             <StackPanel Orientation="Vertical">
-                <TextBlock Text="{Binding publication}"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding publication}"/>
+                    <TextBlock Text=", #"/>
+                    <TextBlock Text="{Binding issue_number}"/>
+                </StackPanel>
                 <TextBlock TextWrapping="Wrap" Foreground="Gray" FontSize="12" Text="{Binding founded_text}"
                         MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}}"/>
             </StackPanel>
