@@ -35,15 +35,33 @@ namespace BSACLibrary
             {
                 filesList = value;
                 //Очистим выпадающий список из уже существующих наименований во вкладке редактора
-                addPublNameCmbBox.Items.Clear();  
+                addPublNameCmbBox.Items.Clear();
+                magazinesNameListBox.Items.Clear();
+                newspappersNameListBox.Items.Clear();
 
-                foreach (pdfDescription file in FilesList)
+                magazinesNameListBox.Items.Add("<ВСЕ>");
+                newspappersNameListBox.Items.Add("<ВСЕ>");
+
+                //Cортировка всех названий по алфавиту
+                filesList = filesList.OrderBy(x => x.publication_name).ToList();
+
+                foreach (pdfDescription file in filesList)
                 {
                     //Заполним список наименований во вкладке редактора заново
                     //Исключим повторяющиеся записи
                     if (addPublNameCmbBox.Items.Contains(file.publication_name) == false)
                     {
                         addPublNameCmbBox.Items.Add(file.publication_name);
+                    }
+                    //Заполним список изданий во вкладке ЖУРНАЛЫ
+                    if (magazinesNameListBox.Items.Contains(file.publication_name) == false && file.is_magazine)
+                    {
+                        magazinesNameListBox.Items.Add(file.publication_name);
+                    }
+                    //Заполним список изданий во вкладке ГАЗЕТЫ
+                    else if (newspappersNameListBox.Items.Contains(file.publication_name) == false && file.is_magazine == false)
+                    {
+                        newspappersNameListBox.Items.Add(file.publication_name);
                     }
                 }
             }

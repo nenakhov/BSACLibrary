@@ -15,7 +15,7 @@
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="{Binding publication_name}"/>
-                    <TextBlock Text=", #"/>
+                    <TextBlock Text=", №"/>
                     <TextBlock Text="{Binding issue_number}"/>
                 </StackPanel>
                 <TextBlock TextWrapping="Wrap" Foreground="Gray" FontSize="12" Text="{Binding founded_text}"
@@ -168,13 +168,51 @@
         <Grid Visibility="{Binding IsChecked,ElementName=MagazinesBtn,Converter={StaticResource b2v}}"
                 Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6">
             <Border Background="White" BorderThickness="1" BorderBrush="Gainsboro" CornerRadius="4">
-
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.25*"/>
+                        <ColumnDefinition Width="0.1*"/>
+                        <ColumnDefinition Width="0.65*"/>
+                    </Grid.ColumnDefinitions>
+                    <ListBox Name="magazinesNameListBox" Grid.Column="0" ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+                            ScrollViewer.VerticalScrollBarVisibility="Visible"/>
+                    <ListBox Name="magazinesYearListBox" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+                            ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="10,0,0,0"/>
+                    <Border BorderBrush="Black" Margin="10,0,0,0" Padding="10" BorderThickness="1"
+                            Grid.Column="3" CornerRadius="2">
+                        <Canvas Name="magazinesCanvas" Grid.Column="2">
+                            
+                        </Canvas>
+                    </Border>
+                </Grid>
             </Border>
         </Grid>
         <Grid Visibility="{Binding IsChecked,ElementName=NewspapersBtn,Converter={StaticResource b2v}}" 
                 Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6">
             <Border Background="White" BorderThickness="1" BorderBrush="Gainsboro" CornerRadius="4">
-                <TextBlock Text="ГАЗЕТЫ"/>
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.25*"/>
+                        <ColumnDefinition Width="0.1*"/>
+                        <ColumnDefinition Width="0.65*"/>
+                    </Grid.ColumnDefinitions>
+                    <ListBox Name="newspappersNameListBox" Grid.Column="0" ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+                            ScrollViewer.VerticalScrollBarVisibility="Visible"/>
+                    <ListBox Name="newspappersYearListBox" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+                            ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="10,0,0,0"/>
+                    <Border BorderBrush="Black" Margin="10,0,0,0" Padding="10" BorderThickness="1"
+                            Grid.Column="3" CornerRadius="2">
+                        <Canvas Name="newspappersCanvas" Grid.Column="2">
+
+                        </Canvas>
+                    </Border>
+                </Grid>
             </Border>
         </Grid>
         <Grid Visibility="{Binding IsChecked,ElementName=EditBtn,Converter={StaticResource b2v}}" 
