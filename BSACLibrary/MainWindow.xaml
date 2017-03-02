@@ -6,14 +6,15 @@
         xmlns:gif="http://wpfanimatedgif.codeplex.com"
         xmlns:local="clr-namespace:BSACLibrary"
         mc:Ignorable="d"
-        Title="Картотека периодических изданий" Background="WhiteSmoke" MinHeight="700" MinWidth="1200" Height="700" ScrollViewer.VerticalScrollBarVisibility="Disabled"
-        Width="1200" WindowStartupLocation="CenterScreen" Icon="favicons.ico" Closed="Window_Closed" SizeChanged="Window_SizeChanged" PreviewMouseUp="Window_PreviewMouseUp">
+        Title="Картотека периодических изданий" Background="WhiteSmoke" MinHeight="700" MinWidth="1200" Height="700"
+        ScrollViewer.VerticalScrollBarVisibility="Disabled" Width="1200" WindowStartupLocation="CenterScreen" 
+        Icon="favicons.ico" Closed="Window_Closed" SizeChanged="Window_SizeChanged" PreviewMouseUp="Window_PreviewMouseUp">
     
     <Window.Resources>
         <DataTemplate DataType="{x:Type local:pdfDescription}">
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding publication}"/>
+                    <TextBlock Text="{Binding publication_name}"/>
                     <TextBlock Text=", #"/>
                     <TextBlock Text="{Binding issue_number}"/>
                 </StackPanel>

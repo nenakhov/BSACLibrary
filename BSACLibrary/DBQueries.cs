@@ -82,7 +82,7 @@ namespace BSACLibrary
                     //Присвоими полученные от SQL значения соответсвующему классу
                     pdfDescription curFile = new pdfDescription();
                     curFile.id = Convert.ToInt32(Reader.GetString(0));
-                    curFile.publication = Reader.GetString(1);
+                    curFile.publication_name = Reader.GetString(1);
                     curFile.is_magazine = Convert.ToBoolean(Reader.GetString(2));
                     curFile.date = Convert.ToDateTime(Reader.GetString(3));
                     curFile.issue_number = Convert.ToInt32(Reader.GetString(4));

@@ -20,11 +20,34 @@ namespace BSACLibrary
     /// </summary>
     public partial class MainWindow : Window
     {
-        public static MainWindow AppWindow;
         //Создаем необходимые переменные
-        int total, current;
-        string substring, query;
-        public List<pdfDescription> filesList = new List<pdfDescription>();
+        public static MainWindow AppWindow;
+        private int total, current;
+        private string substring, query;
+        private List<pdfDescription> filesList = new List<pdfDescription>();
+        public List<pdfDescription> FilesList
+        {
+            get
+            {
+                return filesList;
+            }
+            set
+            {
+                filesList = value;
+                //Очистим выпадающий список из уже существующих наименований во вкладке редактора
+                addPublNameCmbBox.Items.Clear();  
+
+                foreach (pdfDescription file in FilesList)
+                {
+                    //Заполним список наименований во вкладке редактора заново
+                    //Исключим повторяющиеся записи
+                    if (addPublNameCmbBox.Items.Contains(file.publication_name) == false)
+                    {
+                        addPublNameCmbBox.Items.Add(file.publication_name);
+                    }
+                }
+            }
+        }
 
         public MainWindow()
         {
