@@ -277,12 +277,24 @@ namespace BSACLibrary
             }
         }
 
-        //Метод для очистки выпадающего списка при изменении размера окна
-        private void Window_SizeChanged(object sender, EventArgs e)
+        private void newspappersNameListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //Избавимся от графических "артефактов"
-            searchListBox.Items.Clear();
-            searchListBox.Visibility = Visibility.Hidden;
+
+        }
+
+        private void newspappersYearListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void magazinesNameListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void magazinesYearListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
 
         //Источник: http://stackoverflow.com/questions/1268552/how-do-i-get-a-textbox-to-only-accept-numeric-input-in-wpf
