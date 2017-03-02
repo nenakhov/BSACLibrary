@@ -39,8 +39,8 @@ namespace BSACLibrary
                 magazinesNameListBox.Items.Clear();
                 newspappersNameListBox.Items.Clear();
 
-                magazinesNameListBox.Items.Add("<ВСЕ>");
-                newspappersNameListBox.Items.Add("<ВСЕ>");
+                magazinesNameListBox.Items.Add("<<<ВСЕ>>>");
+                newspappersNameListBox.Items.Add("<<<ВСЕ>>>");
 
                 //Cортировка всех названий по алфавиту
                 filesList = filesList.OrderBy(x => x.publication_name).ToList();
@@ -279,7 +279,33 @@ namespace BSACLibrary
 
         private void newspappersNameListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            newspappersYearListBox.Items.Clear();
+            newspappersYearListBox.Items.Add("<<<ВСЕ>>>");
+            //Cортировка по году выхода
+            List<pdfDescription> sortedDate = filesList.OrderBy(x => x.date.Year).ToList();
 
+            if (newspappersNameListBox.SelectedIndex == 0)
+            {
+                //ВСЕ
+                foreach (pdfDescription file in sortedDate)
+                {
+                    if (newspappersYearListBox.Items.Contains(file.date.Year) == false)
+                    {
+                        newspappersYearListBox.Items.Add(file.date.Year);
+                    }
+                }
+            }
+            else
+            {
+                //Выбранная газета
+                foreach (pdfDescription file in sortedDate)
+                {
+                    if (newspappersNameListBox.SelectedItem.ToString() == file.publication_name && newspappersYearListBox.Items.Contains(file.date.Year) == false)
+                    {
+                        newspappersYearListBox.Items.Add(file.date.Year);
+                    }
+                }
+            }
         }
 
         private void newspappersYearListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
