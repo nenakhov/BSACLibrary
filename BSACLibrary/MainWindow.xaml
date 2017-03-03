@@ -187,9 +187,9 @@
                     </ListBox>
                     <Border BorderBrush="Black" Margin="10,0,0,0" Padding="10" BorderThickness="1"
                             Grid.Column="3" CornerRadius="2">
-                        <Canvas Name="magazinesCanvas" Grid.Column="2">
+                        <WrapPanel Name="magazinesWrap" Grid.Column="2">
                             
-                        </Canvas>
+                        </WrapPanel>
                     </Border>
                 </Grid>
             </Border>
@@ -216,9 +216,9 @@
                     </ListBox>
                     <Border BorderBrush="Black" Margin="10,0,0,0" Padding="10" BorderThickness="1"
                             Grid.Column="3" CornerRadius="2">
-                        <Canvas Name="newspappersCanvas" Grid.Column="2">
+                        <WrapPanel Name="newspappersWrap" Grid.Column="2">
 
-                        </Canvas>
+                        </WrapPanel>
                     </Border>
                 </Grid>
             </Border>

@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -310,7 +311,23 @@ namespace BSACLibrary
 
         private void newspappersYearListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            List<pdfDescription> sortedNumber = filesList.OrderBy(x => x.issue_number).ToList();
+            //Все
+            if (newspappersYearListBox.SelectedIndex == 0)
+            {
+                foreach (pdfDescription file in sortedNumber)
+                {
+                    TextBlock t = new TextBlock();
+                    Run ln = new Run("mailto:nenakhov@in.mtis.by?subject=Картотека");
+                    Hyperlink hl = new Hyperlink(ln);
+                    t.Inlines.Add(new Hyperlink(ln));
+                    newspappersWrap.Children.Add(t);
+                }
+            }
+            else
+            {
 
+            }
         }
 
         private void magazinesNameListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
