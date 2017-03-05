@@ -3,6 +3,7 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -12,6 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Navigation;
 using System.Windows.Threading;
 
 namespace BSACLibrary
@@ -104,10 +106,7 @@ namespace BSACLibrary
         {
             try
             {
-                System.Diagnostics.Process proc = new System.Diagnostics.Process();
-                proc.StartInfo.FileName = AppDomain.CurrentDomain.BaseDirectory + "readme.pdf";
-                proc.StartInfo.UseShellExecute = true;
-                proc.Start();
+                OnNavigate(this, new RequestNavigateEventArgs(new Uri(AppDomain.CurrentDomain.BaseDirectory + "readme.pdf"), null));
             }
             catch (Exception ex)
             {
@@ -138,7 +137,7 @@ namespace BSACLibrary
         private void Window_Closed(object sender, EventArgs e)
         {
             //Закрываем программу
-            App.Current.Shutdown();
+            Application.Current.Shutdown();
         }
 
         private void addEntryBtn_Click(object sender, RoutedEventArgs e)
@@ -265,10 +264,7 @@ namespace BSACLibrary
                     //Приводим объект из списку к типу pdfDescription
                     pdfDescription selectedFile = searchListBox.Items[searchListBox.SelectedIndex] as pdfDescription;
                     //Откроем соответствующий файл
-                    System.Diagnostics.Process proc = new System.Diagnostics.Process();
-                    proc.StartInfo.FileName = selectedFile.file_path;
-                    proc.StartInfo.UseShellExecute = true;
-                    proc.Start();
+                    OnNavigate(this, new RequestNavigateEventArgs(new Uri(selectedFile.file_path), null));
                 }
                 catch(Exception ex)
                 {
@@ -278,8 +274,21 @@ namespace BSACLibrary
             }
         }
 
+        private void OnNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            //Откроем соответствующий файл
+            Process proc = new Process();
+            proc.StartInfo.FileName = e.Uri.AbsoluteUri;
+            proc.StartInfo.UseShellExecute = true;
+            proc.Start();
+
+            e.Handled = true;
+        }
+
         private void newspappersNameListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (newspappersNameListBox.SelectedIndex == -1) return;
+
             newspappersYearListBox.Items.Clear();
             newspappersYearListBox.Items.Add("<<<ВСЕ>>>");
             //Cортировка по году выхода
@@ -311,22 +320,40 @@ namespace BSACLibrary
 
         private void newspappersYearListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            List<pdfDescription> sortedNumber = filesList.OrderBy(x => x.issue_number).ToList();
+            if (newspappersNameListBox.SelectedIndex == -1 || newspappersYearListBox.SelectedIndex == -1) return;
+
+            newspappersWrap.Children.Clear();
+            List<pdfDescription> sortedByNameAndNumber = filesList.OrderBy(x => x.publication_name).ThenBy(x => x.issue_number).ToList();
             //Все
             if (newspappersYearListBox.SelectedIndex == 0)
             {
-                foreach (pdfDescription file in sortedNumber)
+                foreach (pdfDescription file in sortedByNameAndNumber)
                 {
-                    TextBlock t = new TextBlock();
-                    Run ln = new Run("mailto:nenakhov@in.mtis.by?subject=Картотека");
-                    Hyperlink hl = new Hyperlink(ln);
-                    t.Inlines.Add(new Hyperlink(ln));
-                    newspappersWrap.Children.Add(t);
+                    if (newspappersNameListBox.SelectedIndex != 0 && newspappersNameListBox.SelectedItem.ToString() != file.publication_name) continue;
+                    TextBlock newTextBlock = new TextBlock();
+                    Hyperlink newHyperLink = new Hyperlink();
+                    newHyperLink.Inlines.Add(file.publication_name + " №" + file.issue_number + ";   ");
+                    newHyperLink.NavigateUri = new Uri(file.file_path);
+                    newHyperLink.RequestNavigate += OnNavigate;
+                    newTextBlock.Inlines.Add(newHyperLink);
+                    newspappersWrap.Children.Add(newTextBlock);
                 }
             }
+            //Выбранный год
             else
             {
-
+                foreach (pdfDescription file in sortedByNameAndNumber)
+                {
+                    //Доработать
+                    if (newspappersYearListBox.SelectedItem.ToString() != file.date.Year.ToString()) continue;
+                    TextBlock newTextBlock = new TextBlock();
+                    Hyperlink newHyperLink = new Hyperlink();
+                    newHyperLink.Inlines.Add(file.publication_name + " №" + file.issue_number + ";   ");
+                    newHyperLink.NavigateUri = new Uri(file.file_path);
+                    newHyperLink.RequestNavigate += OnNavigate;
+                    newTextBlock.Inlines.Add(newHyperLink);
+                    newspappersWrap.Children.Add(newTextBlock);
+                }
             }
         }
 

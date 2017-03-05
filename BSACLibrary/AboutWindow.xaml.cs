@@ -15,7 +15,12 @@ namespace BSACLibrary
         }
         private void OnNavigate(object sender, RequestNavigateEventArgs e)
         {
-            Process.Start(e.Uri.AbsoluteUri);
+            //Запустим почтовый клиент
+            Process proc = new Process();
+            proc.StartInfo.FileName = e.Uri.AbsoluteUri;
+            proc.StartInfo.UseShellExecute = true;
+            proc.Start();
+
             e.Handled = true;
         }
     }

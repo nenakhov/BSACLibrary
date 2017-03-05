@@ -206,7 +206,7 @@
                         <ColumnDefinition Width="0.1*"/>
                         <ColumnDefinition Width="0.65*"/>
                     </Grid.ColumnDefinitions>
-                    <ListBox Name="newspappersNameListBox" Grid.Column="0" ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+                    <ListBox Name="newspappersNameListBox" Grid.Column="0" ScrollViewer.HorizontalScrollBarVisibility="Auto"
                             ScrollViewer.VerticalScrollBarVisibility="Visible" SelectionChanged="newspappersNameListBox_SelectionChanged">
                         <ListBoxItem>&lt;&lt;&lt;ВСЕ&gt;&gt;&gt;</ListBoxItem>
                     </ListBox>
