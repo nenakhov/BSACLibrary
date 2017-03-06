@@ -299,6 +299,7 @@ namespace BSACLibrary
                 //ВСЕ
                 foreach (pdfDescription file in sortedDate)
                 {
+                    if (file.is_magazine) continue;
                     if (newspappersYearListBox.Items.Contains(file.date.Year) == false)
                     {
                         newspappersYearListBox.Items.Add(file.date.Year);
@@ -310,6 +311,7 @@ namespace BSACLibrary
                 //Выбранная газета
                 foreach (pdfDescription file in sortedDate)
                 {
+                    if (file.is_magazine) continue;
                     if (newspappersNameListBox.SelectedItem.ToString() == file.publication_name && newspappersYearListBox.Items.Contains(file.date.Year) == false)
                     {
                         newspappersYearListBox.Items.Add(file.date.Year);
@@ -329,6 +331,7 @@ namespace BSACLibrary
             {
                 foreach (pdfDescription file in sortedByNameAndNumber)
                 {
+                    if (file.is_magazine) continue;
                     if (newspappersNameListBox.SelectedIndex != 0 && newspappersNameListBox.SelectedItem.ToString() != file.publication_name) continue;
                     TextBlock newTextBlock = new TextBlock();
                     Hyperlink newHyperLink = new Hyperlink();
@@ -344,7 +347,12 @@ namespace BSACLibrary
             {
                 foreach (pdfDescription file in sortedByNameAndNumber)
                 {
+                    if (file.is_magazine) continue;
                     //Доработать
+                    if (newspappersNameListBox.SelectedIndex != 0)
+                    {
+                        if (newspappersNameListBox.SelectedItem.ToString() != file.publication_name) continue;
+                    }
                     if (newspappersYearListBox.SelectedItem.ToString() != file.date.Year.ToString()) continue;
                     TextBlock newTextBlock = new TextBlock();
                     Hyperlink newHyperLink = new Hyperlink();
