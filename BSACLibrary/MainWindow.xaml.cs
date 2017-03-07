@@ -52,14 +52,9 @@ namespace BSACLibrary
                 npLabel.Content = null;
                 npWrapPanel.Children.Clear();
 
-                string allString = "<<<ВСЕ>>>";
                 //Добавим по одному элементу "ВСЕ" в каждый список
-                mzNameListBox.Items.Add(allString);
-                npNameListBox.Items.Add(allString);
-
-                mzYearListBox.Items.Add(allString);
-                npYearListBox.Items.Add(allString);
-
+                mzNameListBox.Items.Add("<<<ВСЕ>>>");
+                npNameListBox.Items.Add("<<<ВСЕ>>>");
                 //Выделим его по умолчанию
                 mzNameListBox.SelectedIndex = 0;
                 npNameListBox.SelectedIndex = 0;
