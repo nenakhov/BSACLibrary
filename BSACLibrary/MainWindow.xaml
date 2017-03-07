@@ -171,26 +171,31 @@
                 <Grid Margin="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="20"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.25*"/>
                         <ColumnDefinition Width="0.1*"/>
                         <ColumnDefinition Width="0.65*"/>
                     </Grid.ColumnDefinitions>
-                    <ListBox Name="mzNameListBox" Grid.Column="0" ScrollViewer.HorizontalScrollBarVisibility="Auto" 
-                            ScrollViewer.VerticalScrollBarVisibility="Visible" SelectionChanged="mzNameListBox_SelectionChanged">
-                        <ListBoxItem>&lt;&lt;&lt;ВСЕ&gt;&gt;&gt;</ListBoxItem>
+                    <ListBox Name="mzNameListBox" Grid.Column="0" ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                            ScrollViewer.VerticalScrollBarVisibility="Visible" Grid.RowSpan="2"
+                            SelectionChanged="mzNameListBox_SelectionChanged">
                     </ListBox>
                     <ListBox Name="mzYearListBox" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Auto" 
-                            ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="10,0,0,0" SelectionChanged="mzYearListBox_SelectionChanged">
-                        <ListBoxItem>&lt;&lt;&lt;ВСЕ&gt;&gt;&gt;</ListBoxItem>
+                            ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="10,0,0,0" 
+                            SelectionChanged="mzYearListBox_SelectionChanged"  Grid.RowSpan="2">
                     </ListBox>
                     <Border BorderBrush="Gray" Margin="10,0,0,0" Padding="10" BorderThickness="1"
                             Grid.Column="3" CornerRadius="2">
-                        <WrapPanel Name="magazinesWrap" Grid.Column="2">
-                            
-                        </WrapPanel>
+                        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                            <WrapPanel Name="mzWrapPanel" Grid.Column="2"/>
+                        </ScrollViewer>
                     </Border>
+                    <StackPanel Name="mzStackPanel" Grid.Row="2" Grid.Column="2">
+                        <Label Name="mzLabel" HorizontalAlignment="Left"
+                            VerticalAlignment="Center" Margin="5,0,0,0"/>
+                    </StackPanel>
                 </Grid>
             </Border>
         </Grid>
@@ -223,7 +228,7 @@
                     </Border>
                     <StackPanel Name="npStackPanel" Grid.Row="2" Grid.Column="2">
                         <Label Name="npLabel" HorizontalAlignment="Left"
-                            VerticalAlignment="Center" Margin="8,0,0,0"/>
+                            VerticalAlignment="Center" Margin="5,0,0,0"/>
                     </StackPanel>
                 </Grid>
             </Border>

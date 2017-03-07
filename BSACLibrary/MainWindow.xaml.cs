@@ -46,7 +46,7 @@ namespace BSACLibrary
                 npNameListBox.Items.Clear();
                 npYearListBox.Items.Clear();
 
-                npLabel.Content = ("");
+                npLabel.Content = null;
                 npWrapPanel.Children.Clear();
 
                 mzNameListBox.Items.Add("<<<ВСЕ>>>");
@@ -296,35 +296,33 @@ namespace BSACLibrary
 
         private void npNameListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //Не выбрано ниодного элемента в списке
             if (npNameListBox.SelectedIndex == -1) return;
-
+            //Очистим список годов выхода
             npYearListBox.Items.Clear();
             npYearListBox.Items.Add("<<<ВСЕ>>>");
             //Cортировка по году выхода
             List<pdfDescription> sortedDate = filesList.OrderBy(x => x.date.Year).ToList();
 
-            if (npNameListBox.SelectedIndex == 0)
+            foreach (pdfDescription file in sortedDate)
             {
-                //ВСЕ
-                foreach (pdfDescription file in sortedDate)
+                //Если является журналом перейдем к следующей итерации
+                if (file.is_magazine) continue;
+                //Если выбрали ВСЕ в названии издания
+                if (npNameListBox.SelectedIndex == 0 && 
+                    //Если этот год еще не добавили в список
+                    npYearListBox.Items.Contains(file.date.Year) == false)
                 {
-                    if (file.is_magazine) continue;
-                    if (npYearListBox.Items.Contains(file.date.Year) == false)
-                    {
-                        npYearListBox.Items.Add(file.date.Year);
-                    }
+                    //Добавим в список
+                    npYearListBox.Items.Add(file.date.Year);
                 }
-            }
-            else
-            {
-                //Выбранная газета
-                foreach (pdfDescription file in sortedDate)
+                //Если выбрана определенная газета
+                else if (npNameListBox.SelectedItem.ToString() == file.publication_name && 
+                    //И такой год еще не добавляли
+                    npYearListBox.Items.Contains(file.date.Year) == false)
                 {
-                    if (file.is_magazine) continue;
-                    if (npNameListBox.SelectedItem.ToString() == file.publication_name && npYearListBox.Items.Contains(file.date.Year) == false)
-                    {
-                        npYearListBox.Items.Add(file.date.Year);
-                    }
+                    //Добавим в список
+                    npYearListBox.Items.Add(file.date.Year);
                 }
             }
         }
@@ -353,9 +351,9 @@ namespace BSACLibrary
                 if (npYearListBox.SelectedIndex != 0 &&
                     npYearListBox.SelectedItem.ToString() != file.date.Year.ToString()) continue;
 
-                //Cформируемый текстовый блок с названием изданий и его номером
+                //Cформируемый текстовый блок с названием издания и его номером
                 TextBlock newTextBlock = new TextBlock();
-                string AddString = file.publication_name + " №" + file.issue_number + ";   ";
+                string AddString = file.publication_name + " №" + file.issue_number + ";    ";
                 //При наличии .pdf создаем гиперссылку на  файл
                 if (string.IsNullOrEmpty(file.file_path) == false)
                 {
@@ -368,6 +366,7 @@ namespace BSACLibrary
                 else newTextBlock.Inlines.Add(AddString);
                 //Заполним панель полученными гиперссылками
                 npWrapPanel.Children.Add(newTextBlock);
+                //Инкрементируем кол-во найденных записей
                 i++;
             }
             if (i > 0) npLabel.Content = ("Всего " + i + " номер(а, ов).");
@@ -376,12 +375,81 @@ namespace BSACLibrary
 
         private void mzNameListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //Не выбрано ниодного элемента в списке
+            if (mzNameListBox.SelectedIndex == -1) return;
+            //Очистим список годов выхода
+            mzYearListBox.Items.Clear();
+            mzYearListBox.Items.Add("<<<ВСЕ>>>");
+            //Cортировка по году выхода
+            List<pdfDescription> sortedDate = filesList.OrderBy(x => x.date.Year).ToList();
 
+            foreach (pdfDescription file in sortedDate)
+            {
+                //Если является не журналом перейдем к следующей итерации
+                if (file.is_magazine == false) continue;
+                //Если выбрали ВСЕ в названии издания
+                if (mzNameListBox.SelectedIndex == 0 &&
+                    //Если этот год еще не добавили в список
+                    mzYearListBox.Items.Contains(file.date.Year) == false)
+                {
+                    //Добавим в список
+                    mzYearListBox.Items.Add(file.date.Year);
+                }
+                //Если выбрана определенная газета
+                else if (mzNameListBox.SelectedItem.ToString() == file.publication_name &&
+                    //И такой год еще не добавляли
+                    mzYearListBox.Items.Contains(file.date.Year) == false)
+                {
+                    //Добавим в список
+                    mzYearListBox.Items.Add(file.date.Year);
+                }
+            }
         }
 
         private void mzYearListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //Не выбранно ниодного элемента в списке
+            if (mzNameListBox.SelectedIndex == -1 || mzYearListBox.SelectedIndex == -1) return;
+            //Очистим панель со списком газет.
+            mzWrapPanel.Children.Clear();
+            //Отсортируем список по имени и номеру
+            List<pdfDescription> sortedByNameAndNmb = filesList.OrderBy(x => x.publication_name).ThenBy(x => x.issue_number).ToList();
+            int i = 0;
 
+            foreach (pdfDescription file in sortedByNameAndNmb)
+            {
+                //Если не является журналом
+                if (file.is_magazine == false) continue;
+
+                //Если выбрано какое-то издание, не ВСЕ
+                if (mzNameListBox.SelectedIndex != 0 &&
+                    //И если выбранное издание != file.publication_name
+                    mzNameListBox.SelectedItem.ToString() != file.publication_name) continue;
+
+                //Или если выбранный год != file.date.Year пропустим текущую итерацию
+                if (mzYearListBox.SelectedIndex != 0 &&
+                    mzYearListBox.SelectedItem.ToString() != file.date.Year.ToString()) continue;
+
+                //Cформируемый текстовый блок с названием издания и его номером
+                TextBlock newTextBlock = new TextBlock();
+                string AddString = file.publication_name + " №" + file.issue_number + ";    ";
+                //При наличии .pdf создаем гиперссылку на  файл
+                if (string.IsNullOrEmpty(file.file_path) == false)
+                {
+                    Hyperlink newHyperLink = new Hyperlink();
+                    newHyperLink.Inlines.Add(AddString);
+                    newHyperLink.NavigateUri = new Uri(file.file_path);
+                    newHyperLink.RequestNavigate += OnNavigate;
+                    newTextBlock.Inlines.Add(newHyperLink);
+                }
+                else newTextBlock.Inlines.Add(AddString);
+                //Заполним панель полученными гиперссылками
+                mzWrapPanel.Children.Add(newTextBlock);
+                //Инкрементируем кол-во найденных записей
+                i++;
+            }
+            if (i > 0) mzLabel.Content = ("Всего " + i + " номер(а, ов).");
+            else mzLabel.Content = ("В базе данных отсутсвуют сведения.");
         }
 
         //Источник: http://stackoverflow.com/questions/1268552/how-do-i-get-a-textbox-to-only-accept-numeric-input-in-wpf
