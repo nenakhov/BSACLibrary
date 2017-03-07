@@ -56,12 +56,13 @@ namespace BSACLibrary
                 //Добавим по одному элементу "ВСЕ" в каждый список
                 mzNameListBox.Items.Add(allString);
                 npNameListBox.Items.Add(allString);
-                //Выделим его по умолчанию
-                mzNameListBox.SelectedIndex = 0;
-                npNameListBox.SelectedIndex = 0;
 
                 mzYearListBox.Items.Add(allString);
                 npYearListBox.Items.Add(allString);
+
+                //Выделим его по умолчанию
+                mzNameListBox.SelectedIndex = 0;
+                npNameListBox.SelectedIndex = 0;
 
                 //Cортировка всех названий по алфавиту
                 filesList = filesList.OrderBy(x => x.publication_name).ToList();
