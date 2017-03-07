@@ -39,13 +39,13 @@ namespace BSACLibrary
                 filesList = value;
                 //Очистим выпадающий список из уже существующих наименований во вкладке редактора
                 addPublNameCmbBox.Items.Clear();
-
+                //Очистим списки во вкладках газеты/журналы
                 mzNameListBox.Items.Clear();
                 mzYearListBox.Items.Clear();
 
                 npNameListBox.Items.Clear();
                 npYearListBox.Items.Clear();
-
+                //Обнулим строки результатов поиска
                 mzLabel.Content = null;
                 mzWrapPanel.Children.Clear();
 
@@ -53,10 +53,10 @@ namespace BSACLibrary
                 npWrapPanel.Children.Clear();
 
                 string allString = "<<<ВСЕ>>>";
-
+                //Добавим по одному элементу "ВСЕ" в каждый список
                 mzNameListBox.Items.Add(allString);
                 npNameListBox.Items.Add(allString);
-
+                //Выделим его по умолчанию
                 mzNameListBox.SelectedIndex = 0;
                 npNameListBox.SelectedIndex = 0;
 

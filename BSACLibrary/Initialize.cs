@@ -103,7 +103,6 @@ namespace BSACLibrary
                 {
                     MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                return;
             }
         }
     }
