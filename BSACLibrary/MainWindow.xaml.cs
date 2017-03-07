@@ -39,11 +39,20 @@ namespace BSACLibrary
                 filesList = value;
                 //Очистим выпадающий список из уже существующих наименований во вкладке редактора
                 addPublNameCmbBox.Items.Clear();
+
                 mzNameListBox.Items.Clear();
+                mzYearListBox.Items.Clear();
+
                 npNameListBox.Items.Clear();
+                npYearListBox.Items.Clear();
+
+                npLabel.Content = ("");
+                npWrapPanel.Children.Clear();
 
                 mzNameListBox.Items.Add("<<<ВСЕ>>>");
                 npNameListBox.Items.Add("<<<ВСЕ>>>");
+                mzYearListBox.Items.Add("<<<ВСЕ>>>");
+                npYearListBox.Items.Add("<<<ВСЕ>>>");
 
                 //Cортировка всех названий по алфавиту
                 filesList = filesList.OrderBy(x => x.publication_name).ToList();
@@ -57,14 +66,14 @@ namespace BSACLibrary
                         addPublNameCmbBox.Items.Add(file.publication_name);
                     }
                     //Заполним список изданий во вкладке ЖУРНАЛЫ
-                    if (mzNameListBox.Items.Contains(file.publication_name) == false && file.is_magazine)
+                    if (file.is_magazine)
                     {
-                        mzNameListBox.Items.Add(file.publication_name);
+                        if (mzNameListBox.Items.Contains(file.publication_name) == false) mzNameListBox.Items.Add(file.publication_name);
                     }
                     //Заполним список изданий во вкладке ГАЗЕТЫ
-                    else if (npNameListBox.Items.Contains(file.publication_name) == false && file.is_magazine == false)
+                    else
                     {
-                        npNameListBox.Items.Add(file.publication_name);
+                        if (npNameListBox.Items.Contains(file.publication_name) == false) npNameListBox.Items.Add(file.publication_name);
                     }
                 }
             }
@@ -322,48 +331,47 @@ namespace BSACLibrary
 
         private void npYearListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //Не выбранно ниодного элемента в списке
             if (npNameListBox.SelectedIndex == -1 || npYearListBox.SelectedIndex == -1) return;
+            //Очистим панель со списком газет.
+            npWrapPanel.Children.Clear();
+            //Отсортируем список по имени и номеру
+            List<pdfDescription> sortedByNameAndNmb = filesList.OrderBy(x => x.publication_name).ThenBy(x => x.issue_number).ToList();
+            int i = 0;
 
-            newspappersWrap.Children.Clear();
-            List<pdfDescription> sortedByNameAndNumber = filesList.OrderBy(x => x.publication_name).ThenBy(x => x.issue_number).ToList();
-            
-            //Все
-            if (npYearListBox.SelectedIndex == 0)
+            foreach (pdfDescription file in sortedByNameAndNmb)
             {
-                foreach (pdfDescription file in sortedByNameAndNumber)
+                //Если не является газетой
+                if (file.is_magazine) continue;
+
+                //Если выбрано какое-то издание, не ВСЕ
+                if (npNameListBox.SelectedIndex != 0 &&
+                    //И если выбранное издание != file.publication_name
+                    npNameListBox.SelectedItem.ToString() != file.publication_name) continue;
+
+                //Или если выбранный год != file.date.Year пропустим текущую итерацию
+                if (npYearListBox.SelectedIndex != 0 &&
+                    npYearListBox.SelectedItem.ToString() != file.date.Year.ToString()) continue;
+
+                //Cформируемый текстовый блок с названием изданий и его номером
+                TextBlock newTextBlock = new TextBlock();
+                string AddString = file.publication_name + " №" + file.issue_number + ";   ";
+                //При наличии .pdf создаем гиперссылку на  файл
+                if (string.IsNullOrEmpty(file.file_path) == false)
                 {
-                    if (file.is_magazine) continue;
-                    if (npNameListBox.SelectedIndex != 0 && npNameListBox.SelectedItem.ToString() != file.publication_name) continue;
-                    TextBlock newTextBlock = new TextBlock();
                     Hyperlink newHyperLink = new Hyperlink();
-                    newHyperLink.Inlines.Add(file.publication_name + " №" + file.issue_number + ";   ");
+                    newHyperLink.Inlines.Add(AddString);
                     newHyperLink.NavigateUri = new Uri(file.file_path);
                     newHyperLink.RequestNavigate += OnNavigate;
                     newTextBlock.Inlines.Add(newHyperLink);
-                    newspappersWrap.Children.Add(newTextBlock);
                 }
+                else newTextBlock.Inlines.Add(AddString);
+                //Заполним панель полученными гиперссылками
+                npWrapPanel.Children.Add(newTextBlock);
+                i++;
             }
-            //Выбранный год
-            else
-            {
-                foreach (pdfDescription file in sortedByNameAndNumber)
-                {
-                    if (file.is_magazine) continue;
-                    //Доработать
-                    if (npNameListBox.SelectedIndex != 0)
-                    {
-                        if (npNameListBox.SelectedItem.ToString() != file.publication_name) continue;
-                    }
-                    if (npYearListBox.SelectedItem.ToString() != file.date.Year.ToString()) continue;
-                    TextBlock newTextBlock = new TextBlock();
-                    Hyperlink newHyperLink = new Hyperlink();
-                    newHyperLink.Inlines.Add(file.publication_name + " №" + file.issue_number + ";   ");
-                    newHyperLink.NavigateUri = new Uri(file.file_path);
-                    newHyperLink.RequestNavigate += OnNavigate;
-                    newTextBlock.Inlines.Add(newHyperLink);
-                    newspappersWrap.Children.Add(newTextBlock);
-                }
-            }
+            if (i > 0) npLabel.Content = ("Всего " + i + " номер(а, ов).");
+            else npLabel.Content = ("В базе данных отсутсвуют сведения.");
         }
 
         private void mzNameListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
