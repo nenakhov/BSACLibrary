@@ -38,9 +38,9 @@ namespace BSACLibrary.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("3306")]
-        public string dbServerPort {
+        public int dbServerPort {
             get {
-                return ((string)(this["dbServerPort"]));
+                return ((int)(this["dbServerPort"]));
             }
             set {
                 this["dbServerPort"] = value;

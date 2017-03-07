@@ -37,30 +37,29 @@
                     </Grid.RowDefinitions>
                     <TextBlock Text="Настройки подключения к СУБД MySQL" Grid.Row="0" Grid.ColumnSpan="2" 
                             HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Label Name="lblIP" Content="Адрес сервера: " Grid.Row="1" Grid.Column="0" 
-                            HorizontalAlignment="Left"/>
+                    <Label Content="Адрес сервера: " Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"/>
                     <TextBox Name="txtBoxIP" Text="" Grid.Row="1" Grid.Column="1" 
                             HorizontalAlignment="Left" Width="150" Height="20" MaxLength="32"/>
-                    <Label Name="lblPort" Content="Порт: " Grid.Row="2" Grid.Column="0" 
+                    <Label Content="Порт: " Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left"/>
+                    <TextBox Name="txtBoxPort" Text="" Grid.Row="2" Grid.Column="1" Width="150" Height="20" MaxLength="32"
+                            ToolTip="Допускается ввод только цифр." PreviewTextInput="Numeric_PreviewTextInput"
                             HorizontalAlignment="Left"/>
-                    <TextBox Name="txtBoxPort" Text="" Grid.Row="2" Grid.Column="1" 
-                            HorizontalAlignment="Left" Width="150" Height="20" MaxLength="32"/>
-                    <Label Name="lblDBName" Content="Имя БД: " Grid.Row="3" Grid.Column="0" 
-                            HorizontalAlignment="Left"/>
-                    <TextBox Name="txtBoxDBName" Text="" Grid.Row="3" Grid.Column="1" Width="150" Height="20"
-                            PreviewTextInput="TextBox_PreviewTextInput" HorizontalAlignment="Left" MaxLength="32"/>
-                    <Label Name="lblDBTableName" Content="Имя таблицы: " Grid.Row="4" 
-                            Grid.Column="0" HorizontalAlignment="Left"/>
+                    <Label Content="Имя БД: " Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left"/>
+                    <TextBox Name="txtBoxDBName" Text="" Grid.Row="3" Grid.Column="1" Width="150" Height="20" 
+                            ToolTip="Допускается ввод символов латинского алфавита, цифр, а также знака нижнего подчеркивания."
+                            PreviewTextInput="AllowedInput_PreviewTextInput" HorizontalAlignment="Left" MaxLength="32"/>
+                    <Label Content="Имя таблицы: " Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left"/>
                     <TextBox Name="txtBoxDBTableName" Text="" Grid.Row="4" Grid.Column="1" Width="150" Height="20"
-                            PreviewTextInput="TextBox_PreviewTextInput" HorizontalAlignment="Left" MaxLength="32"/>
-                    <Label Name="lblUsr" Content="Логин: " Grid.Row="5" Grid.Column="0" 
-                            HorizontalAlignment="Left"/>
-                    <TextBox Name="txtBoxUsr" Text="" Grid.Row="5" Grid.Column="1" 
+                            ToolTip="Допускается ввод символов латинского алфавита, цифр, а также знака нижнего подчеркивания."
+                            PreviewTextInput="AllowedInput_PreviewTextInput" HorizontalAlignment="Left" MaxLength="32"/>
+                    <Label Content="Логин: " Grid.Row="5" Grid.Column="0" HorizontalAlignment="Left"/>
+                    <TextBox Name="txtBoxUsr" Text="" Grid.Row="5" Grid.Column="1" PreviewTextInput="AllowedInput_PreviewTextInput"
+                            ToolTip="Допускается ввод символов латинского алфавита, цифр, а также знака нижнего подчеркивания."
                             HorizontalAlignment="Left" Width="150" Height="20" MaxLength="32"/>
-                    <Label Name="lblPwd" Content="Пароль: " Grid.Row="6" Grid.Column="0" 
-                            HorizontalAlignment="Left"/>
+                    <Label Content="Пароль: " Grid.Row="6" Grid.Column="0" HorizontalAlignment="Left"/>
                     <!--Специальное поле пароля со скрытыми вводимыми символами-->
-                    <PasswordBox Name="pwdBoxPwd" Password="" Grid.Row="6" Grid.Column="1" 
+                    <PasswordBox Name="pwdBoxPwd" Password="" Grid.Row="6" Grid.Column="1" PreviewTextInput="AllowedInput_PreviewTextInput"
+                            ToolTip="Допускается ввод символов латинского алфавита, цифр, а также знака нижнего подчеркивания."
                             HorizontalAlignment="Left" Width="150" Height="20" MaxLength="32"/>
                     <Separator Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Width="440" 
                             HorizontalAlignment="Left" VerticalAlignment="Center"/>
