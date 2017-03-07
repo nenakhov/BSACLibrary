@@ -285,12 +285,18 @@ namespace BSACLibrary
 
         private void OnNavigate(object sender, RequestNavigateEventArgs e)
         {
-            //Откроем соответствующий файл
-            Process proc = new Process();
-            proc.StartInfo.FileName = e.Uri.AbsoluteUri;
-            proc.StartInfo.UseShellExecute = true;
-            proc.Start();
-
+            try
+            {
+                //Откроем соответствующий файл
+                Process proc = new Process();
+                proc.StartInfo.FileName = e.Uri.AbsoluteUri;
+                proc.StartInfo.UseShellExecute = true;
+                proc.Start();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             e.Handled = true;
         }
 

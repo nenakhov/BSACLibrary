@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Navigation;
 
@@ -15,12 +16,18 @@ namespace BSACLibrary
         }
         private void OnNavigate(object sender, RequestNavigateEventArgs e)
         {
-            //Запустим почтовый клиент
-            Process proc = new Process();
-            proc.StartInfo.FileName = e.Uri.AbsoluteUri;
-            proc.StartInfo.UseShellExecute = true;
-            proc.Start();
-
+            try
+            { 
+                //Запустим почтовый клиент
+                Process proc = new Process();
+                proc.StartInfo.FileName = e.Uri.AbsoluteUri;
+                proc.StartInfo.UseShellExecute = true;
+                proc.Start();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             e.Handled = true;
         }
     }
