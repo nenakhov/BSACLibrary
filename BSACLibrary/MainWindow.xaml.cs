@@ -39,11 +39,11 @@ namespace BSACLibrary
                 filesList = value;
                 //Очистим выпадающий список из уже существующих наименований во вкладке редактора
                 addPublNameCmbBox.Items.Clear();
-                magazinesNameListBox.Items.Clear();
-                newspappersNameListBox.Items.Clear();
+                mzNameListBox.Items.Clear();
+                npNameListBox.Items.Clear();
 
-                magazinesNameListBox.Items.Add("<<<ВСЕ>>>");
-                newspappersNameListBox.Items.Add("<<<ВСЕ>>>");
+                mzNameListBox.Items.Add("<<<ВСЕ>>>");
+                npNameListBox.Items.Add("<<<ВСЕ>>>");
 
                 //Cортировка всех названий по алфавиту
                 filesList = filesList.OrderBy(x => x.publication_name).ToList();
@@ -57,14 +57,14 @@ namespace BSACLibrary
                         addPublNameCmbBox.Items.Add(file.publication_name);
                     }
                     //Заполним список изданий во вкладке ЖУРНАЛЫ
-                    if (magazinesNameListBox.Items.Contains(file.publication_name) == false && file.is_magazine)
+                    if (mzNameListBox.Items.Contains(file.publication_name) == false && file.is_magazine)
                     {
-                        magazinesNameListBox.Items.Add(file.publication_name);
+                        mzNameListBox.Items.Add(file.publication_name);
                     }
                     //Заполним список изданий во вкладке ГАЗЕТЫ
-                    else if (newspappersNameListBox.Items.Contains(file.publication_name) == false && file.is_magazine == false)
+                    else if (npNameListBox.Items.Contains(file.publication_name) == false && file.is_magazine == false)
                     {
-                        newspappersNameListBox.Items.Add(file.publication_name);
+                        npNameListBox.Items.Add(file.publication_name);
                     }
                 }
             }
@@ -285,24 +285,24 @@ namespace BSACLibrary
             e.Handled = true;
         }
 
-        private void newspappersNameListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void npNameListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (newspappersNameListBox.SelectedIndex == -1) return;
+            if (npNameListBox.SelectedIndex == -1) return;
 
-            newspappersYearListBox.Items.Clear();
-            newspappersYearListBox.Items.Add("<<<ВСЕ>>>");
+            npYearListBox.Items.Clear();
+            npYearListBox.Items.Add("<<<ВСЕ>>>");
             //Cортировка по году выхода
             List<pdfDescription> sortedDate = filesList.OrderBy(x => x.date.Year).ToList();
 
-            if (newspappersNameListBox.SelectedIndex == 0)
+            if (npNameListBox.SelectedIndex == 0)
             {
                 //ВСЕ
                 foreach (pdfDescription file in sortedDate)
                 {
                     if (file.is_magazine) continue;
-                    if (newspappersYearListBox.Items.Contains(file.date.Year) == false)
+                    if (npYearListBox.Items.Contains(file.date.Year) == false)
                     {
-                        newspappersYearListBox.Items.Add(file.date.Year);
+                        npYearListBox.Items.Add(file.date.Year);
                     }
                 }
             }
@@ -312,27 +312,28 @@ namespace BSACLibrary
                 foreach (pdfDescription file in sortedDate)
                 {
                     if (file.is_magazine) continue;
-                    if (newspappersNameListBox.SelectedItem.ToString() == file.publication_name && newspappersYearListBox.Items.Contains(file.date.Year) == false)
+                    if (npNameListBox.SelectedItem.ToString() == file.publication_name && npYearListBox.Items.Contains(file.date.Year) == false)
                     {
-                        newspappersYearListBox.Items.Add(file.date.Year);
+                        npYearListBox.Items.Add(file.date.Year);
                     }
                 }
             }
         }
 
-        private void newspappersYearListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void npYearListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (newspappersNameListBox.SelectedIndex == -1 || newspappersYearListBox.SelectedIndex == -1) return;
+            if (npNameListBox.SelectedIndex == -1 || npYearListBox.SelectedIndex == -1) return;
 
             newspappersWrap.Children.Clear();
             List<pdfDescription> sortedByNameAndNumber = filesList.OrderBy(x => x.publication_name).ThenBy(x => x.issue_number).ToList();
+            
             //Все
-            if (newspappersYearListBox.SelectedIndex == 0)
+            if (npYearListBox.SelectedIndex == 0)
             {
                 foreach (pdfDescription file in sortedByNameAndNumber)
                 {
                     if (file.is_magazine) continue;
-                    if (newspappersNameListBox.SelectedIndex != 0 && newspappersNameListBox.SelectedItem.ToString() != file.publication_name) continue;
+                    if (npNameListBox.SelectedIndex != 0 && npNameListBox.SelectedItem.ToString() != file.publication_name) continue;
                     TextBlock newTextBlock = new TextBlock();
                     Hyperlink newHyperLink = new Hyperlink();
                     newHyperLink.Inlines.Add(file.publication_name + " №" + file.issue_number + ";   ");
@@ -349,11 +350,11 @@ namespace BSACLibrary
                 {
                     if (file.is_magazine) continue;
                     //Доработать
-                    if (newspappersNameListBox.SelectedIndex != 0)
+                    if (npNameListBox.SelectedIndex != 0)
                     {
-                        if (newspappersNameListBox.SelectedItem.ToString() != file.publication_name) continue;
+                        if (npNameListBox.SelectedItem.ToString() != file.publication_name) continue;
                     }
-                    if (newspappersYearListBox.SelectedItem.ToString() != file.date.Year.ToString()) continue;
+                    if (npYearListBox.SelectedItem.ToString() != file.date.Year.ToString()) continue;
                     TextBlock newTextBlock = new TextBlock();
                     Hyperlink newHyperLink = new Hyperlink();
                     newHyperLink.Inlines.Add(file.publication_name + " №" + file.issue_number + ";   ");
@@ -365,12 +366,12 @@ namespace BSACLibrary
             }
         }
 
-        private void magazinesNameListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void mzNameListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
 
-        private void magazinesYearListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void mzYearListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }

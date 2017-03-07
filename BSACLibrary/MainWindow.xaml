@@ -177,12 +177,12 @@
                         <ColumnDefinition Width="0.1*"/>
                         <ColumnDefinition Width="0.65*"/>
                     </Grid.ColumnDefinitions>
-                    <ListBox Name="magazinesNameListBox" Grid.Column="0" ScrollViewer.HorizontalScrollBarVisibility="Auto" 
-                            ScrollViewer.VerticalScrollBarVisibility="Visible" SelectionChanged="magazinesNameListBox_SelectionChanged">
+                    <ListBox Name="mzNameListBox" Grid.Column="0" ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+                            ScrollViewer.VerticalScrollBarVisibility="Visible" SelectionChanged="mzNameListBox_SelectionChanged">
                         <ListBoxItem>&lt;&lt;&lt;ВСЕ&gt;&gt;&gt;</ListBoxItem>
                     </ListBox>
-                    <ListBox Name="magazinesYearListBox" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Auto" 
-                            ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="10,0,0,0" SelectionChanged="magazinesYearListBox_SelectionChanged">
+                    <ListBox Name="mzYearListBox" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+                            ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="10,0,0,0" SelectionChanged="mzYearListBox_SelectionChanged">
                         <ListBoxItem>&lt;&lt;&lt;ВСЕ&gt;&gt;&gt;</ListBoxItem>
                     </ListBox>
                     <Border BorderBrush="Gray" Margin="10,0,0,0" Padding="10" BorderThickness="1"
@@ -206,12 +206,12 @@
                         <ColumnDefinition Width="0.1*"/>
                         <ColumnDefinition Width="0.65*"/>
                     </Grid.ColumnDefinitions>
-                    <ListBox Name="newspappersNameListBox" Grid.Column="0" ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                            ScrollViewer.VerticalScrollBarVisibility="Visible" SelectionChanged="newspappersNameListBox_SelectionChanged">
+                    <ListBox Name="npNameListBox" Grid.Column="0" ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                            ScrollViewer.VerticalScrollBarVisibility="Visible" SelectionChanged="npNameListBox_SelectionChanged">
                         <ListBoxItem>&lt;&lt;&lt;ВСЕ&gt;&gt;&gt;</ListBoxItem>
                     </ListBox>
-                    <ListBox Name="newspappersYearListBox" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Auto" 
-                            ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="10,0,0,0" SelectionChanged="newspappersYearListBox_SelectionChanged">
+                    <ListBox Name="npYearListBox" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+                            ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="10,0,0,0" SelectionChanged="npYearListBox_SelectionChanged">
                         <ListBoxItem>&lt;&lt;&lt;ВСЕ&gt;&gt;&gt;</ListBoxItem>
                     </ListBox>
                     <Border BorderBrush="Gray" Margin="10,0,0,0" Padding="10" BorderThickness="1"
