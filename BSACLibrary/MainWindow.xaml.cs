@@ -46,13 +46,22 @@ namespace BSACLibrary
                 npNameListBox.Items.Clear();
                 npYearListBox.Items.Clear();
 
+                mzLabel.Content = null;
+                mzWrapPanel.Children.Clear();
+
                 npLabel.Content = null;
                 npWrapPanel.Children.Clear();
 
-                mzNameListBox.Items.Add("<<<ВСЕ>>>");
-                npNameListBox.Items.Add("<<<ВСЕ>>>");
-                mzYearListBox.Items.Add("<<<ВСЕ>>>");
-                npYearListBox.Items.Add("<<<ВСЕ>>>");
+                string allString = "<<<ВСЕ>>>";
+
+                mzNameListBox.Items.Add(allString);
+                npNameListBox.Items.Add(allString);
+
+                mzNameListBox.SelectedIndex = 0;
+                npNameListBox.SelectedIndex = 0;
+
+                mzYearListBox.Items.Add(allString);
+                npYearListBox.Items.Add(allString);
 
                 //Cортировка всех названий по алфавиту
                 filesList = filesList.OrderBy(x => x.publication_name).ToList();
