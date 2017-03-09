@@ -363,26 +363,8 @@ namespace BSACLibrary
                 //Или если выбранный год != file.date.Year пропустим текущую итерацию
                 if (npYearListBox.SelectedIndex != 0 &&
                     npYearListBox.SelectedItem.ToString() != file.date.Year.ToString()) continue;
-
-                //Cформируемый текстовый блок с названием издания и его номером
-                TextBlock newTextBlock = new TextBlock();
-                string AddString = file.publication_name + " №" + file.issue_number + ";    ";
-                //При наличии .pdf создаем гиперссылку на  файл
-                if (string.IsNullOrEmpty(file.file_path) == false)
-                {
-                    Hyperlink newHyperLink = new Hyperlink();
-                    newHyperLink.Inlines.Add(AddString);
-                    newHyperLink.NavigateUri = new Uri(file.file_path);
-                    newHyperLink.RequestNavigate += OnNavigate;
-                    newTextBlock.Inlines.Add(newHyperLink);
-                }
-                else
-                {
-                    newTextBlock.ToolTip = "Нет цифровой копии";
-                    newTextBlock.Inlines.Add(AddString);
-                }
                 //Заполним панель полученными гиперссылками
-                npWrapPanel.Children.Add(newTextBlock);
+                npWrapPanel.Children.Add(AddTextBlock(file.publication_name, file.file_path, file.issue_number));
                 //Инкрементируем кол-во найденных записей
                 i++;
             }
@@ -448,31 +430,37 @@ namespace BSACLibrary
                 //Или если выбранный год != file.date.Year пропустим текущую итерацию
                 if (mzYearListBox.SelectedIndex != 0 &&
                     mzYearListBox.SelectedItem.ToString() != file.date.Year.ToString()) continue;
-
-                //Cформируемый текстовый блок с названием издания и его номером
-                TextBlock newTextBlock = new TextBlock();
-                string AddString = file.publication_name + " №" + file.issue_number + ";    ";
-                //При наличии .pdf создаем гиперссылку на  файл
-                if (string.IsNullOrEmpty(file.file_path) == false)
-                {
-                    Hyperlink newHyperLink = new Hyperlink();
-                    newHyperLink.Inlines.Add(AddString);
-                    newHyperLink.NavigateUri = new Uri(file.file_path);
-                    newHyperLink.RequestNavigate += OnNavigate;
-                    newTextBlock.Inlines.Add(newHyperLink);
-                }
-                else
-                {
-                    newTextBlock.ToolTip = "Нет цифровой копии";
-                    newTextBlock.Inlines.Add(AddString);
-                }
                 //Заполним панель полученными гиперссылками
-                mzWrapPanel.Children.Add(newTextBlock);
+                mzWrapPanel.Children.Add(AddTextBlock(file.publication_name, file.file_path, file.issue_number));
                 //Инкрементируем кол-во найденных записей
                 i++;
             }
             if (i > 0) mzLabel.Content = ("Всего " + i + " номер(а, ов).");
             else mzLabel.Content = ("В базе данных отсутсвуют сведения.");
+        }
+
+        //Метод формирующий текстовые блоки с названием и номером издания
+        private TextBlock AddTextBlock(string publication_name, string file_path, int issue_number)
+        {
+            //Cформируемый текстовый блок с названием издания и его номером
+            TextBlock newTextBlock = new TextBlock();
+            string AddString = publication_name + " №" + issue_number + ";    ";
+            //При наличии .pdf создаем гиперссылку на  файл
+            if (string.IsNullOrEmpty(file_path) == false)
+            {
+                Hyperlink newHyperLink = new Hyperlink();
+                newHyperLink.Inlines.Add(AddString);
+                newHyperLink.NavigateUri = new Uri(file_path);
+                newHyperLink.RequestNavigate += OnNavigate;
+                newTextBlock.Inlines.Add(newHyperLink);
+            }
+            else
+            {
+                //Если к файлу не указан путь => соответственно он не был оцифрован
+                newTextBlock.ToolTip = "Нет цифровой копии";
+                newTextBlock.Inlines.Add(AddString);
+            }
+            return newTextBlock;
         }
 
         //Источник: http://stackoverflow.com/questions/1268552/how-do-i-get-a-textbox-to-only-accept-numeric-input-in-wpf

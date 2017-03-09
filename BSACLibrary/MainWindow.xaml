@@ -296,7 +296,8 @@
                             Padding="3" Grid.Row="4" Grid.Column="5"  HorizontalAlignment="Left"/>
                     <Button Name="editOpenFileBtn" Height="25" Width="60" Grid.Row="4" Content="Открыть" Grid.Column="5" 
                             HorizontalAlignment="Right" Click="editOpenFileBtn_Click"/>
-                    <Label Content="ID:" Grid.Row="0" Grid.Column="6" HorizontalAlignment="Left" Margin="72,0,0,0"/>
+                    <Label Content="ID:" Grid.Row="0" Grid.Column="6" HorizontalAlignment="Left" 
+                           Margin="72,0,0,0" VerticalAlignment="Center"/>
                     <TextBox  Name="editIdTxtBox" IsEnabled="False" MinWidth="40" Width="Auto" Height="25" Padding="3" 
                             Grid.Row="0" Grid.Column="6" Margin="102,0,0,0" HorizontalAlignment="Left"/>
                     <Button Name="editEntryBtn" Grid.Column="6" Grid.Row="3" Width="120" Height="24" HorizontalAlignment="Right" 
