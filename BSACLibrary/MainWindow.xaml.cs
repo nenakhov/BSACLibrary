@@ -352,12 +352,12 @@ namespace BSACLibrary
 
             foreach (pdfDescription file in sortedByNameAndNmb)
             {
-                //Если не является газетой
+                //Если не является газетой пропустим текущую итерацию
                 if (file.is_magazine) continue;
 
                 //Если выбрано какое-то издание, не ВСЕ
                 if (npNameListBox.SelectedIndex != 0 &&
-                    //И если выбранное издание != file.publication_name
+                    //И если выбранное издание != file.publication_name пропустим текущую итерацию
                     npNameListBox.SelectedItem.ToString() != file.publication_name) continue;
 
                 //Или если выбранный год != file.date.Year пропустим текущую итерацию
@@ -419,12 +419,12 @@ namespace BSACLibrary
 
             foreach (pdfDescription file in sortedByNameAndNmb)
             {
-                //Если не является журналом
+                //Если не является журналом пропустим текущую итерацию
                 if (file.is_magazine == false) continue;
 
                 //Если выбрано какое-то издание, не ВСЕ
                 if (mzNameListBox.SelectedIndex != 0 &&
-                    //И если выбранное издание != file.publication_name
+                    //И если выбранное издание != file.publication_name пропустим текущую итерацию
                     mzNameListBox.SelectedItem.ToString() != file.publication_name) continue;
 
                 //Или если выбранный год != file.date.Year пропустим текущую итерацию
@@ -497,7 +497,6 @@ namespace BSACLibrary
                 gifAnim.Visibility = Visibility.Visible;
                 try
                 {   
-                    //Очистим коллекцию с путями к найденным файлам
                     //Задаем начальное значение переменных, поисковый запрос переведем в нижний регистр букв
                     total = filesList.Count();
                     substring = tBoxInput.Text.ToLower();
@@ -510,8 +509,9 @@ namespace BSACLibrary
                             //Если в БД путь к файлу не задан пропустим его и перейдем к следующему
                             if (string.IsNullOrEmpty(file.file_path))
                             {
-                                //Инкрементируем переменную отвечающую за количество пройденных файлом
+                                //Инкрементируем переменную отвечающую за количество уже просмотренных файлов
                                 Interlocked.Increment(ref current);
+                                //return = continue в случае с Parallel.ForEach
                                 return;
                             }
                             //Поиск строки запроса в pdf файле
@@ -522,10 +522,10 @@ namespace BSACLibrary
                                 Dispatcher.BeginInvoke(DispatcherPriority.Normal,
                                     (ThreadStart)delegate ()
                                     {
-                                        //Делаем выпадающий список видимым
+                                        //Откроем выпадающий список
                                         searchListBox.Visibility = Visibility.Visible;
-                                        ////Добавляем найденный файл в результаты поиска
-                                        ////Его название и часть текста, начинающегося с поискового запроса
+                                        //Добавим в результаты поиска название издания
+                                        //И часть текста, начинающегося с поискового запроса
                                         searchListBox.Items.Add(file);
                                     });
                             }
