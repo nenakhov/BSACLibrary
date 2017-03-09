@@ -376,7 +376,11 @@ namespace BSACLibrary
                     newHyperLink.RequestNavigate += OnNavigate;
                     newTextBlock.Inlines.Add(newHyperLink);
                 }
-                else newTextBlock.Inlines.Add(AddString);
+                else
+                {
+                    newTextBlock.ToolTip = "Нет цифровой копии";
+                    newTextBlock.Inlines.Add(AddString);
+                }
                 //Заполним панель полученными гиперссылками
                 npWrapPanel.Children.Add(newTextBlock);
                 //Инкрементируем кол-во найденных записей
@@ -457,7 +461,11 @@ namespace BSACLibrary
                     newHyperLink.RequestNavigate += OnNavigate;
                     newTextBlock.Inlines.Add(newHyperLink);
                 }
-                else newTextBlock.Inlines.Add(AddString);
+                else
+                {
+                    newTextBlock.ToolTip = "Нет цифровой копии";
+                    newTextBlock.Inlines.Add(AddString);
+                }
                 //Заполним панель полученными гиперссылками
                 mzWrapPanel.Children.Add(newTextBlock);
                 //Инкрементируем кол-во найденных записей
