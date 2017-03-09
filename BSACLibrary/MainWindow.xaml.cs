@@ -336,6 +336,8 @@ namespace BSACLibrary
                     npYearListBox.Items.Add(file.date.Year);
                 }
             }
+            //Выбираем ВСЕ в списке по умолчанию
+            npYearListBox.SelectedIndex = 0;
         }
 
         private void npYearListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -415,6 +417,8 @@ namespace BSACLibrary
                     mzYearListBox.Items.Add(file.date.Year);
                 }
             }
+            //Выбираем ВСЕ в списке по умолчанию
+            mzYearListBox.SelectedIndex = 0;
         }
 
         private void mzYearListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
