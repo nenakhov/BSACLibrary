@@ -112,13 +112,6 @@
                 </Style>
             </Menu.Resources>
             <MenuItem Header="_Файл">
-                <MenuItem Header="_Новый">
-                    <MenuItem.Icon>
-                        <Image Source="Resources/new.png"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-                <!--Добавляем вертикальную полосу-->
-                <Separator></Separator>
                 <MenuItem Header="_Выход" Click="Window_Closed">
                     <MenuItem.Icon>
                         <Image Source="Resources/login.png"/>
