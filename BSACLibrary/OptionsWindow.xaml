@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:BSACLibrary"
         mc:Ignorable="d"
         Title="Параметры" Width="720" Height="480" Background="WhiteSmoke" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
         Icon="favicons.ico" ShowInTaskbar="False">
@@ -38,39 +37,39 @@
                     <TextBlock Text="Настройки подключения к СУБД MySQL" Grid.Row="0" Grid.ColumnSpan="2" 
                             HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     <Label Content="Адрес сервера: " Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"/>
-                    <TextBox Name="txtBoxIP" Text="" Grid.Row="1" Grid.Column="1" 
+                    <TextBox Name="TxtBoxIp" Text="" Grid.Row="1" Grid.Column="1" 
                             HorizontalAlignment="Left" Width="150" Height="20" MaxLength="32"/>
                     <Label Content="Порт: " Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left"/>
-                    <TextBox Name="txtBoxPort" Text="" Grid.Row="2" Grid.Column="1" Width="150" Height="20" MaxLength="32"
+                    <TextBox Name="TxtBoxPort" Text="" Grid.Row="2" Grid.Column="1" Width="150" Height="20" MaxLength="32"
                             ToolTip="Допускается ввод только цифр." PreviewTextInput="Numeric_PreviewTextInput"
                             HorizontalAlignment="Left"/>
                     <Label Content="Имя БД: " Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left"/>
-                    <TextBox Name="txtBoxDBName" Text="" Grid.Row="3" Grid.Column="1" Width="150" Height="20" 
+                    <TextBox Name="TxtBoxDbName" Text="" Grid.Row="3" Grid.Column="1" Width="150" Height="20" 
                             ToolTip="Допускается ввод символов латинского алфавита, цифр, а также знака нижнего подчеркивания."
                             PreviewTextInput="AllowedInput_PreviewTextInput" HorizontalAlignment="Left" MaxLength="32"/>
                     <Label Content="Имя таблицы: " Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left"/>
-                    <TextBox Name="txtBoxDBTableName" Text="" Grid.Row="4" Grid.Column="1" Width="150" Height="20"
+                    <TextBox Name="TxtBoxDbTableName" Text="" Grid.Row="4" Grid.Column="1" Width="150" Height="20"
                             ToolTip="Допускается ввод символов латинского алфавита, цифр, а также знака нижнего подчеркивания."
                             PreviewTextInput="AllowedInput_PreviewTextInput" HorizontalAlignment="Left" MaxLength="32"/>
                     <Label Content="Логин: " Grid.Row="5" Grid.Column="0" HorizontalAlignment="Left"/>
-                    <TextBox Name="txtBoxUsr" Text="" Grid.Row="5" Grid.Column="1" PreviewTextInput="AllowedInput_PreviewTextInput"
+                    <TextBox Name="TxtBoxUsr" Text="" Grid.Row="5" Grid.Column="1" PreviewTextInput="AllowedInput_PreviewTextInput"
                             ToolTip="Допускается ввод символов латинского алфавита, цифр, а также знака нижнего подчеркивания."
                             HorizontalAlignment="Left" Width="150" Height="20" MaxLength="32"/>
                     <Label Content="Пароль: " Grid.Row="6" Grid.Column="0" HorizontalAlignment="Left"/>
                     <!--Специальное поле пароля со скрытыми вводимыми символами-->
-                    <PasswordBox Name="pwdBoxPwd" Password="" Grid.Row="6" Grid.Column="1" PreviewTextInput="AllowedInput_PreviewTextInput"
+                    <PasswordBox Name="PwdBoxPwd" Password="" Grid.Row="6" Grid.Column="1" PreviewTextInput="AllowedInput_PreviewTextInput"
                             ToolTip="Допускается ввод символов латинского алфавита, цифр, а также знака нижнего подчеркивания."
                             HorizontalAlignment="Left" Width="150" Height="20" MaxLength="32"/>
                     <Separator Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Width="440" 
                             HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <CheckBox Name="chkBoxAdm" Content="Режим администратора" Margin="4,0,0,0" 
+                    <CheckBox Name="ChkBoxAdm" Content="Режим администратора" Margin="4,0,0,0" 
                             HorizontalAlignment="Left" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2"/>
                 </Grid>
             </TabItem>
         </TabControl>
-        <Button Name="CancelBt" Content="Отмена" Grid.Column="1" Height="24" Width="80" Margin="0,0,25,10" 
+        <Button Content="Отмена" Grid.Column="1" Height="24" Width="80" Margin="0,0,25,10" 
                 VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="CancelBt_Click" IsCancel="True"/>
-        <Button Name="OkBt" Content="Сохранить" Grid.Column="1" Height="24" Width="80" Margin="0,0,115,10" 
+        <Button Content="Сохранить" Grid.Column="1" Height="24" Width="80" Margin="0,0,115,10" 
                 VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="OkBt_Click" IsDefault="True"/>
     </Grid>
 </Window>

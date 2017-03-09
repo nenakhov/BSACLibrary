@@ -11,19 +11,19 @@
         Icon="favicons.ico" Closed="Window_Closed" PreviewMouseUp="Window_PreviewMouseUp">
     
     <Window.Resources>
-        <DataTemplate DataType="{x:Type local:pdfDescription}">
+        <DataTemplate DataType="{x:Type local:PdfDescription}">
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding publication_name}"/>
+                    <TextBlock Text="{Binding PublicationName}"/>
                     <TextBlock Text=", №"/>
-                    <TextBlock Text="{Binding issue_number}"/>
+                    <TextBlock Text="{Binding IssueNumber}"/>
                 </StackPanel>
-                <TextBlock TextWrapping="Wrap" Foreground="Gray" FontSize="12" Text="{Binding founded_text}"
+                <TextBlock TextWrapping="Wrap" Foreground="Gray" FontSize="12" Text="{Binding FoundedText}"
                         MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}}"/>
             </StackPanel>
         </DataTemplate>
         <local:BoolToStringConverter x:Key="BooleanToStringConverter" FalseValue="Газета" TrueValue="Журнал"/>
-        <BooleanToVisibilityConverter x:Key="b2v"/>
+        <BooleanToVisibilityConverter x:Key="B2V"/>
 
         <Style x:Key="RadioLeftCorner" TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type RadioButton}}">
             <Setter Property="Template">
@@ -104,7 +104,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Menu Name="menu" Background="WhiteSmoke" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0" Margin="-10,0,-10,0">
+        <Menu Background="WhiteSmoke" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0" Margin="-10,0,-10,0">
             <Menu.Resources>
                 <Style TargetType="Image">
                     <Setter Property="Height" Value="16"/>
@@ -140,16 +140,16 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <TextBox Name="tBoxInput" Padding="2" Grid.Column="0" Grid.ColumnSpan="6" MaxLength="128"
-                Grid.Row="2" FontSize="14" Foreground="Gray" PreviewKeyDown="tBoxInput_PreviewKeyDown"
+        <TextBox Name="SrchTxtBox" Padding="2" Grid.Column="0" Grid.ColumnSpan="6" MaxLength="128"
+                Grid.Row="2" FontSize="14" Foreground="Gray" PreviewKeyDown="SrchTxtBox_PreviewKeyDown"
                 Text="Поиск информации по ключевому слову или фразе. Например, &quot;802.11ac&quot;"
-                PreviewMouseLeftButtonUp="tBoxInput_PreviewMouseLeftButtonUp"/>
+                PreviewMouseLeftButtonUp="SrchTxtBox_PreviewMouseLeftButtonUp"/>
 
-        <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" Name="searchListBox" Grid.Column="0" Grid.ColumnSpan="6"
+        <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" Name="SearchListBox" Grid.Column="0" Grid.ColumnSpan="6"
                  Grid.Row="3" Grid.RowSpan="4" Panel.ZIndex="5" VerticalAlignment="Top" MaxHeight="240" Visibility="Hidden"
-                 MouseLeave="searchListBox_MouseLeave" FontSize="14" PreviewMouseLeftButtonUp="searchListBox_PreviewMouseLeftButtonUp"/>
+                 MouseLeave="searchListBox_MouseLeave" FontSize="14" PreviewMouseLeftButtonUp="SearchListBox_PreviewMouseLeftButtonUp"/>
 
-        <Image Name="gifAnim" Margin="0,0,2,0" Grid.Column="6" Grid.Row="2"
+        <Image Name="GifAnim" Margin="0,0,2,0" Grid.Column="5" Grid.Row="2"
                 gif:ImageBehavior.AnimatedSource="Resources/searching.gif" Width="22"
                 HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Hidden"/>
         <RadioButton Height="40" Name="MagazinesBtn" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" IsChecked="True"
@@ -158,7 +158,7 @@
                 VerticalAlignment="Center" Content="ГАЗЕТЫ" Style="{DynamicResource RadioNormalCorner}"/>
         <RadioButton Height="40" Name="EditBtn" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2"
                 VerticalAlignment="Center" Content="РЕДАКТОР" Style="{DynamicResource RadioRightCorner}"/>
-        <Grid Visibility="{Binding IsChecked,ElementName=MagazinesBtn,Converter={StaticResource b2v}}"
+        <Grid Visibility="{Binding IsChecked,ElementName=MagazinesBtn,Converter={StaticResource B2V}}"
                 Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6">
             <Border Background="White" BorderThickness="1" BorderBrush="Gainsboro" CornerRadius="4">
                 <Grid Margin="10">
@@ -171,28 +171,28 @@
                         <ColumnDefinition Width="0.1*"/>
                         <ColumnDefinition Width="0.65*"/>
                     </Grid.ColumnDefinitions>
-                    <ListBox Name="mzNameListBox" Grid.Column="0" ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                    <ListBox Name="MzNameListBox" Grid.Column="0" ScrollViewer.HorizontalScrollBarVisibility="Auto"
                             ScrollViewer.VerticalScrollBarVisibility="Visible" Grid.RowSpan="2"
-                            SelectionChanged="mzNameListBox_SelectionChanged">
+                            SelectionChanged="MzNameListBox_SelectionChanged">
                     </ListBox>
-                    <ListBox Name="mzYearListBox" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+                    <ListBox Name="MzYearListBox" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Auto" 
                             ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="10,0,0,0" 
-                            SelectionChanged="mzYearListBox_SelectionChanged"  Grid.RowSpan="2">
+                            SelectionChanged="MzYearListBox_SelectionChanged" Grid.Row="0" Grid.RowSpan="2">
                     </ListBox>
                     <Border BorderBrush="Gray" Margin="10,0,0,0" Padding="10" BorderThickness="1"
-                            Grid.Column="3" CornerRadius="2">
+                            Grid.Row="0" Grid.Column="2" CornerRadius="2">
                         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                            <WrapPanel Name="mzWrapPanel" Grid.Column="2"/>
+                            <WrapPanel Name="MzWrapPanel" />
                         </ScrollViewer>
                     </Border>
-                    <StackPanel Name="mzStackPanel" Grid.Row="2" Grid.Column="2">
-                        <Label Name="mzLabel" HorizontalAlignment="Left"
+                    <StackPanel Grid.Row="1" Grid.Column="2">
+                        <Label Name="MzLabel" HorizontalAlignment="Left"
                             VerticalAlignment="Center" Margin="5,0,0,0"/>
                     </StackPanel>
                 </Grid>
             </Border>
         </Grid>
-        <Grid Visibility="{Binding IsChecked,ElementName=NewspapersBtn,Converter={StaticResource b2v}}" 
+        <Grid Visibility="{Binding IsChecked,ElementName=NewspapersBtn,Converter={StaticResource B2V}}" 
                 Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6">
             <Border Background="White" BorderThickness="1" BorderBrush="Gainsboro" CornerRadius="4">
                 <Grid Margin="10">
@@ -205,28 +205,28 @@
                         <ColumnDefinition Width="0.1*"/>
                         <ColumnDefinition Width="0.65*"/>
                     </Grid.ColumnDefinitions>
-                    <ListBox Name="npNameListBox" Grid.Column="0" ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                    <ListBox Name="NpNameListBox" Grid.Column="0" ScrollViewer.HorizontalScrollBarVisibility="Auto"
                             ScrollViewer.VerticalScrollBarVisibility="Visible" Grid.RowSpan="2"
-                            SelectionChanged="npNameListBox_SelectionChanged">
+                            SelectionChanged="NpNameListBox_SelectionChanged">
                     </ListBox>
-                    <ListBox Name="npYearListBox" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+                    <ListBox Name="NpYearListBox" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Auto" 
                             ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="10,0,0,0" 
-                            SelectionChanged="npYearListBox_SelectionChanged"  Grid.RowSpan="2">
+                            SelectionChanged="NpYearListBox_SelectionChanged" Grid.Row="0" Grid.RowSpan="2">
                     </ListBox>
                     <Border BorderBrush="Gray" Margin="10,0,0,0" Padding="10" BorderThickness="1"
-                            Grid.Column="3" CornerRadius="2">
+                            Grid.Row="0" Grid.Column="2" CornerRadius="2">
                         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                            <WrapPanel Name="npWrapPanel" Grid.Column="2"/>
+                            <WrapPanel Name="NpWrapPanel"/>
                         </ScrollViewer>
                     </Border>
-                    <StackPanel Name="npStackPanel" Grid.Row="2" Grid.Column="2">
-                        <Label Name="npLabel" HorizontalAlignment="Left"
+                    <StackPanel Grid.Row="1" Grid.Column="2">
+                        <Label Name="NpLabel" HorizontalAlignment="Left"
                             VerticalAlignment="Center" Margin="5,0,0,0"/>
                     </StackPanel>
                 </Grid>
             </Border>
         </Grid>
-        <Grid Visibility="{Binding IsChecked,ElementName=EditBtn,Converter={StaticResource b2v}}" 
+        <Grid Visibility="{Binding IsChecked,ElementName=EditBtn,Converter={StaticResource B2V}}" 
                 Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6">
             <Border Background="White" BorderThickness="1" BorderBrush="Gainsboro" CornerRadius="4">
                 <Grid Margin="10">
@@ -255,27 +255,27 @@
                     <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center">Дата выхода:</Label>
                     <Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center">Номер:</Label>
                     <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center">Расположение файла:</Label>
-                    <ComboBox Name="addPublNameCmbBox"  Width="270" Height="25" Padding="3" Grid.Row="0" Grid.Column="1" IsEditable="True">
+                    <ComboBox Name="AddPublNameCmbBox"  Width="270" Height="25" Padding="3" Grid.Row="0" Grid.Column="1" IsEditable="True">
                         <ComboBox.Resources>
                             <Style TargetType="{x:Type TextBox}">
                                 <Setter Property="MaxLength" Value="255"/>
                             </Style>
                         </ComboBox.Resources>
                     </ComboBox>
-                    <RadioButton Name="addRadioBtnMagaz" GroupName="add" Grid.Row="1" Grid.Column="1" IsChecked="True" 
+                    <RadioButton Name="AddRadioBtnMagaz" GroupName="add" Grid.Row="1" Grid.Column="1" IsChecked="True" 
                             VerticalAlignment="Top">Журнал</RadioButton>
-                    <RadioButton Name="addRadioBtnNewsp" GroupName="add" Grid.Row="1" Grid.Column="1" 
+                    <RadioButton GroupName="add" Grid.Row="1" Grid.Column="1" 
                             Margin="0,17,0,0">Газета</RadioButton>
-                    <DatePicker Name="addDatePicker"  Width="270" Height="25" Grid.Row="2" Grid.Column="1" Padding="2" 
+                    <DatePicker Name="AddDatePicker"  Width="270" Height="25" Grid.Row="2" Grid.Column="1" Padding="2" 
                             FirstDayOfWeek="Monday" SelectedDateFormat="Short"/>
-                    <TextBox Name="addIssueNmbTxtBox" Width="270" Height="25" Padding="3" Grid.Row="3" Grid.Column="1" 
+                    <TextBox Name="AddIssueNmbTxtBox" Width="270" Height="25" Padding="3" Grid.Row="3" Grid.Column="1" 
                              MaxLength="32" PreviewTextInput="TextBox_PreviewTextInput"/>
-                    <TextBox Name="addFilePathTxtBox" Width="200" Height="25" Padding="3" Grid.Row="4" Grid.Column="1"
+                    <TextBox Name="AddFilePathTxtBox" Width="200" Height="25" Padding="3" Grid.Row="4" Grid.Column="1"
                             HorizontalAlignment="Left"  MaxLength="255"/>
-                    <Button Name="addOpenFileBtn"  Height="25" Width="60" Grid.Row="4" Content="Открыть" 
-                            Grid.Column="1" HorizontalAlignment="Right" Click="addOpenFileBtn_Click"/>
-                    <Button Name="addEntryBtn" Grid.Column="2" Grid.Row="4" Width="120" Height="25"
-                            Click="addEntryBtn_Click" HorizontalAlignment="Right" Margin="0,0,6,0">Добавить запись</Button>
+                    <Button  Height="25" Width="60" Grid.Row="4" Content="Открыть" 
+                            Grid.Column="1" HorizontalAlignment="Right" Click="AddOpenFileBtn_Click"/>
+                    <Button Grid.Column="2" Grid.Row="4" Width="120" Height="25"
+                            Click="AddEntryBtn_Click" HorizontalAlignment="Right" Margin="0,0,6,0">Добавить запись</Button>
 
                     <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="1" Grid.Column="4" 
                             Grid.ColumnSpan="3" Grid.RowSpan="5" CornerRadius="4"/>
@@ -284,40 +284,40 @@
                     <Label Grid.Row="2" Grid.Column="4" VerticalAlignment="Center">Дата выхода:</Label>
                     <Label Grid.Row="3" Grid.Column="4" VerticalAlignment="Center">Номер:</Label>
                     <Label Grid.Row="4" Grid.Column="4" VerticalAlignment="Center">Расположение файла:</Label>
-                    <TextBox Name="editPublName"  Width="270" Height="25" Padding="3" Grid.Row="0" Grid.Column="5" MaxLength="255"/>
-                    <RadioButton Name="editRadioBtnMagaz" GroupName="edt" Grid.Row="1" Grid.Column="5" 
+                    <TextBox Name="EditPublName"  Width="270" Height="25" Padding="3" Grid.Row="0" Grid.Column="5" MaxLength="255"/>
+                    <RadioButton Name="EditRadioBtnMagaz" GroupName="edt" Grid.Row="1" Grid.Column="5" 
                             IsChecked="True" VerticalAlignment="Top">Журнал</RadioButton>
-                    <RadioButton Name="editRadioBtnNewsp" GroupName="edt" Grid.Row="1" Grid.Column="5" 
+                    <RadioButton Name="EditRadioBtnNewsp" GroupName="edt" Grid.Row="1" Grid.Column="5" 
                             Margin="0,17,0,0">Газета</RadioButton>
-                    <DatePicker  Name="editDatePicker" Width="270" Height="25" Grid.Row="2" Grid.Column="5" Padding="2"/>
-                    <TextBox Name="editIssueNmbTxtBox" Width="270" Height="25" Padding="3" Grid.Row="3" Grid.Column="5"
+                    <DatePicker  Name="EditDatePicker" Width="270" Height="25" Grid.Row="2" Grid.Column="5" Padding="2"/>
+                    <TextBox Name="EditIssueNmbTxtBox" Width="270" Height="25" Padding="3" Grid.Row="3" Grid.Column="5"
                              MaxLength="32" PreviewTextInput="TextBox_PreviewTextInput"/>
-                    <TextBox  Name="editFilePathTxtBox" Width="200" Height="25" MaxLength="255" 
+                    <TextBox  Name="EditFilePathTxtBox" Width="200" Height="25" MaxLength="255" 
                             Padding="3" Grid.Row="4" Grid.Column="5"  HorizontalAlignment="Left"/>
-                    <Button Name="editOpenFileBtn" Height="25" Width="60" Grid.Row="4" Content="Открыть" Grid.Column="5" 
-                            HorizontalAlignment="Right" Click="editOpenFileBtn_Click"/>
+                    <Button Height="25" Width="60" Grid.Row="4" Content="Открыть" Grid.Column="5" 
+                            HorizontalAlignment="Right" Click="EditOpenFileBtn_Click"/>
                     <Label Content="ID:" Grid.Row="0" Grid.Column="6" HorizontalAlignment="Left" 
                            Margin="72,0,0,0" VerticalAlignment="Center"/>
-                    <TextBox  Name="editIdTxtBox" IsEnabled="False" MinWidth="40" Width="Auto" Height="25" Padding="3" 
+                    <TextBox  Name="EditIdTxtBox" IsEnabled="False" MinWidth="40" Width="Auto" Height="25" Padding="3" 
                             Grid.Row="0" Grid.Column="6" Margin="102,0,0,0" HorizontalAlignment="Left"/>
-                    <Button Name="editEntryBtn" Grid.Column="6" Grid.Row="3" Width="120" Height="24" HorizontalAlignment="Right" 
-                            Margin="0,0,6,0" Click="editEntryBtn_Click" IsEnabled="False">Изменить запись</Button>
-                    <Button Name="delEntryBtn" Grid.Column="6" Grid.Row="4" Width="120" Height="24"  HorizontalAlignment="Right" 
-                            Margin="0,0,6,0" Click="delEntryBtn_Click" IsEnabled="False">Удалить запись</Button>
-                    <DataGrid Name="dbDataGrid" Margin="0,10,0,0" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="7" MinRowHeight="25" 
+                    <Button Name="EditEntryBtn" Grid.Column="6" Grid.Row="3" Width="120" Height="24" HorizontalAlignment="Right" 
+                            Margin="0,0,6,0" Click="EditEntryBtn_Click" IsEnabled="False">Изменить запись</Button>
+                    <Button Name="DelEntryBtn" Grid.Column="6" Grid.Row="4" Width="120" Height="24"  HorizontalAlignment="Right" 
+                            Margin="0,0,6,0" Click="DelEntryBtn_Click" IsEnabled="False">Удалить запись</Button>
+                    <DataGrid Name="DbDataGrid" Margin="0,10,0,0" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="7" MinRowHeight="25" 
                             CanUserAddRows="False" ItemsSource="{Binding Path=dbBinding}" CanUserResizeRows="False" 
                             CanUserResizeColumns="False" SelectionMode="Single" CanUserReorderColumns="False" RowHeaderWidth="0"
-                            AutoGenerateColumns="False" SelectionChanged="dbDataGrid_SelectionChanged">
+                            AutoGenerateColumns="False" SelectionChanged="DbDataGrid_SelectionChanged">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Path=id}" Width="Auto" Header="ID" IsReadOnly="True">
+                            <DataGridTextColumn Binding="{Binding Path=(local:PdfDescription.Id)}" Width="Auto" Header="ID" IsReadOnly="True">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="{x:Type TextBlock}">
                                         <Setter Property="TextAlignment" Value="Center"/>
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-                            <DataGridTextColumn Binding="{Binding Path=publication}" Width="Auto" Header="Название издания" IsReadOnly="True"/>
-                            <DataGridTextColumn Binding="{Binding Path=is_magazine, Converter={StaticResource BooleanToStringConverter}}" 
+                            <DataGridTextColumn Binding="{Binding Path=(local:PdfDescription.PublicationName)}" Width="Auto" Header="Название издания" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding Path=(local:PdfDescription.IsMagazine), Converter={StaticResource BooleanToStringConverter}}" 
                                     Width="Auto" Header="Тип издания" IsReadOnly="True">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="{x:Type TextBlock}">
@@ -325,7 +325,7 @@
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-                            <DataGridTextColumn Binding="{Binding Path=date, StringFormat=\{0:dd.MM.yyyy\}}" 
+                            <DataGridTextColumn Binding="{Binding Path=(local:PdfDescription.Date), StringFormat=\{0:dd.MM.yyyy\}}" 
                                     Width="Auto" Header="Дата выпуска" IsReadOnly="True">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="{x:Type TextBlock}">
@@ -333,17 +333,17 @@
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-                            <DataGridTextColumn Binding="{Binding Path=issue_number}" Width="Auto" Header="Номер" IsReadOnly="True">
+                            <DataGridTextColumn Binding="{Binding Path=(local:PdfDescription.IssueNumber)}" Width="Auto" Header="Номер" IsReadOnly="True">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="{x:Type TextBlock}">
                                         <Setter Property="TextAlignment" Value="Center" />
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-                            <DataGridTextColumn Binding="{Binding Path=file_path}" Width="*" Header="Расположение .pdf файла" IsReadOnly="True">
+                            <DataGridTextColumn Binding="{Binding Path=(local:PdfDescription.FilePath)}" Width="*" Header="Расположение .pdf файла" IsReadOnly="True">
                                 <DataGridTextColumn.CellStyle>
                                     <Style TargetType="DataGridCell">
-                                        <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}"/>
+                                        <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=Content.(TextBlock.Text)}"/>
                                     </Style>
                                 </DataGridTextColumn.CellStyle>
                             </DataGridTextColumn>

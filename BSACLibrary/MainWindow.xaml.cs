@@ -21,64 +21,66 @@ namespace BSACLibrary
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         //Создаем необходимые переменные
         public static MainWindow AppWindow;
-        private int total, current;
-        private string substring, query;
-        private List<pdfDescription> filesList = new List<pdfDescription>();
-        public List<pdfDescription> FilesList
+        private int _total, _current;
+        private string _substring, _query;
+        private List<PdfDescription> _filesList = new List<PdfDescription>();
+        public List<PdfDescription> FilesList
         {
-            get
-            {
-                return filesList;
-            }
             set
             {
-                filesList = value;
+                _filesList = value;
                 //Очистим выпадающий список из уже существующих наименований во вкладке редактора
-                addPublNameCmbBox.Items.Clear();
+                AddPublNameCmbBox.Items.Clear();
                 //Очистим списки во вкладках газеты/журналы
-                mzNameListBox.Items.Clear();
-                mzYearListBox.Items.Clear();
+                MzNameListBox.Items.Clear();
+                MzYearListBox.Items.Clear();
 
-                npNameListBox.Items.Clear();
-                npYearListBox.Items.Clear();
+                NpNameListBox.Items.Clear();
+                NpYearListBox.Items.Clear();
                 //Обнулим строки результатов поиска
-                mzLabel.Content = null;
-                mzWrapPanel.Children.Clear();
+                MzLabel.Content = null;
+                MzWrapPanel.Children.Clear();
 
-                npLabel.Content = null;
-                npWrapPanel.Children.Clear();
+                NpLabel.Content = null;
+                NpWrapPanel.Children.Clear();
 
                 //Добавим по одному элементу "ВСЕ" в каждый список
-                mzNameListBox.Items.Add("<<<ВСЕ>>>");
-                npNameListBox.Items.Add("<<<ВСЕ>>>");
+                MzNameListBox.Items.Add("<<<ВСЕ>>>");
+                NpNameListBox.Items.Add("<<<ВСЕ>>>");
                 //Выделим его по умолчанию
-                mzNameListBox.SelectedIndex = 0;
-                npNameListBox.SelectedIndex = 0;
+                MzNameListBox.SelectedIndex = 0;
+                NpNameListBox.SelectedIndex = 0;
 
                 //Cортировка всех названий по алфавиту
-                filesList = filesList.OrderBy(x => x.publication_name).ToList();
+                _filesList = _filesList.OrderBy(x => x.PublicationName).ToList();
 
-                foreach (pdfDescription file in filesList)
+                foreach (PdfDescription file in _filesList)
                 {
                     //Заполним список наименований во вкладке редактора заново
                     //Исключим повторяющиеся записи
-                    if (addPublNameCmbBox.Items.Contains(file.publication_name) == false)
+                    if (AddPublNameCmbBox.Items.Contains(file.PublicationName) == false)
                     {
-                        addPublNameCmbBox.Items.Add(file.publication_name);
+                        AddPublNameCmbBox.Items.Add(file.PublicationName);
                     }
                     //Заполним список изданий во вкладке ЖУРНАЛЫ
-                    if (file.is_magazine)
+                    if (file.IsMagazine)
                     {
-                        if (mzNameListBox.Items.Contains(file.publication_name) == false) mzNameListBox.Items.Add(file.publication_name);
+                        if (MzNameListBox.Items.Contains(file.PublicationName) == false)
+                        {
+                            MzNameListBox.Items.Add(file.PublicationName);
+                        }
                     }
                     //Заполним список изданий во вкладке ГАЗЕТЫ
                     else
                     {
-                        if (npNameListBox.Items.Contains(file.publication_name) == false) npNameListBox.Items.Add(file.publication_name);
+                        if (NpNameListBox.Items.Contains(file.PublicationName) == false)
+                        {
+                            NpNameListBox.Items.Add(file.PublicationName);
+                        }
                     }
                 }
             }
@@ -91,18 +93,14 @@ namespace BSACLibrary
             //Инициализация подключения к БД и др. процессов в фоне
             Task.Factory.StartNew(() =>
                 Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-                    (ThreadStart)delegate ()
-                    {
-                        Initialize.Init();
-                    })
+                    (ThreadStart)Initialize.Init)
             );
         }
 
         private void OptionsWindow_Open(object sender, RoutedEventArgs e)
         {
             //Открываем окно настроек
-            OptionsWindow oWin = new OptionsWindow();
-            oWin.Owner = this;
+            OptionsWindow oWin = new OptionsWindow {Owner = this};
             //ShowDialog в отличии от Show позволяет запретить повторный запуск этого же окна
             oWin.ShowDialog();
         }
@@ -110,8 +108,7 @@ namespace BSACLibrary
         //Открытие окна "О программе" по нажатию соответствующего пункта меню
         private void AboutWindow_Open(object sender, RoutedEventArgs e)
         {
-            AboutWindow aWin = new AboutWindow();
-            aWin.Owner = this;
+            AboutWindow aWin = new AboutWindow {Owner = this};
             aWin.ShowDialog();
         }
 
@@ -129,23 +126,26 @@ namespace BSACLibrary
         }
 
         //Обработка клика по полю ввода
-        private void tBoxInput_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void SrchTxtBox_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-             if (tBoxInput.Text == "Поиск информации по ключевому слову или фразе. Например, \"802.11ac\"")
+             if (SrchTxtBox.Text == "Поиск информации по ключевому слову или фразе. Например, \"802.11ac\"")
                 {
                     //Делаем поле ввода пустым
-                    tBoxInput.Text = null;
+                    SrchTxtBox.Text = null;
                     //Изменяем цвет текста в поле ввода по умолчанию на черный
                     //SolidColorBrush закрашивает область сплошным цветом.
-                    tBoxInput.Foreground = new SolidColorBrush(Colors.Black);
+                    SrchTxtBox.Foreground = new SolidColorBrush(Colors.Black);
                 }
-            else if (searchListBox.Items.Count > 0) searchListBox.Visibility = Visibility.Visible;
+            else if (SearchListBox.Items.Count > 0)
+            {
+                SearchListBox.Visibility = Visibility.Visible;
+            }
         }
 
         private void searchListBox_MouseLeave(object sender, MouseEventArgs e)
         {
             //Скрыть выпадающий список если мышь увели за его пределы
-            searchListBox.Visibility = Visibility.Hidden;
+            SearchListBox.Visibility = Visibility.Hidden;
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -154,20 +154,20 @@ namespace BSACLibrary
             Application.Current.Shutdown();
         }
 
-        private void addEntryBtn_Click(object sender, RoutedEventArgs e)
+        private void AddEntryBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(addPublNameCmbBox.Text) == false && string.IsNullOrEmpty(addDatePicker.Text) == false && string.IsNullOrEmpty(addIssueNmbTxtBox.Text) == false)
+            if (string.IsNullOrEmpty(AddPublNameCmbBox.Text) == false && string.IsNullOrEmpty(AddDatePicker.Text) == false && string.IsNullOrEmpty(AddIssueNmbTxtBox.Text) == false)
             {
-                query = "INSERT INTO " + Settings.Default.dbTableName + " VALUES('" +
+                _query = "INSERT INTO " + Settings.Default.dbTableName + " VALUES('" +
                     null + "', '" +
-                    addPublNameCmbBox.Text.Replace(@"'", @"\'") + "', '" + 
-                    Convert.ToInt16(addRadioBtnMagaz.IsChecked) + "', '" +
-                    Convert.ToDateTime(addDatePicker.SelectedDate).ToString("yyyy-MM-dd") + "', '" + 
-                    addIssueNmbTxtBox.Text + "', '" +
-                    addFilePathTxtBox.Text.Replace(@"\", @"\\").Replace("'", "''") + 
+                    AddPublNameCmbBox.Text.Replace(@"'", @"\'") + "', '" + 
+                    Convert.ToInt16(AddRadioBtnMagaz.IsChecked) + "', '" +
+                    Convert.ToDateTime(AddDatePicker.SelectedDate).ToString("yyyy-MM-dd") + "', '" + 
+                    AddIssueNmbTxtBox.Text + "', '" +
+                    AddFilePathTxtBox.Text.Replace(@"\", @"\\").Replace("'", "''") + 
                     "');";
-                DBQueries.Execute(query);
-                DBQueries.UpdateDataGrid();
+                DbQueries.Execute(_query);
+                DbQueries.UpdateDataGrid();
             }
             else
             {
@@ -175,59 +175,72 @@ namespace BSACLibrary
             }
         }
 
-        private void addOpenFileBtn_Click(object sender, RoutedEventArgs e)
+        private void AddOpenFileBtn_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*";
-            if (openFileDialog.ShowDialog() == true) addFilePathTxtBox.Text = openFileDialog.FileName;
+            OpenFileDialog openFileDialog = new OpenFileDialog {Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*"};
+            if (openFileDialog.ShowDialog() == true)
+            {
+                AddFilePathTxtBox.Text = openFileDialog.FileName;
+            }
         }
 
         //Обработка выбора строки в таблице редактора
-        private void dbDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void DbDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (dbDataGrid.SelectedIndex >= 0)
+            if (DbDataGrid.SelectedIndex >= 0)
             {
-                this.editEntryBtn.IsEnabled = true;
-                this.delEntryBtn.IsEnabled = true;
+                EditEntryBtn.IsEnabled = true;
+                DelEntryBtn.IsEnabled = true;
 
-                DataRowView row = dbDataGrid.SelectedItem as DataRowView;
-                editIdTxtBox.Text = Convert.ToString(row[0]);
-                editPublName.Text = Convert.ToString(row[1]);
+                DataRowView row = DbDataGrid.SelectedItem as DataRowView;
+                if (row != null)
+                {
+                    EditIdTxtBox.Text = Convert.ToString(row[0]);
+                    EditPublName.Text = Convert.ToString(row[1]);
 
-                if (Convert.ToBoolean(row[2]) == true) editRadioBtnMagaz.IsChecked = true;
-                else editRadioBtnNewsp.IsChecked = true;
+                    if (Convert.ToBoolean(row[2]))
+                    {
+                        EditRadioBtnMagaz.IsChecked = true;
+                    }
+                    else
+                    {
+                        EditRadioBtnNewsp.IsChecked = true;
+                    }
 
-                editDatePicker.SelectedDate = Convert.ToDateTime(row[3]);
-                editIssueNmbTxtBox.Text = Convert.ToString(row[4]);
-                editFilePathTxtBox.Text = Convert.ToString(row[5]);
+                    EditDatePicker.SelectedDate = Convert.ToDateTime(row[3]);
+                    EditIssueNmbTxtBox.Text = Convert.ToString(row[4]);
+                    EditFilePathTxtBox.Text = Convert.ToString(row[5]);
+                }
             }
             else
             {
-                this.editEntryBtn.IsEnabled = false;
-                this.delEntryBtn.IsEnabled = false;
+                EditEntryBtn.IsEnabled = false;
+                DelEntryBtn.IsEnabled = false;
             }
         }
 
-        private void editOpenFileBtn_Click(object sender, RoutedEventArgs e)
+        private void EditOpenFileBtn_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*";
-            if (openFileDialog.ShowDialog() == true) editFilePathTxtBox.Text = openFileDialog.FileName;
+            OpenFileDialog openFileDialog = new OpenFileDialog {Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*"};
+            if (openFileDialog.ShowDialog() == true)
+            {
+                EditFilePathTxtBox.Text = openFileDialog.FileName;
+            }
         }
 
-        private void delEntryBtn_Click(object sender, RoutedEventArgs e)
+        private void DelEntryBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (dbDataGrid.SelectedIndex >= 0)
+            if (DbDataGrid.SelectedIndex >= 0)
             {
                 MessageBoxResult result = MessageBox.Show("Вы уверены что хотите удалить запись? Действие необратимо.", "Удаление", MessageBoxButton.YesNo);
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
-                        query = "DELETE FROM " + Settings.Default.dbTableName +
-                             " WHERE id = '" + editIdTxtBox.Text +
+                        _query = "DELETE FROM " + Settings.Default.dbTableName +
+                             " WHERE id = '" + EditIdTxtBox.Text +
                              "';";
-                        DBQueries.Execute(query);
-                        DBQueries.UpdateDataGrid();
+                        DbQueries.Execute(_query);
+                        DbQueries.UpdateDataGrid();
                         break;
                     case MessageBoxResult.No:
                         break;
@@ -235,23 +248,23 @@ namespace BSACLibrary
             }
         }
 
-        private void editEntryBtn_Click(object sender, RoutedEventArgs e)
+        private void EditEntryBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (dbDataGrid.SelectedIndex >= 0)
+            if (DbDataGrid.SelectedIndex >= 0)
             {
                 MessageBoxResult result = MessageBox.Show("Вы уверены что хотите изменить запись? Действие необратимо.", "Изменение", MessageBoxButton.YesNo);
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
-                        query = "UPDATE " + Settings.Default.dbTableName +
-                            " SET publication='" + editPublName.Text.Replace("'", "''") +
-                            "',is_magazine='" + Convert.ToInt16(editRadioBtnMagaz.IsChecked) +
-                            "',date='" + Convert.ToDateTime(editDatePicker.SelectedDate).ToString("yyyy-MM-dd") +
-                            "',issue_number='" + editIssueNmbTxtBox.Text +
-                            "',file_path='" + editFilePathTxtBox.Text.Replace(@"\", @"\\").Replace("'", "''") +
-                            "' WHERE id='" + editIdTxtBox.Text + "';";
-                        DBQueries.Execute(query);
-                        DBQueries.UpdateDataGrid();
+                        _query = "UPDATE " + Settings.Default.dbTableName +
+                            " SET publication='" + EditPublName.Text.Replace("'", "''") +
+                            "',is_magazine='" + Convert.ToInt16(EditRadioBtnMagaz.IsChecked) +
+                            "',date='" + Convert.ToDateTime(EditDatePicker.SelectedDate).ToString("yyyy-MM-dd") +
+                            "',issue_number='" + EditIssueNmbTxtBox.Text +
+                            "',file_path='" + EditFilePathTxtBox.Text.Replace(@"\", @"\\").Replace("'", "''") +
+                            "' WHERE id='" + EditIdTxtBox.Text + "';";
+                        DbQueries.Execute(_query);
+                        DbQueries.UpdateDataGrid();
                         break;
                     case MessageBoxResult.No:
                         break;
@@ -264,38 +277,49 @@ namespace BSACLibrary
         {
             //Если выпадающий список результатов поиска был открыт, то закроем его.
             //Необходимо для того чтобы при щелчке на любом другом элементе программы список прятался
-            if (searchListBox.IsMouseOver == false) searchListBox.Visibility = Visibility.Hidden;
+            if (SearchListBox.IsMouseOver == false)
+            {
+                SearchListBox.Visibility = Visibility.Hidden;
+            }
         }
 
         //Обработка клика по выпадающему списку результатов поиска
-        private void searchListBox_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void SearchListBox_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             //Если был выбран любой элемент списка
-            if (searchListBox.SelectedIndex >= 0)
+            if (SearchListBox.SelectedIndex >= 0)
             {
                 try
                 {
                     //Приводим объект из списку к типу pdfDescription
-                    pdfDescription selectedFile = searchListBox.Items[searchListBox.SelectedIndex] as pdfDescription;
+                    PdfDescription selectedFile = SearchListBox.Items[SearchListBox.SelectedIndex] as PdfDescription;
                     //Откроем соответствующий файл
-                    OnNavigate(this, new RequestNavigateEventArgs(new Uri(selectedFile.file_path), null));
+                    if (selectedFile != null)
+                    {
+                        OnNavigate(this, new RequestNavigateEventArgs(new Uri(selectedFile.FilePath), null));
+                    }
                 }
                 catch(Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                searchListBox.SelectedIndex = -1;
+                SearchListBox.SelectedIndex = -1;
             }
         }
 
-        private void OnNavigate(object sender, RequestNavigateEventArgs e)
+        private static void OnNavigate(object sender, RequestNavigateEventArgs e)
         {
             try
             {
                 //Откроем соответствующий файл
-                Process proc = new Process();
-                proc.StartInfo.FileName = e.Uri.AbsoluteUri;
-                proc.StartInfo.UseShellExecute = true;
+                Process proc = new Process
+                {
+                    StartInfo =
+                    {
+                        FileName = e.Uri.AbsoluteUri,
+                        UseShellExecute = true
+                    }
+                };
                 proc.Start();
             }
             catch(Exception ex)
@@ -305,152 +329,200 @@ namespace BSACLibrary
             e.Handled = true;
         }
 
-        private void npNameListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void NpNameListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //Не выбрано ниодного элемента в списке
-            if (npNameListBox.SelectedIndex == -1) return;
+            if (NpNameListBox.SelectedIndex == -1)
+            {
+                return;
+            }
             //Очистим список годов выхода
-            npYearListBox.Items.Clear();
-            npYearListBox.Items.Add("<<<ВСЕ>>>");
+            NpYearListBox.Items.Clear();
+            NpYearListBox.Items.Add("<<<ВСЕ>>>");
             //Cортировка по году выхода
-            List<pdfDescription> sortedDate = filesList.OrderBy(x => x.date.Year).ToList();
+            List<PdfDescription> sortedDate = _filesList.OrderBy(x => x.Date.Year).ToList();
 
-            foreach (pdfDescription file in sortedDate)
+            foreach (PdfDescription file in sortedDate)
             {
                 //Если является журналом перейдем к следующей итерации
-                if (file.is_magazine) continue;
+                if (file.IsMagazine)
+                {
+                    continue;
+                }
                 //Если выбрали ВСЕ в названии издания
-                if (npNameListBox.SelectedIndex == 0 && 
+                if (NpNameListBox.SelectedIndex == 0 && 
                     //Если этот год еще не добавили в список
-                    npYearListBox.Items.Contains(file.date.Year) == false)
+                    NpYearListBox.Items.Contains(file.Date.Year) == false)
                 {
                     //Добавим в список
-                    npYearListBox.Items.Add(file.date.Year);
+                    NpYearListBox.Items.Add(file.Date.Year);
                 }
                 //Если выбрана определенная газета
-                else if (npNameListBox.SelectedItem.ToString() == file.publication_name && 
+                else if (NpNameListBox.SelectedItem.ToString() == file.PublicationName && 
                     //И такой год еще не добавляли
-                    npYearListBox.Items.Contains(file.date.Year) == false)
+                    NpYearListBox.Items.Contains(file.Date.Year) == false)
                 {
                     //Добавим в список
-                    npYearListBox.Items.Add(file.date.Year);
+                    NpYearListBox.Items.Add(file.Date.Year);
                 }
             }
             //Выбираем ВСЕ в списке по умолчанию
-            npYearListBox.SelectedIndex = 0;
+            NpYearListBox.SelectedIndex = 0;
         }
 
-        private void npYearListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void NpYearListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //Не выбранно ниодного элемента в списке
-            if (npNameListBox.SelectedIndex == -1 || npYearListBox.SelectedIndex == -1) return;
+            if (NpNameListBox.SelectedIndex == -1 || NpYearListBox.SelectedIndex == -1)
+            {
+                return;
+            }
             //Очистим панель со списком газет.
-            npWrapPanel.Children.Clear();
+            NpWrapPanel.Children.Clear();
             //Отсортируем список по имени и номеру
-            List<pdfDescription> sortedByNameAndNmb = filesList.OrderBy(x => x.publication_name).ThenBy(x => x.issue_number).ToList();
+            List<PdfDescription> sortedByNameAndNmb = _filesList.OrderBy(x => x.PublicationName).ThenBy(x => x.IssueNumber).ToList();
             int i = 0;
 
-            foreach (pdfDescription file in sortedByNameAndNmb)
+            foreach (PdfDescription file in sortedByNameAndNmb)
             {
                 //Если не является газетой пропустим текущую итерацию
-                if (file.is_magazine) continue;
+                if (file.IsMagazine)
+                {
+                    continue;
+                }
 
                 //Если выбрано какое-то издание, не ВСЕ
-                if (npNameListBox.SelectedIndex != 0 &&
+                if (NpNameListBox.SelectedIndex != 0 &&
                     //И если выбранное издание != file.publication_name пропустим текущую итерацию
-                    npNameListBox.SelectedItem.ToString() != file.publication_name) continue;
+                    NpNameListBox.SelectedItem.ToString() != file.PublicationName)
+                {
+                    continue;
+                }
 
                 //Или если выбранный год != file.date.Year пропустим текущую итерацию
-                if (npYearListBox.SelectedIndex != 0 &&
-                    npYearListBox.SelectedItem.ToString() != file.date.Year.ToString()) continue;
+                if (NpYearListBox.SelectedIndex != 0 &&
+                    NpYearListBox.SelectedItem.ToString() != file.Date.Year.ToString())
+                {
+                    continue;
+                }
                 //Заполним панель полученными гиперссылками
-                npWrapPanel.Children.Add(AddTextBlock(file.publication_name, file.file_path, file.issue_number));
+                NpWrapPanel.Children.Add(AddTextBlock(file.PublicationName, file.FilePath, file.IssueNumber));
                 //Инкрементируем кол-во найденных записей
                 i++;
             }
-            if (i > 0) npLabel.Content = ("Всего " + i + " номер(а, ов).");
-            else npLabel.Content = ("В базе данных отсутсвуют сведения.");
+            if (i > 0)
+            {
+                NpLabel.Content = ("Всего " + i + " номер(а, ов).");
+            }
+            else
+            {
+                NpLabel.Content = ("В базе данных отсутсвуют сведения.");
+            }
         }
 
-        private void mzNameListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void MzNameListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //Не выбрано ниодного элемента в списке
-            if (mzNameListBox.SelectedIndex == -1) return;
+            if (MzNameListBox.SelectedIndex == -1)
+            {
+                return;
+            }
             //Очистим список годов выхода
-            mzYearListBox.Items.Clear();
-            mzYearListBox.Items.Add("<<<ВСЕ>>>");
+            MzYearListBox.Items.Clear();
+            MzYearListBox.Items.Add("<<<ВСЕ>>>");
             //Cортировка по году выхода
-            List<pdfDescription> sortedDate = filesList.OrderBy(x => x.date.Year).ToList();
+            List<PdfDescription> sortedDate = _filesList.OrderBy(x => x.Date.Year).ToList();
 
-            foreach (pdfDescription file in sortedDate)
+            foreach (PdfDescription file in sortedDate)
             {
                 //Если является не журналом перейдем к следующей итерации
-                if (file.is_magazine == false) continue;
+                if (file.IsMagazine == false)
+                {
+                    continue;
+                }
                 //Если выбрали ВСЕ в названии издания
-                if (mzNameListBox.SelectedIndex == 0 &&
+                if (MzNameListBox.SelectedIndex == 0 &&
                     //Если этот год еще не добавили в список
-                    mzYearListBox.Items.Contains(file.date.Year) == false)
+                    MzYearListBox.Items.Contains(file.Date.Year) == false)
                 {
                     //Добавим в список
-                    mzYearListBox.Items.Add(file.date.Year);
+                    MzYearListBox.Items.Add(file.Date.Year);
                 }
                 //Если выбрана определенная газета
-                else if (mzNameListBox.SelectedItem.ToString() == file.publication_name &&
+                else if (MzNameListBox.SelectedItem.ToString() == file.PublicationName &&
                     //И такой год еще не добавляли
-                    mzYearListBox.Items.Contains(file.date.Year) == false)
+                    MzYearListBox.Items.Contains(file.Date.Year) == false)
                 {
                     //Добавим в список
-                    mzYearListBox.Items.Add(file.date.Year);
+                    MzYearListBox.Items.Add(file.Date.Year);
                 }
             }
             //Выбираем ВСЕ в списке по умолчанию
-            mzYearListBox.SelectedIndex = 0;
+            MzYearListBox.SelectedIndex = 0;
         }
 
-        private void mzYearListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void MzYearListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //Не выбранно ниодного элемента в списке
-            if (mzNameListBox.SelectedIndex == -1 || mzYearListBox.SelectedIndex == -1) return;
+            if (MzNameListBox.SelectedIndex == -1 || MzYearListBox.SelectedIndex == -1)
+            {
+                return;
+            }
             //Очистим панель со списком газет.
-            mzWrapPanel.Children.Clear();
+            MzWrapPanel.Children.Clear();
             //Отсортируем список по имени и номеру
-            List<pdfDescription> sortedByNameAndNmb = filesList.OrderBy(x => x.publication_name).ThenBy(x => x.issue_number).ToList();
+            List<PdfDescription> sortedByNameAndNmb = _filesList.OrderBy(x => x.PublicationName).ThenBy(x => x.IssueNumber).ToList();
             int i = 0;
 
-            foreach (pdfDescription file in sortedByNameAndNmb)
+            foreach (PdfDescription file in sortedByNameAndNmb)
             {
                 //Если не является журналом пропустим текущую итерацию
-                if (file.is_magazine == false) continue;
+                if (file.IsMagazine == false)
+                {
+                    continue;
+                }
 
                 //Если выбрано какое-то издание, не ВСЕ
-                if (mzNameListBox.SelectedIndex != 0 &&
+                if (MzNameListBox.SelectedIndex != 0 &&
                     //И если выбранное издание != file.publication_name пропустим текущую итерацию
-                    mzNameListBox.SelectedItem.ToString() != file.publication_name) continue;
+                    MzNameListBox.SelectedItem.ToString() != file.PublicationName)
+                {
+                    continue;
+                }
 
                 //Или если выбранный год != file.date.Year пропустим текущую итерацию
-                if (mzYearListBox.SelectedIndex != 0 &&
-                    mzYearListBox.SelectedItem.ToString() != file.date.Year.ToString()) continue;
+                if (MzYearListBox.SelectedIndex != 0 &&
+                    MzYearListBox.SelectedItem.ToString() != file.Date.Year.ToString())
+                {
+                    continue;
+                }
                 //Заполним панель полученными гиперссылками
-                mzWrapPanel.Children.Add(AddTextBlock(file.publication_name, file.file_path, file.issue_number));
+                MzWrapPanel.Children.Add(AddTextBlock(file.PublicationName, file.FilePath, file.IssueNumber));
                 //Инкрементируем кол-во найденных записей
                 i++;
             }
-            if (i > 0) mzLabel.Content = ("Всего " + i + " номер(а, ов).");
-            else mzLabel.Content = ("В базе данных отсутсвуют сведения.");
+            if (i > 0)
+            {
+                MzLabel.Content = ("Всего " + i + " номер(а, ов).");
+            }
+            else
+            {
+                MzLabel.Content = ("В базе данных отсутсвуют сведения.");
+            }
         }
 
         //Метод формирующий текстовые блоки с названием и номером издания
-        private TextBlock AddTextBlock(string publication_name, string file_path, int issue_number)
+        private TextBlock AddTextBlock(string publicationName, string filePath, int issueNumber)
         {
             //Cформируемый текстовый блок с названием издания и его номером
             TextBlock newTextBlock = new TextBlock();
-            string AddString = publication_name + " №" + issue_number + ";    ";
+            string addString = publicationName + " №" + issueNumber + ";    ";
             //При наличии .pdf создаем гиперссылку на  файл
-            if (string.IsNullOrEmpty(file_path) == false)
+            if (string.IsNullOrEmpty(filePath) == false)
             {
                 Hyperlink newHyperLink = new Hyperlink();
-                newHyperLink.Inlines.Add(AddString);
-                newHyperLink.NavigateUri = new Uri(file_path);
+                newHyperLink.Inlines.Add(addString);
+                newHyperLink.NavigateUri = new Uri(filePath);
                 newHyperLink.RequestNavigate += OnNavigate;
                 newTextBlock.Inlines.Add(newHyperLink);
             }
@@ -458,7 +530,7 @@ namespace BSACLibrary
             {
                 //Если к файлу не указан путь => соответственно он не был оцифрован
                 newTextBlock.ToolTip = "Нет цифровой копии";
-                newTextBlock.Inlines.Add(AddString);
+                newTextBlock.Inlines.Add(addString);
             }
             return newTextBlock;
         }
@@ -472,89 +544,89 @@ namespace BSACLibrary
         }
 
         //Реакция на нажатие клавиши в строке поиска
-        private void tBoxInput_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void SrchTxtBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             //Проверяем какая клавиша была нажата
-            if ((e.Key == Key.Return) && (total == 0) && (current == 0))
+            if ((e.Key == Key.Return) && (_total == 0) && (_current == 0))
             //Если это Enter и если поиск не выполняется в данный момент
             {
-                if (tBoxInput.Text.Length < 3)
+                if (SrchTxtBox.Text.Length < 3)
                 {
-                    tBoxInput.Text = "Минимальная длина поискового запроса - 3 символа";
+                    SrchTxtBox.Text = "Минимальная длина поискового запроса - 3 символа";
                     return;
                 }
                 //Очищаем элементы списка
-                searchListBox.Items.Clear();
-                searchListBox.Visibility = Visibility.Hidden;
+                SearchListBox.Items.Clear();
+                SearchListBox.Visibility = Visibility.Hidden;
 
-                if (filesList == null)
+                if (_filesList == null)
                 {
                     MessageBox.Show("В базе данных отсутствуют .pdf файлы.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
                 //Показываем анимацией что программа не зависла
-                gifAnim.Visibility = Visibility.Visible;
+                GifAnim.Visibility = Visibility.Visible;
                 try
                 {   
                     //Задаем начальное значение переменных, поисковый запрос переведем в нижний регистр букв
-                    total = filesList.Count();
-                    substring = tBoxInput.Text.ToLower();
+                    _total = _filesList.Count;
+                    _substring = SrchTxtBox.Text.ToLower();
 
                     //Запуск поиска фоном, исключаем зависание GUI
                     Task.Factory.StartNew(() => //Источник https://msdn.microsoft.com/en-us/library/dd997392.aspx
                         //Многопоточный цикл foreach, использует все доступные ядра/потоки процессора
-                        Parallel.ForEach(filesList, file =>
+                        Parallel.ForEach(_filesList, file =>
                         {
                             //Если в БД путь к файлу не задан пропустим его и перейдем к следующему
-                            if (string.IsNullOrEmpty(file.file_path))
+                            if (string.IsNullOrEmpty(file.FilePath))
                             {
                                 //Инкрементируем переменную отвечающую за количество уже просмотренных файлов
-                                Interlocked.Increment(ref current);
+                                Interlocked.Increment(ref _current);
                                 //return = continue в случае с Parallel.ForEach
                                 return;
                             }
                             //Поиск строки запроса в pdf файле
-                            PdfSearch.SearchInPdfFile(file, substring);
+                            PdfSearch.SearchInPdfFile(file, _substring);
                         //Если строка нашлась
-                        if (string.IsNullOrEmpty(file.founded_text) == false)
+                        if (string.IsNullOrEmpty(file.FoundedText) == false)
                             {
                                 Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-                                    (ThreadStart)delegate ()
+                                    (ThreadStart)delegate
                                     {
                                         //Откроем выпадающий список
-                                        searchListBox.Visibility = Visibility.Visible;
+                                        SearchListBox.Visibility = Visibility.Visible;
                                         //Добавим в результаты поиска название издания
                                         //И часть текста, начинающегося с поискового запроса
-                                        searchListBox.Items.Add(file);
+                                        SearchListBox.Items.Add(file);
                                     });
                             }
-                            Interlocked.Increment(ref current);
+                            Interlocked.Increment(ref _current);
                             Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-                                (ThreadStart)delegate ()
+                                (ThreadStart)delegate
                                 {
                                     //Если поиск завершился
-                                    if (current == total)
+                                    if (_current == _total)
                                     {
                                         //Обнуляем счетчки
-                                        total = 0;
-                                        current = 0;
-                                        substring = null;
+                                        _total = 0;
+                                        _current = 0;
+                                        _substring = null;
                                         //Прячем анимацию по завершению работы
-                                        gifAnim.Visibility = Visibility.Hidden;
+                                        GifAnim.Visibility = Visibility.Hidden;
                                         //Если ничего не найдено
-                                        if (searchListBox.Items.Count == 0)
+                                        if (SearchListBox.Items.Count == 0)
                                         {
                                             //Добавляем элемент
-                                            searchListBox.Visibility = Visibility.Visible;
-                                            searchListBox.Items.Add("По вашему запросу ничего не найдено.");
+                                            SearchListBox.Visibility = Visibility.Visible;
+                                            SearchListBox.Items.Add("По вашему запросу ничего не найдено.");
                                         }
                                     }
                                 });
                         })
                     );
                     //Установим фокус на выпадающий список результатов
-                    FocusManager.SetFocusedElement(this, searchListBox);
+                    FocusManager.SetFocusedElement(this, SearchListBox);
                 }
                 catch (Exception ex)
                 {

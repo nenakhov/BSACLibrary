@@ -6,7 +6,7 @@ namespace BSACLibrary
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App
     {
         //Источник http://www.c-sharpcorner.com/UploadFile/f9f215/how-to-restrict-the-application-to-just-one-instance/
         private static Mutex _mutex = null;

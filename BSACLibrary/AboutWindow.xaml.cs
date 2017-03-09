@@ -8,7 +8,7 @@ namespace BSACLibrary
     /// <summary>
     /// Interaction logic for AboutWindow.xaml
     /// </summary>
-    public partial class AboutWindow : Window
+    public partial class AboutWindow
     {
         public AboutWindow()
         {
@@ -19,9 +19,14 @@ namespace BSACLibrary
             try
             { 
                 //Запустим почтовый клиент
-                Process proc = new Process();
-                proc.StartInfo.FileName = e.Uri.AbsoluteUri;
-                proc.StartInfo.UseShellExecute = true;
+                Process proc = new Process
+                {
+                    StartInfo =
+                    {
+                        FileName = e.Uri.AbsoluteUri,
+                        UseShellExecute = true
+                    }
+                };
                 proc.Start();
             }
             catch(Exception ex)

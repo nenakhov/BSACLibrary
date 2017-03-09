@@ -11,26 +11,26 @@ namespace BSACLibrary
     /// <summary>
     /// Interaction logic for OptionsWindow.xaml
     /// </summary>
-    public partial class OptionsWindow : Window
+    public partial class OptionsWindow
     {
         public OptionsWindow()
         {
             InitializeComponent();
             //Cчитываем значения переменных из файла конфигурации
-            txtBoxIP.Text = Settings.Default.dbServerIP;
-            txtBoxPort.Text = Settings.Default.dbServerPort.ToString(); ;
-            txtBoxDBName.Text = Settings.Default.dbName;
-            txtBoxDBTableName.Text = Settings.Default.dbTableName;
-            txtBoxUsr.Text = Settings.Default.dbUsername;
-            pwdBoxPwd.Password = Settings.Default.dbPassword;
-            chkBoxAdm.IsChecked = Settings.Default.isAdmin;
+            TxtBoxIp.Text = Settings.Default.dbServerIP;
+            TxtBoxPort.Text = Settings.Default.dbServerPort.ToString();
+            TxtBoxDbName.Text = Settings.Default.dbName;
+            TxtBoxDbTableName.Text = Settings.Default.dbTableName;
+            TxtBoxUsr.Text = Settings.Default.dbUsername;
+            PwdBoxPwd.Password = Settings.Default.dbPassword;
+            ChkBoxAdm.IsChecked = Settings.Default.isAdmin;
             //chkBoxAdm.IsChecked = false;
         }
 
         //Закрываем окно по нажатии "Отмена"
         private void CancelBt_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
         
         //Клик по кнопке ОК
@@ -39,13 +39,16 @@ namespace BSACLibrary
             try
             {
                 //Присваиваем значения переменным
-                Settings.Default.dbServerIP = txtBoxIP.Text;
-                Settings.Default.dbServerPort = Convert.ToInt32(txtBoxPort.Text);
-                Settings.Default.dbName = txtBoxDBName.Text;
-                Settings.Default.dbTableName = txtBoxDBTableName.Text;
-                Settings.Default.dbUsername = txtBoxUsr.Text;
-                Settings.Default.dbPassword = pwdBoxPwd.Password;
-                Settings.Default.isAdmin = chkBoxAdm.IsChecked.Value;
+                Settings.Default.dbServerIP = TxtBoxIp.Text;
+                Settings.Default.dbServerPort = Convert.ToInt32(TxtBoxPort.Text);
+                Settings.Default.dbName = TxtBoxDbName.Text;
+                Settings.Default.dbTableName = TxtBoxDbTableName.Text;
+                Settings.Default.dbUsername = TxtBoxUsr.Text;
+                Settings.Default.dbPassword = PwdBoxPwd.Password;
+                if (ChkBoxAdm.IsChecked != null)
+                {
+                    Settings.Default.isAdmin = ChkBoxAdm.IsChecked.Value;
+                }
                 //Cохраняем переменные в файл конфигурации
                 Settings.Default.Save();
             }
@@ -58,10 +61,7 @@ namespace BSACLibrary
             //Повторно инициализируем GUI и переподключаемся к бд
             System.Threading.Tasks.Task.Factory.StartNew(() =>
                 Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-                (ThreadStart)delegate ()
-                {
-                    Initialize.Init();
-                })
+                (ThreadStart)Initialize.Init)
             );
 
             CancelBt_Click(sender, e);

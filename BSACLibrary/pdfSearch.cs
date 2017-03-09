@@ -7,43 +7,41 @@ namespace BSACLibrary
 {
     public static class PdfSearch
     {
-        public static pdfDescription SearchInPdfFile(pdfDescription file, string substring)
+        public static void SearchInPdfFile(PdfDescription file, string substring)
         {
             //Обнулим значение переменной
-            file.founded_text = null;
+            file.FoundedText = null;
             try
             {
-                using (PdfReader pdfReader = new PdfReader(file.file_path))
+                using (PdfReader pdfReader = new PdfReader(file.FilePath))
                 {
                     for (int page = 1; page <= pdfReader.NumberOfPages; page++)
                     {
                         ITextExtractionStrategy strategy = new SimpleTextExtractionStrategy();
                         string currentPageText = PdfTextExtractor.GetTextFromPage(pdfReader, page, strategy);
-                        string currentPageTextLower = currentPageText.ToLower();
-                        int i = currentPageTextLower.IndexOf(substring);
-                        if (i != -1)
+                        int i = currentPageText.IndexOf(substring, StringComparison.CurrentCultureIgnoreCase);
+                        if (i == -1)
                         {
-                            //Отформатируем найденный текст
-                            currentPageText = currentPageText.Substring(i, currentPageText.Length - i);
-                            if (currentPageText.Length >= 400)
-                            {
-                                file.founded_text = currentPageText.Substring(0, 399).Replace("\n", " ") + "...";
-                            }
-                            else
-                            {   //Если на найденной странице символов меньше 400, отображаем ее целиком
-                                file.founded_text = currentPageText.Replace("\n", " ") + "...";
-                            }
-                            return file;
+                            continue;
                         }
+                        //Отформатируем найденный текст
+                        currentPageText = currentPageText.Substring(i, currentPageText.Length - i);
+                        if (currentPageText.Length >= 400)
+                        {
+                            file.FoundedText = currentPageText.Substring(0, 399).Replace("\n", " ") + "...";
+                        }
+                        else
+                        {   //Если на найденной странице символов меньше 400, отображаем ее целиком
+                            file.FoundedText = currentPageText.Replace("\n", " ") + "...";
+                        }
+                        return;
                     }
-                    return file;
                 }
             }
             //Обработка возможных ошибок
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                return file;
             }
         }
     }

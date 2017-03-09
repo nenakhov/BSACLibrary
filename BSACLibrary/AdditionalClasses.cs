@@ -4,30 +4,31 @@ using System.Windows.Data;
 namespace BSACLibrary
 {
     //Отдельный класс для информации о каждом PDF файле
-    public class pdfDescription
+    public class PdfDescription
     {
-        public int id { get; set; }
-        public string publication_name { get; set; }
-        public bool is_magazine { get; set; }
-        public DateTime date { get; set; }
-        public int issue_number { get; set; }
-        public string file_path { get; set; }
-        public string founded_text { get; set; }
+        public int Id { get; set; }
+        public string PublicationName { get; set; }
+        public bool IsMagazine { get; set; }
+        public DateTime Date { get; set; }
+        public int IssueNumber { get; set; }
+        public string FilePath { get; set; }
+        public string FoundedText { get; set; }
     }
 
     //Класс для конвертирования bool значения в строку
     //Источник: http://geekswithblogs.net/codingbloke/archive/2010/05/28/a-generic-boolean-value-converter.aspx
     public class BoolToValueConverter<T> : IValueConverter
     {
-        public T FalseValue { get; set; }
-        public T TrueValue { get; set; }
+        public T FalseValue { private get; set; }
+        public T TrueValue { private get; set; }
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             if (value == null)
+            {
                 return FalseValue;
-            else
-                return (bool)value ? TrueValue : FalseValue;
+            }
+            return (bool)value ? TrueValue : FalseValue;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

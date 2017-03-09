@@ -6,20 +6,22 @@ using System.Data;
 
 namespace BSACLibrary
 {
-    public static class DBQueries
+    public static class DbQueries
     {
-        private static MainWindow mWin = MainWindow.AppWindow;
+        private static readonly MainWindow MWin = MainWindow.AppWindow;
 
         //Метод возвращает строку подключения к БД
-        private static string connectionString()
+        private static string ConnectionString()
         {
-            MySqlConnectionStringBuilder stringBuilder = new MySqlConnectionStringBuilder();
-            stringBuilder.Server = Settings.Default.dbServerIP;
-            stringBuilder.Port = Convert.ToUInt32(Settings.Default.dbServerPort);
-            stringBuilder.UserID = Settings.Default.dbUsername;
-            stringBuilder.Password = Settings.Default.dbPassword;
-            stringBuilder.CharacterSet = "utf8";
-            stringBuilder.ConvertZeroDateTime = true;
+            MySqlConnectionStringBuilder stringBuilder = new MySqlConnectionStringBuilder
+            {
+                Server = Settings.Default.dbServerIP,
+                Port = Convert.ToUInt32(Settings.Default.dbServerPort),
+                UserID = Settings.Default.dbUsername,
+                Password = Settings.Default.dbPassword,
+                CharacterSet = "utf8",
+                ConvertZeroDateTime = true
+            };
             return stringBuilder.ConnectionString;
         }
 
@@ -27,7 +29,7 @@ namespace BSACLibrary
         public static void Execute(string query)
         {
             //Созданое таким образом соединение будет автоматически закрыто
-            using (MySqlConnection conn = new MySqlConnection(connectionString()))
+            using (MySqlConnection conn = new MySqlConnection(ConnectionString()))
             {
                 //Открываем соединение
                 conn.Open();
@@ -42,7 +44,7 @@ namespace BSACLibrary
         //Отдельный метод для обновления DataGrid таблицы в редакторе
         public static void UpdateDataGrid()
         {
-            using (MySqlConnection conn = new MySqlConnection(connectionString()))
+            using (MySqlConnection conn = new MySqlConnection(ConnectionString()))
             {
                 //Открываем соединение
                 conn.Open();
@@ -54,16 +56,16 @@ namespace BSACLibrary
                 DataSet newDataSet = new DataSet();
                 newDataAdapter.Fill(newDataSet, "dbBinding");
                 //Заполняем таблицу в редакторе
-                mWin.dbDataGrid.DataContext = newDataSet;
+                MWin.DbDataGrid.DataContext = newDataSet;
                 //Обновим информацию о файлах для поиска
                 Initialize.UpdateFilesDescriptions();
             }
         }
 
         //Метод выполняющий команду и возвращающий результат в виде массива
-        public static List<pdfDescription> ExecuteAndReadFilesDescription(string query)
+        public static List<PdfDescription> ExecuteAndReadFilesDescription(string query)
         {
-            using (MySqlConnection conn = new MySqlConnection(connectionString()))
+            using (MySqlConnection conn = new MySqlConnection(ConnectionString()))
             {
                 //Открываем соединение
                 conn.Open();
@@ -71,22 +73,24 @@ namespace BSACLibrary
 
                 MySqlCommand cmd = new MySqlCommand(query, conn);
 
-                MySqlDataReader Reader = cmd.ExecuteReader();
+                MySqlDataReader reader = cmd.ExecuteReader();
 
                 //Cоздаем необходимые переменные
-                List<pdfDescription> newList = new List<pdfDescription>();
+                List<PdfDescription> newList = new List<PdfDescription>();
 
 
-                while (Reader.Read())
+                while (reader.Read())
                 {
                     //Присвоими полученные от SQL значения соответсвующему классу
-                    pdfDescription curFile = new pdfDescription();
-                    curFile.id = Convert.ToInt32(Reader.GetString(0));
-                    curFile.publication_name = Reader.GetString(1);
-                    curFile.is_magazine = Convert.ToBoolean(Reader.GetString(2));
-                    curFile.date = Convert.ToDateTime(Reader.GetString(3));
-                    curFile.issue_number = Convert.ToInt32(Reader.GetString(4));
-                    curFile.file_path = Reader.GetString(5);
+                    PdfDescription curFile = new PdfDescription
+                    {
+                        Id = Convert.ToInt32(reader.GetString(0)),
+                        PublicationName = reader.GetString(1),
+                        IsMagazine = Convert.ToBoolean(reader.GetString(2)),
+                        Date = Convert.ToDateTime(reader.GetString(3)),
+                        IssueNumber = Convert.ToInt32(reader.GetString(4)),
+                        FilePath = reader.GetString(5)
+                    };
 
                     //Запишем данные в массив
                     newList.Add(curFile);
@@ -99,7 +103,7 @@ namespace BSACLibrary
         public static void DataBaseCreate()
     {
             //Откроем новое соединение
-            using (MySqlConnection conn = new MySqlConnection(connectionString()))
+            using (MySqlConnection conn = new MySqlConnection(ConnectionString()))
             {
                 conn.Open();
 
