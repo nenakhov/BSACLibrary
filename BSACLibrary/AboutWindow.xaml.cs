@@ -19,7 +19,7 @@ namespace BSACLibrary
             try
             { 
                 //Запустим почтовый клиент
-                Process proc = new Process
+                var proc = new Process
                 {
                     StartInfo =
                     {

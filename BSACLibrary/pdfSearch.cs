@@ -13,13 +13,13 @@ namespace BSACLibrary
             file.FoundedText = null;
             try
             {
-                using (PdfReader pdfReader = new PdfReader(file.FilePath))
+                using (var pdfReader = new PdfReader(file.FilePath))
                 {
-                    for (int page = 1; page <= pdfReader.NumberOfPages; page++)
+                    for (var page = 1; page <= pdfReader.NumberOfPages; page++)
                     {
                         ITextExtractionStrategy strategy = new SimpleTextExtractionStrategy();
-                        string currentPageText = PdfTextExtractor.GetTextFromPage(pdfReader, page, strategy);
-                        int i = currentPageText.IndexOf(substring, StringComparison.CurrentCultureIgnoreCase);
+                        var currentPageText = PdfTextExtractor.GetTextFromPage(pdfReader, page, strategy);
+                        var i = currentPageText.IndexOf(substring, StringComparison.CurrentCultureIgnoreCase);
                         if (i == -1)
                         {
                             continue;

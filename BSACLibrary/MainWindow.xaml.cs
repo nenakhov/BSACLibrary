@@ -57,7 +57,7 @@ namespace BSACLibrary
                 //Cортировка всех названий по алфавиту
                 _filesList = _filesList.OrderBy(x => x.PublicationName).ToList();
 
-                foreach (PdfDescription file in _filesList)
+                foreach (var file in _filesList)
                 {
                     //Заполним список наименований во вкладке редактора заново
                     //Исключим повторяющиеся записи
@@ -99,7 +99,7 @@ namespace BSACLibrary
         private void OptionsWindow_Open(object sender, RoutedEventArgs e)
         {
             //Открываем окно настроек
-            OptionsWindow oWin = new OptionsWindow {Owner = this};
+            var oWin = new OptionsWindow {Owner = this};
             //ShowDialog в отличии от Show позволяет запретить повторный запуск этого же окна
             oWin.ShowDialog();
         }
@@ -107,7 +107,7 @@ namespace BSACLibrary
         //Открытие окна "О программе" по нажатию соответствующего пункта меню
         private void AboutWindow_Open(object sender, RoutedEventArgs e)
         {
-            AboutWindow aWin = new AboutWindow {Owner = this};
+            var aWin = new AboutWindow {Owner = this};
             aWin.ShowDialog();
         }
 
@@ -168,7 +168,7 @@ namespace BSACLibrary
 
         private void AddOpenFileBtn_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog {Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*"};
+            var openFileDialog = new OpenFileDialog {Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*"};
             if (openFileDialog.ShowDialog() == true)
             {
                 AddFilePathTxtBox.Text = openFileDialog.FileName;
@@ -183,7 +183,7 @@ namespace BSACLibrary
                 EditEntryBtn.IsEnabled = true;
                 DelEntryBtn.IsEnabled = true;
 
-                DataRowView row = DbDataGrid.SelectedItem as DataRowView;
+                var row = DbDataGrid.SelectedItem as DataRowView;
                 if (row != null)
                 {
                     EditIdTxtBox.Text = Convert.ToString(row[0]);
@@ -212,7 +212,7 @@ namespace BSACLibrary
 
         private void EditOpenFileBtn_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog {Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*"};
+            var openFileDialog = new OpenFileDialog {Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*"};
             if (openFileDialog.ShowDialog() == true)
             {
                 EditFilePathTxtBox.Text = openFileDialog.FileName;
@@ -223,7 +223,7 @@ namespace BSACLibrary
         {
             if (DbDataGrid.SelectedIndex >= 0)
             {
-                MessageBoxResult result = MessageBox.Show("Вы уверены что хотите удалить запись? Действие необратимо.", "Удаление", MessageBoxButton.YesNo);
+                var result = MessageBox.Show("Вы уверены что хотите удалить запись? Действие необратимо.", "Удаление", MessageBoxButton.YesNo);
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
@@ -243,7 +243,7 @@ namespace BSACLibrary
         {
             if (DbDataGrid.SelectedIndex >= 0)
             {
-                MessageBoxResult result = MessageBox.Show("Вы уверены что хотите изменить запись? Действие необратимо.", "Изменение", MessageBoxButton.YesNo);
+                var result = MessageBox.Show("Вы уверены что хотите изменить запись? Действие необратимо.", "Изменение", MessageBoxButton.YesNo);
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
@@ -283,7 +283,7 @@ namespace BSACLibrary
                 try
                 {
                     //Приводим объект из списку к типу pdfDescription
-                    PdfDescription selectedFile = SearchListBox.Items[SearchListBox.SelectedIndex] as PdfDescription;
+                    var selectedFile = SearchListBox.Items[SearchListBox.SelectedIndex] as PdfDescription;
                     //Откроем соответствующий файл
                     if (selectedFile != null)
                     {
@@ -303,7 +303,7 @@ namespace BSACLibrary
             try
             {
                 //Откроем соответствующий файл
-                Process proc = new Process
+                var proc = new Process
                 {
                     StartInfo =
                     {
@@ -331,9 +331,9 @@ namespace BSACLibrary
             NpYearListBox.Items.Clear();
             NpYearListBox.Items.Add("<<<ВСЕ>>>");
             //Cортировка по году выхода
-            List<PdfDescription> sortedDate = _filesList.OrderBy(x => x.Date.Year).ToList();
+            var sortedDate = _filesList.OrderBy(x => x.Date.Year).ToList();
 
-            foreach (PdfDescription file in sortedDate)
+            foreach (var file in sortedDate)
             {
                 //Если является журналом перейдем к следующей итерации
                 if (file.IsMagazine)
@@ -371,10 +371,10 @@ namespace BSACLibrary
             //Очистим панель со списком газет.
             NpWrapPanel.Children.Clear();
             //Отсортируем список по имени и номеру
-            List<PdfDescription> sortedByNameAndNmb = _filesList.OrderBy(x => x.PublicationName).ThenBy(x => x.IssueNumber).ToList();
-            int i = 0;
+            var sortedByNameAndNmb = _filesList.OrderBy(x => x.PublicationName).ThenBy(x => x.IssueNumber).ToList();
+            var i = 0;
 
-            foreach (PdfDescription file in sortedByNameAndNmb)
+            foreach (var file in sortedByNameAndNmb)
             {
                 //Если не является газетой пропустим текущую итерацию
                 if (file.IsMagazine)
@@ -422,9 +422,9 @@ namespace BSACLibrary
             MzYearListBox.Items.Clear();
             MzYearListBox.Items.Add("<<<ВСЕ>>>");
             //Cортировка по году выхода
-            List<PdfDescription> sortedDate = _filesList.OrderBy(x => x.Date.Year).ToList();
+            var sortedDate = _filesList.OrderBy(x => x.Date.Year).ToList();
 
-            foreach (PdfDescription file in sortedDate)
+            foreach (var file in sortedDate)
             {
                 //Если является не журналом перейдем к следующей итерации
                 if (file.IsMagazine == false)
@@ -462,10 +462,10 @@ namespace BSACLibrary
             //Очистим панель со списком газет.
             MzWrapPanel.Children.Clear();
             //Отсортируем список по имени и номеру
-            List<PdfDescription> sortedByNameAndNmb = _filesList.OrderBy(x => x.PublicationName).ThenBy(x => x.IssueNumber).ToList();
-            int i = 0;
+            var sortedByNameAndNmb = _filesList.OrderBy(x => x.PublicationName).ThenBy(x => x.IssueNumber).ToList();
+            var i = 0;
 
-            foreach (PdfDescription file in sortedByNameAndNmb)
+            foreach (var file in sortedByNameAndNmb)
             {
                 //Если не является журналом пропустим текущую итерацию
                 if (file.IsMagazine == false)
@@ -506,12 +506,12 @@ namespace BSACLibrary
         private TextBlock AddTextBlock(string publicationName, string filePath, int issueNumber)
         {
             //Cформируемый текстовый блок с названием издания и его номером
-            TextBlock newTextBlock = new TextBlock();
-            string addString = publicationName + " №" + issueNumber + ";    ";
+            var newTextBlock = new TextBlock();
+            var addString = publicationName + " №" + issueNumber + ";    ";
             //При наличии .pdf создаем гиперссылку на  файл
             if (string.IsNullOrEmpty(filePath) == false)
             {
-                Hyperlink newHyperLink = new Hyperlink();
+                var newHyperLink = new Hyperlink();
                 newHyperLink.Inlines.Add(addString);
                 newHyperLink.NavigateUri = new Uri(filePath);
                 newHyperLink.RequestNavigate += OnNavigate;
@@ -530,7 +530,7 @@ namespace BSACLibrary
         //Регулярное выражение для проверки вводимых символов в поля редактора
         private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("[^0-9]+");
+            var regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
 

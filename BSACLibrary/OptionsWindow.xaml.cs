@@ -70,14 +70,14 @@ namespace BSACLibrary
         //Запрет на ввод специальных символов решает проблему возможности SQL-инъекции
         private void AllowedInput_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("[^a-zA-Z0-9_]+");
+            var regex = new Regex("[^a-zA-Z0-9_]+");
             e.Handled = regex.IsMatch(e.Text);
         }
 
         //Запрет на ввод всего кроме цифр
         private void Numeric_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("[^0-9]+");
+            var regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
     }

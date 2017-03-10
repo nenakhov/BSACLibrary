@@ -18,7 +18,7 @@ namespace BSACLibrary
                 if (Settings.Default.isAdmin)
                 {
                     //Отобразим вкладку редактора
-                    Style style = MWin.FindResource("RadioNormalCorner") as Style;
+                    var style = MWin.FindResource("RadioNormalCorner") as Style;
 
                     MWin.EditBtn.Visibility = Visibility.Visible;
                     MWin.EditBtn.IsChecked = true;
@@ -49,7 +49,7 @@ namespace BSACLibrary
                 //Иначе спрячем вкладку редактора и применим соответствующее оформление
                 else
                 {
-                    Style style = MWin.FindResource("RadioRightCorner") as Style;
+                    var style = MWin.FindResource("RadioRightCorner") as Style;
 
                     MWin.EditBtn.Visibility = Visibility.Hidden;
                     MWin.NewspapersBtn.Style = style;

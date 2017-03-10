@@ -146,7 +146,7 @@
                 Grid.Row="2" FontSize="14" PreviewKeyDown="SrchTxtBox_PreviewKeyDown"
                 Watermark="Поиск информации по ключевому слову или фразе. Например, &quot;802.11ac&quot;"
                 PreviewMouseLeftButtonUp="SrchTxtBox_PreviewMouseLeftButtonUp"/>
-        <Popup Name="PpSrchTxtBox" StaysOpen="False" Placement="Bottom" Width="{Binding ActualWidth, ElementName=SrchTxtBox}" PlacementTarget="{Binding ElementName=SrchTxtBox}"
+        <Popup Grid.Row="0" Grid.Column="0" Name="PpSrchTxtBox" StaysOpen="False" Placement="Bottom" Width="{Binding ActualWidth, ElementName=SrchTxtBox}" PlacementTarget="{Binding ElementName=SrchTxtBox}"
                PopupAnimation="Scroll">
             <Border BorderBrush="Gray" BorderThickness="1" Background="White">
                 <TextBlock Margin="5">
