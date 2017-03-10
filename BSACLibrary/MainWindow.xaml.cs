@@ -498,7 +498,7 @@ namespace BSACLibrary
             }
             else
             {
-                MzLabel.Content = ("В базе данных отсутсвуют сведения.");
+                MzLabel.Content = ("В базе данных отсутсвуют записи.");
             }
         }
 
