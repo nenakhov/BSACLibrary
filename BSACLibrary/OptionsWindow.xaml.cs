@@ -1,15 +1,16 @@
-﻿using System.Windows;
-using BSACLibrary.Properties;
-using System.Windows.Input;
+﻿using System;
 using System.Text.RegularExpressions;
-using System.Windows.Threading;
 using System.Threading;
-using System;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
+using System.Windows.Threading;
+using BSACLibrary.Properties;
 
 namespace BSACLibrary
 {
     /// <summary>
-    /// Interaction logic for OptionsWindow.xaml
+    ///     Interaction logic for OptionsWindow.xaml
     /// </summary>
     public partial class OptionsWindow
     {
@@ -32,7 +33,7 @@ namespace BSACLibrary
         {
             Close();
         }
-        
+
         //Клик по кнопке ОК
         private void OkBt_Click(object sender, RoutedEventArgs e)
         {
@@ -46,22 +47,20 @@ namespace BSACLibrary
                 Settings.Default.dbUsername = TxtBoxUsr.Text;
                 Settings.Default.dbPassword = PwdBoxPwd.Password;
                 if (ChkBoxAdm.IsChecked != null)
-                {
                     Settings.Default.isAdmin = ChkBoxAdm.IsChecked.Value;
-                }
                 //Cохраняем переменные в файл конфигурации
                 Settings.Default.Save();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             //Повторно инициализируем GUI и переподключаемся к бд
-            System.Threading.Tasks.Task.Factory.StartNew(() =>
+            Task.Factory.StartNew(() =>
                 Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-                (ThreadStart)Initialize.Init)
+                    (ThreadStart) Initialize.Init)
             );
 
             CancelBt_Click(sender, e);

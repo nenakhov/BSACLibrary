@@ -1,8 +1,8 @@
-﻿using BSACLibrary.Properties;
-using MySql.Data.MySqlClient;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using BSACLibrary.Properties;
+using MySql.Data.MySqlClient;
 
 namespace BSACLibrary
 {
@@ -51,7 +51,10 @@ namespace BSACLibrary
                 conn.ChangeDatabase(Settings.Default.dbName);
 
                 //Отправка запроса на обновление списка изданий из БД
-                var newDataAdapter = new MySqlDataAdapter("SELECT id,publication,is_magazine,date,issue_number,file_path FROM " + Settings.Default.dbTableName, conn);
+                var newDataAdapter =
+                    new MySqlDataAdapter(
+                        "SELECT id,publication,is_magazine,date,issue_number,file_path FROM " +
+                        Settings.Default.dbTableName, conn);
 
                 var newDataSet = new DataSet();
                 newDataAdapter.Fill(newDataSet, "dbBinding");
@@ -101,7 +104,7 @@ namespace BSACLibrary
 
         //Метод для создания БД и таблицы, если они отсутсвуют
         public static void DataBaseCreate()
-    {
+        {
             //Откроем новое соединение
             using (var conn = new MySqlConnection(ConnectionString()))
             {
@@ -110,8 +113,8 @@ namespace BSACLibrary
                 //Запрос для создания базы данных
                 //Если такая БД уже есть ошибки не будет (IF NOT EXISTS)
                 var query = "CREATE DATABASE IF NOT EXISTS " +
-                                            "`" + Settings.Default.dbName +
-                                            "` CHARACTER SET utf8 COLLATE utf8_general_ci;";
+                            "`" + Settings.Default.dbName +
+                            "` CHARACTER SET utf8 COLLATE utf8_general_ci;";
                 //Отправляем запрос
                 var cmd = new MySqlCommand(query, conn);
                 cmd.ExecuteNonQuery();
@@ -122,16 +125,16 @@ namespace BSACLibrary
                 //Запрос для создания таблицы
                 //Если такая таблица уже есть в БД ошибки не будет (IF NOT EXISTS)
                 query = "CREATE TABLE IF NOT EXISTS `" +
-                                    Settings.Default.dbTableName + //Имя таблицы 
-                                    "` (" +
-                                    "`id` INT(6) NOT NULL AUTO_INCREMENT, " + //Автоинкрементирующееся поле id 
-                                    "`publication` VARCHAR(255) NOT NULL, " + //Название издания
-                                    "`is_magazine` TINYINT(1) NOT NULL, " + //Является ли журналом или газетой
-                                    "`date` DATETIME NOT NULL, " + //Дата выхода издания
-                                    "`issue_number` INT(6) NOT NULL, " + //Порядковый номер издания
-                                    "`file_path` VARCHAR(255) NOT NULL, " + //Ссылка на файл
-                                    "PRIMARY KEY(`id`) " +
-                                    ") ";
+                        Settings.Default.dbTableName + //Имя таблицы 
+                        "` (" +
+                        "`id` INT(6) NOT NULL AUTO_INCREMENT, " + //Автоинкрементирующееся поле id 
+                        "`publication` VARCHAR(255) NOT NULL, " + //Название издания
+                        "`is_magazine` TINYINT(1) NOT NULL, " + //Является ли журналом или газетой
+                        "`date` DATETIME NOT NULL, " + //Дата выхода издания
+                        "`issue_number` INT(6) NOT NULL, " + //Порядковый номер издания
+                        "`file_path` VARCHAR(255) NOT NULL, " + //Ссылка на файл
+                        "PRIMARY KEY(`id`) " +
+                        ") ";
                 //Отправляем запрос
                 cmd = new MySqlCommand(query, conn);
                 cmd.ExecuteNonQuery();

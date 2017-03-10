@@ -484,15 +484,17 @@ namespace BSACLibrary
             if (e.Key == Key.Return && _total == 0 && _current == 0)
                 //Если это Enter и если поиск не выполняется в данный момент
             {
-                if (SrchTxtBox.Text.Length < 3)
-                {
-                    //Минимальная длина поискового запроса -3 символа
-                    PpSrchTxtBox.IsOpen = true;
-                    return;
-                }
                 //Очищаем элементы списка
                 SearchListBox.Items.Clear();
                 SearchListBox.Visibility = Visibility.Hidden;
+
+                if (SrchTxtBox.Text.Length < 3)
+                {
+                    //Добавляем элемент
+                    SearchListBox.Items.Add("Минимальная длина поискового запроса 3 символа.");
+                    SearchListBox.Visibility = Visibility.Visible;
+                    return;
+                }
 
                 if (_filesList == null)
                 {
@@ -529,11 +531,11 @@ namespace BSACLibrary
                                     Dispatcher.BeginInvoke(DispatcherPriority.Normal,
                                         (ThreadStart) delegate
                                         {
-                                            //Откроем выпадающий список
-                                            SearchListBox.Visibility = Visibility.Visible;
                                             //Добавим в результаты поиска название издания
                                             //И часть текста, начинающегося с поискового запроса
                                             SearchListBox.Items.Add(file);
+                                            //Откроем выпадающий список
+                                            SearchListBox.Visibility = Visibility.Visible;
                                         });
                                 Interlocked.Increment(ref _current);
                                 Dispatcher.BeginInvoke(DispatcherPriority.Normal,
@@ -542,7 +544,6 @@ namespace BSACLibrary
                                         //Если поиск завершился
                                         if (_current == _total)
                                         {
-                                            //Обнуляем счетчки
                                             _total = 0;
                                             _current = 0;
                                             _substring = null;
@@ -551,11 +552,12 @@ namespace BSACLibrary
                                             //Если ничего не найдено
                                             if (SearchListBox.Items.Count == 0)
                                             {
-                                                //Добавляем элемент
-                                                SearchListBox.Visibility = Visibility.Visible;
                                                 SearchListBox.Items.Add("По вашему запросу ничего не найдено.");
+                                                SearchListBox.Visibility = Visibility.Visible;
                                             }
                                         }
+                                        //Обнуляем счетчки
+                                        //Добавляем элемент
                                     });
                             })
                     );
