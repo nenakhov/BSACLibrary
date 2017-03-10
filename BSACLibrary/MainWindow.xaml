@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:gif="http://wpfanimatedgif.codeplex.com"
         xmlns:local="clr-namespace:BSACLibrary"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="Картотека периодических изданий" Background="WhiteSmoke" MinHeight="700" MinWidth="1200" Height="700"
         ScrollViewer.VerticalScrollBarVisibility="Disabled" Width="1200" WindowStartupLocation="CenterScreen" 
@@ -140,15 +141,22 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <TextBox Name="SrchTxtBox" Padding="2" Grid.Column="0" Grid.ColumnSpan="6" MaxLength="128"
-                Grid.Row="2" FontSize="14" Foreground="Gray" PreviewKeyDown="SrchTxtBox_PreviewKeyDown"
-                Text="Поиск информации по ключевому слову или фразе. Например, &quot;802.11ac&quot;"
-                PreviewMouseLeftButtonUp="SrchTxtBox_PreviewMouseLeftButtonUp"/>
 
+        <xctk:WatermarkTextBox Name="SrchTxtBox" Padding="2" Grid.Column="0" Grid.ColumnSpan="6" MaxLength="128"
+                Grid.Row="2" FontSize="14" PreviewKeyDown="SrchTxtBox_PreviewKeyDown"
+                Watermark="Поиск информации по ключевому слову или фразе. Например, &quot;802.11ac&quot;"
+                PreviewMouseLeftButtonUp="SrchTxtBox_PreviewMouseLeftButtonUp"/>
+        <Popup Name="PpSrchTxtBox" StaysOpen="False" Placement="Bottom" Width="{Binding ActualWidth, ElementName=SrchTxtBox}" PlacementTarget="{Binding ElementName=SrchTxtBox}"
+               PopupAnimation="Scroll">
+            <Border BorderBrush="Gray" BorderThickness="1" Background="White">
+                <TextBlock Margin="5">
+                    Минимальная длина поискового запроса 3 символа
+                </TextBlock>
+            </Border>
+        </Popup>
         <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" Name="SearchListBox" Grid.Column="0" Grid.ColumnSpan="6"
                  Grid.Row="3" Grid.RowSpan="4" Panel.ZIndex="5" VerticalAlignment="Top" MaxHeight="240" Visibility="Hidden"
                  MouseLeave="searchListBox_MouseLeave" FontSize="14" PreviewMouseLeftButtonUp="SearchListBox_PreviewMouseLeftButtonUp"/>
-
         <Image Name="GifAnim" Margin="0,0,2,0" Grid.Column="5" Grid.Row="2"
                 gif:ImageBehavior.AnimatedSource="Resources/searching.gif" Width="22"
                 HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Hidden"/>

@@ -12,7 +12,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Navigation;
 using System.Windows.Threading;
 
@@ -128,15 +127,7 @@ namespace BSACLibrary
         //Обработка клика по полю ввода
         private void SrchTxtBox_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-             if (SrchTxtBox.Text == "Поиск информации по ключевому слову или фразе. Например, \"802.11ac\"")
-                {
-                    //Делаем поле ввода пустым
-                    SrchTxtBox.Text = null;
-                    //Изменяем цвет текста в поле ввода по умолчанию на черный
-                    //SolidColorBrush закрашивает область сплошным цветом.
-                    SrchTxtBox.Foreground = new SolidColorBrush(Colors.Black);
-                }
-            else if (SearchListBox.Items.Count > 0)
+            if (SearchListBox.Items.Count > 0)
             {
                 SearchListBox.Visibility = Visibility.Visible;
             }
@@ -552,7 +543,8 @@ namespace BSACLibrary
             {
                 if (SrchTxtBox.Text.Length < 3)
                 {
-                    SrchTxtBox.Text = "Минимальная длина поискового запроса - 3 символа";
+                    //Минимальная длина поискового запроса -3 символа
+                    PpSrchTxtBox.IsOpen = true;
                     return;
                 }
                 //Очищаем элементы списка
