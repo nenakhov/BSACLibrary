@@ -148,7 +148,7 @@
                 PreviewMouseLeftButtonUp="SrchTxtBox_PreviewMouseLeftButtonUp"/>
         <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" Name="SearchListBox" Grid.Column="0" Grid.ColumnSpan="6"
                  Grid.Row="3" Grid.RowSpan="4" Panel.ZIndex="5" VerticalAlignment="Top" MaxHeight="240" Visibility="Hidden"
-                 MouseLeave="searchListBox_MouseLeave" FontSize="14" PreviewMouseLeftButtonUp="SearchListBox_PreviewMouseLeftButtonUp"/>
+                 MouseLeave="SearchListBox_MouseLeave" FontSize="14" PreviewMouseLeftButtonUp="SearchListBox_PreviewMouseLeftButtonUp"/>
         <Image Name="GifAnim" Margin="0,0,2,0" Grid.Column="5" Grid.Row="2"
                 gif:ImageBehavior.AnimatedSource="Resources/searching.gif" Width="22"
                 HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Hidden"/>
@@ -266,13 +266,13 @@
                             VerticalAlignment="Top">Журнал</RadioButton>
                     <RadioButton GroupName="add" Grid.Row="1" Grid.Column="1" 
                             Margin="0,17,0,0">Газета</RadioButton>
-                    <DatePicker Name="AddDatePicker"  Width="270" Height="25" Grid.Row="2" Grid.Column="1" Padding="2" 
-                            FirstDayOfWeek="Monday" SelectedDateFormat="Short"/>
+                    <xctk:DateTimePicker TimePickerVisibility="Hidden" Format="ShortDate" Name="AddDatePicker"  Width="270" 
+                            Height="25" Grid.Row="2" Grid.Column="1" Padding="3"/>
                     <TextBox Name="AddIssueNmbTxtBox" Width="270" Height="25" Padding="3" Grid.Row="3" Grid.Column="1" 
-                             MaxLength="32" PreviewTextInput="TextBox_PreviewTextInput"/>
+                            MaxLength="32" PreviewTextInput="TextBox_PreviewTextInput"/>
                     <TextBox Name="AddFilePathTxtBox" Width="200" Height="25" Padding="3" Grid.Row="4" Grid.Column="1"
                             HorizontalAlignment="Left"  MaxLength="255"/>
-                    <Button  Height="25" Width="60" Grid.Row="4" Content="Открыть" 
+                    <Button Height="25" Width="60" Grid.Row="4" Content="Открыть" 
                             Grid.Column="1" HorizontalAlignment="Right" Click="AddOpenFileBtn_Click"/>
                     <Button Grid.Column="2" Grid.Row="4" Width="120" Height="25"
                             Click="AddEntryBtn_Click" HorizontalAlignment="Right" Margin="0,0,6,0">Добавить запись</Button>
@@ -289,10 +289,11 @@
                             IsChecked="True" VerticalAlignment="Top">Журнал</RadioButton>
                     <RadioButton Name="EditRadioBtnNewsp" GroupName="edt" Grid.Row="1" Grid.Column="5" 
                             Margin="0,17,0,0">Газета</RadioButton>
-                    <DatePicker  Name="EditDatePicker" Width="270" Height="25" Grid.Row="2" Grid.Column="5" Padding="2"/>
+                    <xctk:DateTimePicker TimePickerVisibility="Hidden" Format="ShortDate" Name="EditDatePicker" Width="270" 
+                            Height="25" Grid.Row="2" Grid.Column="5" Padding="3"/>
                     <TextBox Name="EditIssueNmbTxtBox" Width="270" Height="25" Padding="3" Grid.Row="3" Grid.Column="5"
-                             MaxLength="32" PreviewTextInput="TextBox_PreviewTextInput"/>
-                    <TextBox  Name="EditFilePathTxtBox" Width="200" Height="25" MaxLength="255" 
+                            MaxLength="32" PreviewTextInput="TextBox_PreviewTextInput"/>
+                    <TextBox Name="EditFilePathTxtBox" Width="200" Height="25" MaxLength="255" 
                             Padding="3" Grid.Row="4" Grid.Column="5"  HorizontalAlignment="Left"/>
                     <Button Height="25" Width="60" Grid.Row="4" Content="Открыть" Grid.Column="5" 
                             HorizontalAlignment="Right" Click="EditOpenFileBtn_Click"/>

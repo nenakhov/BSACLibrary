@@ -21,13 +21,19 @@ namespace BSACLibrary
                         var currentPageText = PdfTextExtractor.GetTextFromPage(pdfReader, page, strategy);
                         var i = currentPageText.IndexOf(substring, StringComparison.CurrentCultureIgnoreCase);
                         if (i == -1)
+                        {
                             continue;
+                        }
                         //Отформатируем найденный текст
                         currentPageText = currentPageText.Substring(i, currentPageText.Length - i);
                         if (currentPageText.Length >= 400)
+                        {
                             file.FoundedText = currentPageText.Substring(0, 399).Replace("\n", " ") + "...";
+                        }
                         else
+                        {
                             file.FoundedText = currentPageText.Replace("\n", " ") + "...";
+                        }
                         return;
                     }
                 }

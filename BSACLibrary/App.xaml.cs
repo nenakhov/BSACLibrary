@@ -19,7 +19,9 @@ namespace BSACLibrary
             _mutex = new Mutex(true, appName, out crNew);
 
             if (crNew == false)
+            {
                 Current.Shutdown();
+            }
 
             base.OnStartup(e);
         }

@@ -47,7 +47,9 @@ namespace BSACLibrary
                 Settings.Default.dbUsername = TxtBoxUsr.Text;
                 Settings.Default.dbPassword = PwdBoxPwd.Password;
                 if (ChkBoxAdm.IsChecked != null)
+                {
                     Settings.Default.isAdmin = ChkBoxAdm.IsChecked.Value;
+                }
                 //Cохраняем переменные в файл конфигурации
                 Settings.Default.Save();
             }

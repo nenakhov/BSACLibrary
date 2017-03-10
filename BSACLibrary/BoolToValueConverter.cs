@@ -15,7 +15,10 @@ namespace BSACLibrary
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null)
+            {
                 return FalseValue;
+            }
+
             return (bool) value ? TrueValue : FalseValue;
         }
 
