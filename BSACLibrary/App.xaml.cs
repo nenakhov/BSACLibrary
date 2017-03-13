@@ -14,9 +14,8 @@ namespace BSACLibrary
         protected override void OnStartup(StartupEventArgs e)
         {
             const string appName = "Картотека периодических изданий";
-            bool crNew;
 
-            _mutex = new Mutex(true, appName, out crNew);
+            _mutex = new Mutex(true, appName, out bool crNew);
 
             if (crNew == false)
             {

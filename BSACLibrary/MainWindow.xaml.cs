@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Threading;
 using BSACLibrary.Properties;
 using Microsoft.Win32;
+using System.Windows.Controls.Primitives;
 
 namespace BSACLibrary
 {
@@ -523,7 +524,12 @@ namespace BSACLibrary
             else
             {
                 //Если к файлу не указан путь => соответственно он не был оцифрован
-                newTextBlock.ToolTip = "Нет цифровой копии";
+                var newToolTip = new ToolTip()
+                {
+                    Content = "Нет цифровой копии",
+                    Placement = PlacementMode.Bottom
+                };
+                newTextBlock.ToolTip = newToolTip;
                 newTextBlock.Inlines.Add(addString);
             }
             return newTextBlock;

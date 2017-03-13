@@ -23,6 +23,8 @@
                         MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}}"/>
             </StackPanel>
         </DataTemplate>
+
+        <local:IsNullConverter x:Key="isNullConverter"/>
         <local:BoolToStringConverter x:Key="BooleanToStringConverter" FalseValue="Газета" TrueValue="Журнал"/>
         <BooleanToVisibilityConverter x:Key="B2V"/>
 
@@ -344,7 +346,12 @@
                             <DataGridTextColumn Binding="{Binding Path=file_path}" Width="*" Header="Расположение .pdf файла" IsReadOnly="True">
                                 <DataGridTextColumn.CellStyle>
                                     <Style TargetType="DataGridCell">
-                                        <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=Content.(TextBlock.Text)}"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Content.(TextBlock.Text), Converter={StaticResource isNullConverter}}" Value="False">
+                                                <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=Content.(TextBlock.Text)}"/>
+                                                <Setter Property="ToolTip.Placement" Value="Relative"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
                                     </Style>
                                 </DataGridTextColumn.CellStyle>
                             </DataGridTextColumn>
