@@ -181,14 +181,16 @@ namespace BSACLibrary
             }
         }
 
-        //Обработка выбора строки в таблице редактора
+        //Изменилась выделенная запись в таблице редактора
         private void DbDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //Если что-то было выбрано
             if (DbDataGrid.SelectedIndex >= 0)
             {
+                //Сделаем кнопки редактировать/удалить активными
                 EditEntryBtn.IsEnabled = true;
                 DelEntryBtn.IsEnabled = true;
-
+                //Присвоим всем полям соответствующие значения в колонке редактирования
                 if (DbDataGrid.SelectedItem is DataRowView row)
                 {
                     EditIdTxtBox.Text = Convert.ToString(row[0]);
@@ -208,8 +210,10 @@ namespace BSACLibrary
                     EditFilePathTxtBox.Text = Convert.ToString(row[5]);
                 }
             }
+            //Сняли выделение
             else
             {
+                //Сделать кнопки редактировать/удалить неактивными
                 EditEntryBtn.IsEnabled = false;
                 DelEntryBtn.IsEnabled = false;
             }
@@ -289,10 +293,10 @@ namespace BSACLibrary
             {
                 try
                 {
-                    //Приводим объект из списку к типу pdfDescription
-                    //Откроем соответствующий файл
+                    //Приводим объект из списка к типу pdfDescription
                     if (SearchListBox.Items[SearchListBox.SelectedIndex] is PdfDescription selectedFile)
                     {
+                        //Откроем соответствующий файл
                         OnNavigate(this, new RequestNavigateEventArgs(new Uri(selectedFile.FilePath), null));
                     }
                 }
