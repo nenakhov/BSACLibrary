@@ -189,8 +189,7 @@ namespace BSACLibrary
                 EditEntryBtn.IsEnabled = true;
                 DelEntryBtn.IsEnabled = true;
 
-                var row = DbDataGrid.SelectedItem as DataRowView;
-                if (row != null)
+                if (DbDataGrid.SelectedItem is DataRowView row)
                 {
                     EditIdTxtBox.Text = Convert.ToString(row[0]);
                     EditPublName.Text = Convert.ToString(row[1]);
@@ -230,17 +229,17 @@ namespace BSACLibrary
             if (DbDataGrid.SelectedIndex >= 0)
             {
                 var result = MessageBox.Show("Вы уверены что хотите удалить запись? Действие необратимо.", "Удаление",
-                    MessageBoxButton.YesNo);
+                    MessageBoxButton.OKCancel);
                 switch (result)
                 {
-                    case MessageBoxResult.Yes:
+                    case MessageBoxResult.OK:
                         _query = "DELETE FROM " + Settings.Default.dbTableName +
                                  " WHERE id = '" + EditIdTxtBox.Text +
                                  "';";
                         DbQueries.Execute(_query);
                         DbQueries.UpdateDataGrid();
                         break;
-                    case MessageBoxResult.No:
+                    case MessageBoxResult.Cancel:
                         break;
                 }
             }
@@ -251,10 +250,10 @@ namespace BSACLibrary
             if (DbDataGrid.SelectedIndex >= 0)
             {
                 var result = MessageBox.Show("Вы уверены что хотите изменить запись? Действие необратимо.", "Изменение",
-                    MessageBoxButton.YesNo);
+                    MessageBoxButton.OKCancel);
                 switch (result)
                 {
-                    case MessageBoxResult.Yes:
+                    case MessageBoxResult.OK:
                         _query = "UPDATE " + Settings.Default.dbTableName +
                                  " SET publication='" + EditPublName.Text.Replace("'", "''") +
                                  "',is_magazine='" + Convert.ToInt16(EditRadioBtnMagaz.IsChecked) +
@@ -265,7 +264,7 @@ namespace BSACLibrary
                         DbQueries.Execute(_query);
                         DbQueries.UpdateDataGrid();
                         break;
-                    case MessageBoxResult.No:
+                    case MessageBoxResult.Cancel:
                         break;
                 }
             }
@@ -291,9 +290,8 @@ namespace BSACLibrary
                 try
                 {
                     //Приводим объект из списку к типу pdfDescription
-                    var selectedFile = SearchListBox.Items[SearchListBox.SelectedIndex] as PdfDescription;
                     //Откроем соответствующий файл
-                    if (selectedFile != null)
+                    if (SearchListBox.Items[SearchListBox.SelectedIndex] is PdfDescription selectedFile)
                     {
                         OnNavigate(this, new RequestNavigateEventArgs(new Uri(selectedFile.FilePath), null));
                     }
