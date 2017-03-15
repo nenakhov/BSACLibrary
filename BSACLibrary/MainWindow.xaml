@@ -24,7 +24,7 @@
             </StackPanel>
         </DataTemplate>
 
-        <local:IsNullConverter x:Key="isNullConverter"/>
+        <local:IsNullConverter x:Key="IsNullConverter"/>
         <local:BoolToStringConverter x:Key="BooleanToStringConverter" FalseValue="Газета" TrueValue="Журнал"/>
         <BooleanToVisibilityConverter x:Key="B2V"/>
 
@@ -347,7 +347,7 @@
                                 <DataGridTextColumn.CellStyle>
                                     <Style TargetType="DataGridCell">
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Content.(TextBlock.Text), Converter={StaticResource isNullConverter}}" Value="False">
+                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Content.(TextBlock.Text), Converter={StaticResource IsNullConverter}}" Value="False">
                                                 <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=Content.(TextBlock.Text)}"/>
                                                 <Setter Property="ToolTip.Placement" Value="Relative"/>
                                             </DataTrigger>

@@ -9,8 +9,7 @@ namespace BSACLibrary
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            //return value;
-            return (string.IsNullOrEmpty(value.ToString()));
+            return string.IsNullOrEmpty(value?.ToString());
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
