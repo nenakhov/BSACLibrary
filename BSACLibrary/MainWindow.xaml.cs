@@ -317,7 +317,7 @@ namespace BSACLibrary
                 {
                     StartInfo =
                     {
-                        FileName = e.Uri.AbsoluteUri,
+                        FileName = e.Uri.OriginalString,
                         UseShellExecute = true
                     }
                 };
