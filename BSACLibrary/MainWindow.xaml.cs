@@ -415,7 +415,7 @@ namespace BSACLibrary
             }
             else
             {
-                NpLabel.Content = "В базе данных отсутсвуют сведения.";
+                NpLabel.Content = "В базе данных отсутсвуют записи.";
             }
         }
 
