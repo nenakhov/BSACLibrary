@@ -20,7 +20,6 @@ namespace BSACLibrary
                 //Отобразим вкладку редактора
                 var style = MWin.FindResource("RadioNormalCorner") as Style;
 
-                MWin.EditBtn.Visibility = Visibility.Visible;
                 MWin.EditBtn.IsChecked = true;
                 MWin.NewspapersBtn.Style = style;
 
@@ -51,7 +50,6 @@ namespace BSACLibrary
             {
                 var style = MWin.FindResource("RadioRightCorner") as Style;
 
-                MWin.EditBtn.Visibility = Visibility.Hidden;
                 MWin.NewspapersBtn.Style = style;
                 MWin.MagazinesBtn.IsChecked = true;
 

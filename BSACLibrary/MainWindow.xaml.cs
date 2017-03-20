@@ -139,7 +139,7 @@ namespace BSACLibrary
         private void SearchListBox_MouseLeave(object sender, MouseEventArgs e)
         {
             //Скрыть выпадающий список если мышь увели за его пределы
-            SearchListBox.Visibility = Visibility.Hidden;
+            SearchListBox.Visibility = Visibility.Collapsed;
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -281,7 +281,7 @@ namespace BSACLibrary
             //Необходимо для того чтобы при щелчке на любом другом элементе программы список прятался
             if (SearchListBox.IsMouseOver == false)
             {
-                SearchListBox.Visibility = Visibility.Hidden;
+                SearchListBox.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -554,7 +554,7 @@ namespace BSACLibrary
             {
                 //Очищаем элементы списка
                 SearchListBox.Items.Clear();
-                SearchListBox.Visibility = Visibility.Hidden;
+                SearchListBox.Visibility = Visibility.Collapsed;
 
                 if (SrchTxtBox.Text.Length < 3)
                 {
@@ -619,7 +619,7 @@ namespace BSACLibrary
                                             _current = 0;
                                             _substring = null;
                                             //Прячем анимацию по завершению работы
-                                            GifAnim.Visibility = Visibility.Hidden;
+                                            GifAnim.Visibility = Visibility.Collapsed;
                                             //Если ничего не найдено
                                             if (SearchListBox.Items.Count == 0)
                                             {
