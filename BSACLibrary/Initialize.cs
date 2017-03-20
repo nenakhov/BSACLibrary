@@ -18,10 +18,7 @@ namespace BSACLibrary
             if (Settings.Default.isAdmin)
             {
                 //Отобразим вкладку редактора
-                var style = MWin.FindResource("RadioNormalCorner") as Style;
-
                 MWin.EditBtn.IsChecked = true;
-                MWin.NewspapersBtn.Style = style;
 
                 Grid.SetColumn(MWin.MagazinesBtn, 0);
                 Grid.SetColumnSpan(MWin.MagazinesBtn, 2);
@@ -45,12 +42,9 @@ namespace BSACLibrary
                     return;
                 }
             }
-            //Иначе спрячем вкладку редактора и применим соответствующее оформление
+            //Иначе спрячем вкладку редактора
             else
             {
-                var style = MWin.FindResource("RadioRightCorner") as Style;
-
-                MWin.NewspapersBtn.Style = style;
                 MWin.MagazinesBtn.IsChecked = true;
 
                 Grid.SetColumn(MWin.MagazinesBtn, 0);

@@ -29,61 +29,37 @@
         <local:BoolToStringConverter x:Key="BooleanToStringConverter" FalseValue="Газета" TrueValue="Журнал"/>
         <BooleanToVisibilityConverter x:Key="B2V"/>
 
-        <Style x:Key="RadioLeftCorner" TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type RadioButton}}">
+        <Style x:Key="RadioCorner" TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type RadioButton}}">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type RadioButton}">
                         <Border Name="border" Background="Gainsboro" BorderThickness="0">
                             <Border.Style>
                                 <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="4,0,0,4"/>
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Source={x:Static properties:Settings.Default},Path=isAdmin}" Value="True">
-                                            <Setter Property="CornerRadius" Value="0,0,0,0"></Setter>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=RadioButton}, Path=Name}" Value="MagazinesBtn">
+                                            <Setter Property="CornerRadius" Value="4,0,0,4"/>
                                         </DataTrigger>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=RadioButton}, Path=Name}" Value="NewspapersBtn">
+                                            <Setter Property="CornerRadius" Value="0,4,4,0"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=RadioButton}, Path=Name}" Value="EditBtn">
+                                            <Setter Property="CornerRadius" Value="0,4,4,0"/>
+                                        </DataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding Source={x:Static properties:Settings.Default}, Path=isAdmin}" Value="True"/>
+                                                <Condition Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=RadioButton}, Path=Name}" Value="NewspapersBtn"/>
+                                            </MultiDataTrigger.Conditions>
+                                            <MultiDataTrigger.Setters>
+                                                <Setter Property="CornerRadius" Value="0,0,0,0"/>
+                                            </MultiDataTrigger.Setters>
+                                        </MultiDataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </Border.Style>
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" 
                                 TextBlock.FontSize="18" TextBlock.FontFamily="Verdana"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsChecked" Value="True">
-                                <Setter Property="Background" TargetName="border" Value="LightGray"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="RadioNormalCorner" TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type RadioButton}}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type RadioButton}">
-                        <Border Name="border" Background="Gainsboro" BorderThickness="0">
-                            <ContentPresenter HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            TextBlock.FontSize="18"
-                            TextBlock.FontFamily="Verdana"></ContentPresenter>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsChecked" Value="True">
-                                <Setter Property="Background" TargetName="border" Value="LightGray"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="RadioRightCorner" TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type RadioButton}}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type RadioButton}">
-                        <Border Name="border" Background="Gainsboro" BorderThickness="0" CornerRadius="0,4,4,0">
-                            <ContentPresenter HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            TextBlock.FontSize="18"
-                            TextBlock.FontFamily="Verdana"></ContentPresenter>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsChecked" Value="True">
@@ -164,13 +140,13 @@
                 gif:ImageBehavior.AnimatedSource="Resources/searching.gif" Width="22"
                 HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Collapsed"/>
         <RadioButton Height="40" Name="MagazinesBtn" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" IsChecked="True"
-                VerticalAlignment="Center" Content="ЖУРНАЛЫ" Style="{DynamicResource RadioLeftCorner}"/>
+                VerticalAlignment="Center" Content="ЖУРНАЛЫ" Style="{DynamicResource RadioCorner}"/>
         <RadioButton Height="40" Name="NewspapersBtn" Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="3"
-                VerticalAlignment="Center" Content="ГАЗЕТЫ" Style="{DynamicResource RadioRightCorner}"/>
+                VerticalAlignment="Center" Content="ГАЗЕТЫ" Style="{DynamicResource RadioCorner}"/>
         <RadioButton Height="40" Name="EditBtn" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2"
-                Visibility="{Binding Source={x:Static properties:Settings.Default},Path=isAdmin,Converter={StaticResource B2V}}"
-                VerticalAlignment="Center" Content="РЕДАКТОР" Style="{DynamicResource RadioRightCorner}"/>
-        <Grid Visibility="{Binding IsChecked,ElementName=MagazinesBtn,Converter={StaticResource B2V}}"
+                Visibility="{Binding Source={x:Static properties:Settings.Default}, Path=isAdmin, Converter={StaticResource B2V}}"
+                VerticalAlignment="Center" Content="РЕДАКТОР" Style="{DynamicResource RadioCorner}"/>
+        <Grid Visibility="{Binding IsChecked, ElementName=MagazinesBtn, Converter={StaticResource B2V}}"
                 Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6">
             <Border Background="White" BorderThickness="1" BorderBrush="Gainsboro" CornerRadius="4">
                 <Grid Margin="10">
@@ -204,7 +180,7 @@
                 </Grid>
             </Border>
         </Grid>
-        <Grid Visibility="{Binding IsChecked,ElementName=NewspapersBtn,Converter={StaticResource B2V}}" 
+        <Grid Visibility="{Binding IsChecked, ElementName=NewspapersBtn, Converter={StaticResource B2V}}" 
                 Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6">
             <Border Background="White" BorderThickness="1" BorderBrush="Gainsboro" CornerRadius="4">
                 <Grid Margin="10">
@@ -238,7 +214,7 @@
                 </Grid>
             </Border>
         </Grid>
-        <Grid Visibility="{Binding IsChecked,ElementName=EditBtn,Converter={StaticResource B2V}}" 
+        <Grid Visibility="{Binding IsChecked, ElementName=EditBtn, Converter={StaticResource B2V}}" 
                 Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6">
             <Border Background="White" BorderThickness="1" BorderBrush="Gainsboro" CornerRadius="4">
                 <Grid Margin="10">
