@@ -49,6 +49,14 @@ namespace BSACLibrary
                 if (ChkBoxAdm.IsChecked != null)
                 {
                     Settings.Default.isAdmin = ChkBoxAdm.IsChecked.Value;
+                    if (Settings.Default.isAdmin)
+                    {
+                        if (string.IsNullOrEmpty(Settings.Default.dbUsername) || string.IsNullOrEmpty(Settings.Default.dbPassword))
+                        {
+                            MessageBox.Show("Заполните поля авторизации", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                        }
+                    }
                 }
                 //Cохраняем переменные в файл конфигурации
                 Settings.Default.Save();

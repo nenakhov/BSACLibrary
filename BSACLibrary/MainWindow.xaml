@@ -154,11 +154,11 @@
         <Image Name="GifAnim" Margin="0,0,2,0" Grid.Column="5" Grid.Row="2"
                 gif:ImageBehavior.AnimatedSource="Resources/searching.gif" Width="22"
                 HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Hidden"/>
-        <RadioButton Height="40" Name="MagazinesBtn" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" IsChecked="True"
+        <RadioButton Height="40" Name="MagazinesBtn" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" IsChecked="True"
                 VerticalAlignment="Center" Content="ЖУРНАЛЫ" Style="{DynamicResource RadioLeftCorner}"/>
-        <RadioButton Height="40" Name="NewspapersBtn" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2"
-                VerticalAlignment="Center" Content="ГАЗЕТЫ" Style="{DynamicResource RadioNormalCorner}"/>
-        <RadioButton Height="40" Name="EditBtn" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2"
+        <RadioButton Height="40" Name="NewspapersBtn" Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="3"
+                VerticalAlignment="Center" Content="ГАЗЕТЫ" Style="{DynamicResource RadioRightCorner}"/>
+        <RadioButton Height="40" Name="EditBtn" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" Visibility="Hidden"
                 VerticalAlignment="Center" Content="РЕДАКТОР" Style="{DynamicResource RadioRightCorner}"/>
         <Grid Visibility="{Binding IsChecked,ElementName=MagazinesBtn,Converter={StaticResource B2V}}"
                 Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6">
