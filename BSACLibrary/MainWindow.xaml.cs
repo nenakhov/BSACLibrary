@@ -46,7 +46,8 @@ namespace BSACLibrary
             {
                 _filesList = value;
                 //Очистим выпадающий список из уже существующих наименований во вкладке редактора
-                AddPublNameCmbBox.Items.Clear();
+                
+                //AddPublNameCmbBox.Items.Clear();
                 //Очистим списки во вкладках газеты/журналы
                 MzNameListBox.Items.Clear();
                 MzYearListBox.Items.Clear();
@@ -127,33 +128,39 @@ namespace BSACLibrary
             }
         }
 
-        //Обработка клика по полю ввода
+        //Клик мышью по полю ввода поискового запроса
         private void SrchTxtBox_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            //Если список содержит в себе элементы
             if (SearchListBox.Items.Count > 0)
             {
+                //Скроем выпадающий список с результатами
                 SearchListBox.Visibility = Visibility.Visible;
             }
         }
 
         private void SearchListBox_MouseLeave(object sender, MouseEventArgs e)
         {
-            //Скрыть выпадающий список если мышь увели за его пределы
+            //Скроем выпадающий список если мышь увели за его пределы
             SearchListBox.Visibility = Visibility.Collapsed;
         }
 
+        //Было закрыто главное окно программы
         private void Window_Closed(object sender, EventArgs e)
         {
-            //Закрываем программу
+            //Остановим выполнение программы
             Application.Current.Shutdown();
         }
 
+        //Клик мышью по кнопке "Добавить запись"
         private void AddEntryBtn_Click(object sender, RoutedEventArgs e)
         {
+            //Проверим заполнили ли поля "Название, Дата выхода, Номер издания"
             if (string.IsNullOrEmpty(AddPublNameCmbBox.Text) == false &&
                 string.IsNullOrEmpty(AddDatePicker.Text) == false &&
                 string.IsNullOrEmpty(AddIssueNmbTxtBox.Text) == false)
             {
+                //Сформируем и отправим соответствующий SQL-запрос в БД
                 _query = "INSERT INTO " + Settings.Default.dbTableName + " VALUES('" +
                          null + "', '" +
                          AddPublNameCmbBox.Text.Replace(@"'", @"\'") + "', '" +
@@ -172,13 +179,11 @@ namespace BSACLibrary
             }
         }
 
+        //Указание расположения pdf файла при добавлении
         private void AddOpenFileBtn_Click(object sender, RoutedEventArgs e)
         {
-            var openFileDialog = new OpenFileDialog {Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*"};
-            if (openFileDialog.ShowDialog() == true)
-            {
-                AddFilePathTxtBox.Text = openFileDialog.FileName;
-            }
+            //Запишим данные в переменную
+            AddFilePathTxtBox.Text = FilePathSet();
         }
 
         //Изменилась выделенная запись в таблице редактора
@@ -195,7 +200,7 @@ namespace BSACLibrary
                 {
                     EditIdTxtBox.Text = Convert.ToString(row[0]);
                     EditPublName.Text = Convert.ToString(row[1]);
-
+                    //Конвертация нужна т.к. в БД для экономии памяти это значение хранится в виде 0,1
                     if (Convert.ToBoolean(row[2]))
                     {
                         EditRadioBtnMagaz.IsChecked = true;
@@ -213,21 +218,31 @@ namespace BSACLibrary
             //Сняли выделение
             else
             {
-                //Сделать кнопки редактировать/удалить неактивными
+                //Сделаем кнопки редактировать/удалить неактивными
                 EditEntryBtn.IsEnabled = false;
                 DelEntryBtn.IsEnabled = false;
             }
         }
 
+        //Указание расположения pdf файла при редактировнии
         private void EditOpenFileBtn_Click(object sender, RoutedEventArgs e)
         {
-            var openFileDialog = new OpenFileDialog {Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*"};
-            if (openFileDialog.ShowDialog() == true)
-            {
-                EditFilePathTxtBox.Text = openFileDialog.FileName;
-            }
+            //Запишим данные в переменную
+            EditFilePathTxtBox.Text = FilePathSet();
         }
 
+        //Функция вызова диалога выбора файла
+        private string FilePathSet()
+        {
+            var openFileDialog = new OpenFileDialog { Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*" };
+            if (openFileDialog.ShowDialog() == true)
+            {
+                return(openFileDialog.FileName);
+            }
+            return null;
+        }
+
+        //Клик мышью по кнопке "Удалить запись"
         private void DelEntryBtn_Click(object sender, RoutedEventArgs e)
         {
             if (DbDataGrid.SelectedIndex >= 0)
@@ -249,6 +264,7 @@ namespace BSACLibrary
             }
         }
 
+        //Клик мышью по кнопке "Редактировать запись"
         private void EditEntryBtn_Click(object sender, RoutedEventArgs e)
         {
             if (DbDataGrid.SelectedIndex >= 0)
@@ -409,14 +425,7 @@ namespace BSACLibrary
                 //Инкрементируем кол-во найденных записей
                 i++;
             }
-            if (i > 0)
-            {
-                NpLabel.Content = "Всего " + i + " номер(а, ов).";
-            }
-            else
-            {
-                NpLabel.Content = "В базе данных отсутсвуют записи.";
-            }
+            NpLabel.Content = PrintRecordCount(i);
         }
 
         private void MzNameListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -498,14 +507,7 @@ namespace BSACLibrary
                 //Инкрементируем кол-во найденных записей
                 i++;
             }
-            if (i > 0)
-            {
-                MzLabel.Content = "Всего " + i + " номер(а, ов).";
-            }
-            else
-            {
-                MzLabel.Content = "В базе данных отсутсвуют записи.";
-            }
+            MzLabel.Content = PrintRecordCount(i);
         }
 
         //Метод формирующий текстовые блоки с названием и номером издания
@@ -640,6 +642,34 @@ namespace BSACLibrary
                     //Вывод сообщения о возникшей ошибке
                     MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
+            }
+        }
+
+        //Просклоняем слово "номер"
+        private string PrintRecordCount(int i)
+        {
+            if (i > 0)
+            {
+                string sEnd = null;
+                //C помощью остатка от деления на 10 определим последнюю цифру в числе номеров
+                int iLast = i % 10;
+                int[] NumList = {0, 5, 6, 7, 8 , 9};
+                //номерОВ (от 11 до 19 включительно, а также в случае окончания на цифры в массиве)
+                if ((i >= 11 && i <= 19) || NumList.Contains(iLast))
+                {
+                    sEnd = "ов";
+                }
+                //номерА (во всех остальных случаях)
+                else if (iLast != 1)
+                {
+                    sEnd = "а";
+                }
+                //номер (один, двадцать один, и т.д.)
+                return ("Всего " + i + " номер" + sEnd + ".");
+            }
+            else
+            {
+                return ("В базе данных отсутсвуют записи.");
             }
         }
     }

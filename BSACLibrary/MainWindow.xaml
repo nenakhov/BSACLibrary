@@ -6,7 +6,9 @@
         xmlns:gif="http://wpfanimatedgif.codeplex.com"
         xmlns:local="clr-namespace:BSACLibrary"
         xmlns:properties="clr-namespace:BSACLibrary.Properties"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xml:lang="ru-RU"
         mc:Ignorable="d"
         Title="Картотека периодических изданий" Background="WhiteSmoke" MinHeight="700" MinWidth="1200" Height="700"
         ScrollViewer.VerticalScrollBarVisibility="Disabled" Width="1200" WindowStartupLocation="CenterScreen" 
@@ -254,8 +256,9 @@
                             VerticalAlignment="Top">Журнал</RadioButton>
                     <RadioButton GroupName="add" Grid.Row="1" Grid.Column="1" 
                             Margin="0,17,0,0">Газета</RadioButton>
-                    <xctk:DateTimePicker TimePickerVisibility="Collapsed" Format="ShortDate" Name="AddDatePicker"  Width="270" 
-                            Height="25" Grid.Row="2" Grid.Column="1" Padding="3"/>
+                    <xctk:DateTimePicker TimePickerVisibility="Collapsed" Format="ShortDate" Name="AddDatePicker"  
+                            Width="270" Height="25" Grid.Row="2" Grid.Column="1" Padding="3"
+                            Watermark="{Binding Source={x:Static sys:DateTime.Today}}"/>
                     <TextBox Name="AddIssueNmbTxtBox" Width="270" Height="25" Padding="3" Grid.Row="3" Grid.Column="1" 
                             MaxLength="32" PreviewTextInput="TextBox_PreviewTextInput"/>
                     <TextBox Name="AddFilePathTxtBox" Width="200" Height="25" Padding="3" Grid.Row="4" Grid.Column="1"
@@ -277,8 +280,9 @@
                             IsChecked="True" VerticalAlignment="Top">Журнал</RadioButton>
                     <RadioButton Name="EditRadioBtnNewsp" GroupName="edt" Grid.Row="1" Grid.Column="5" 
                             Margin="0,17,0,0">Газета</RadioButton>
-                    <xctk:DateTimePicker TimePickerVisibility="Collapsed" Format="ShortDate" Name="EditDatePicker" Width="270" 
-                            Height="25" Grid.Row="2" Grid.Column="5" Padding="3"/>
+                    <xctk:DateTimePicker TimePickerVisibility="Collapsed" Format="ShortDate" Name="EditDatePicker" 
+                            Width="270" Height="25" Grid.Row="2" Grid.Column="5" Padding="3"
+                            Watermark="{Binding Source={x:Static sys:DateTime.Today}}"/>
                     <TextBox Name="EditIssueNmbTxtBox" Width="270" Height="25" Padding="3" Grid.Row="3" Grid.Column="5"
                             MaxLength="32" PreviewTextInput="TextBox_PreviewTextInput"/>
                     <TextBox Name="EditFilePathTxtBox" Width="200" Height="25" MaxLength="255" 
@@ -295,7 +299,7 @@
                             Margin="0,0,6,0" Click="DelEntryBtn_Click" IsEnabled="False">Удалить запись</Button>
                     <DataGrid Name="DbDataGrid" Margin="0,10,0,0" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="7" MinRowHeight="25" 
                             CanUserAddRows="False" ItemsSource="{Binding Path=dbBinding}" CanUserResizeRows="False" 
-                            CanUserResizeColumns="False" SelectionMode="Single" CanUserReorderColumns="False" RowHeaderWidth="0"
+                            CanUserResizeColumns="True" SelectionMode="Single" CanUserReorderColumns="False" RowHeaderWidth="0"
                             AutoGenerateColumns="False" SelectionChanged="DbDataGrid_SelectionChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Path=id}" Width="Auto" Header="ID" IsReadOnly="True">
