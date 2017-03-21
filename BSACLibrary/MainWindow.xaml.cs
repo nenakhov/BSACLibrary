@@ -653,9 +653,9 @@ namespace BSACLibrary
                 string sEnd = null;
                 //C помощью остатка от деления на 10 определим последнюю цифру в числе номеров
                 int iLast = i % 10;
-                int[] NumList = {0, 5, 6, 7, 8 , 9};
+                int[] numList = {0, 5, 6, 7, 8 , 9};
                 //номерОВ (от 11 до 19 включительно, а также в случае окончания на цифры в массиве)
-                if ((i >= 11 && i <= 19) || NumList.Contains(iLast))
+                if ((i >= 11 && i <= 19) || numList.Contains(iLast))
                 {
                     sEnd = "ов";
                 }
