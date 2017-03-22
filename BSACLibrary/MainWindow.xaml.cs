@@ -47,14 +47,13 @@ namespace BSACLibrary
                 _filesList = value;
                 //Очистим выпадающий список из уже существующих наименований во вкладке редактора
                 
-                //AddPublNameCmbBox.Items.Clear();
                 //Очистим списки во вкладках газеты/журналы
                 MzNameListBox.Items.Clear();
                 MzYearListBox.Items.Clear();
 
                 NpNameListBox.Items.Clear();
                 NpYearListBox.Items.Clear();
-                //Обнулим строки результатов поиска
+                //Обнулим страницы со списком изданий
                 MzLabel.Content = null;
                 MzWrapPanel.Children.Clear();
 
@@ -245,21 +244,37 @@ namespace BSACLibrary
         //Клик мышью по кнопке "Удалить запись"
         private void DelEntryBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (DbDataGrid.SelectedIndex >= 0)
+            if (DbDataGrid.SelectedIndex != -1)
             {
-                var result = MessageBox.Show("Вы уверены что хотите удалить запись? Действие необратимо.", "Удаление",
-                    MessageBoxButton.OKCancel);
-                switch (result)
+                try
                 {
-                    case MessageBoxResult.OK:
-                        _query = "DELETE FROM " + Settings.Default.dbTableName +
-                                 " WHERE id = '" + EditIdTxtBox.Text +
-                                 "';";
-                        DbQueries.Execute(_query);
-                        DbQueries.UpdateDataGrid();
-                        break;
-                    case MessageBoxResult.Cancel:
-                        break;
+                    var result = MessageBox.Show("Вы уверены что хотите удалить запись? Действие необратимо.", "Удаление",
+                        MessageBoxButton.OKCancel);
+                    switch (result)
+                    {
+                        case MessageBoxResult.OK:
+                            _query = "DELETE FROM " + Settings.Default.dbTableName +
+                                     " WHERE id = '" + EditIdTxtBox.Text +
+                                     "';";
+                            DbQueries.Execute(_query);
+                            DbQueries.UpdateDataGrid();
+                            break;
+                        case MessageBoxResult.Cancel:
+                            break;
+                    }
+                    //Удалим из списка предложенных названий, если такого имени не осталось в БД 
+                    //Удалили последнюю запись
+                    string name = EditPublName.Text;
+                    if (_filesList.AsParallel().Any(file => file.PublicationName == name) == false)
+                    {
+                        AddPublNameCmbBox.Items.Remove(EditPublName.Text);
+                        AddPublNameCmbBox.Text = null;
+                        AddPublNameCmbBox.SelectedIndex = -1;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -611,27 +626,27 @@ namespace BSACLibrary
                                 }
 
                                 Interlocked.Increment(ref _current);
-                                Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-                                    (ThreadStart) delegate
-                                    {
-                                        //Если поиск завершился
-                                        if (_current == _total)
-                                        {
+                                //Если поиск завершился
+                                if (_current == _total)
+                                {
+                                    Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+                                        (ThreadStart)delegate
+                                       {
+                                            //Обнуляем счетчки
                                             _total = 0;
                                             _current = 0;
                                             _substring = null;
-                                            //Прячем анимацию по завершению работы
-                                            GifAnim.Visibility = Visibility.Collapsed;
-                                            //Если ничего не найдено
-                                            if (SearchListBox.Items.Count == 0)
-                                            {
-                                                SearchListBox.Items.Add("По вашему запросу ничего не найдено.");
-                                                SearchListBox.Visibility = Visibility.Visible;
-                                            }
+                                        //Прячем анимацию по завершению работы
+                                        GifAnim.Visibility = Visibility.Collapsed;
+                                        //Если ничего не найдено
+                                        if (SearchListBox.Items.Count == 0)
+                                        {
+                                            //Добавляем элемент
+                                            SearchListBox.Items.Add("По вашему запросу ничего не найдено.");
+                                            SearchListBox.Visibility = Visibility.Visible;
                                         }
-                                        //Обнуляем счетчки
-                                        //Добавляем элемент
                                     });
+                                }
                             })
                     );
                     //Установим фокус на выпадающий список результатов
