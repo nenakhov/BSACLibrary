@@ -68,7 +68,7 @@ namespace BSACLibrary
                 NpNameListBox.SelectedIndex = 0;
 
                 //Cортировка всех названий по алфавиту
-                _filesList = _filesList.OrderBy(x => x.PublicationName).ToList();
+                _filesList = _filesList.AsParallel().OrderBy(x => x.PublicationName).ToList();
 
                 foreach (var file in _filesList)
                 {
@@ -372,7 +372,7 @@ namespace BSACLibrary
             NpYearListBox.Items.Clear();
             NpYearListBox.Items.Add("<<<ВСЕ>>>");
             //Cортировка по году выхода
-            var sortedDate = _filesList.OrderBy(x => x.Date.Year).ToList();
+            var sortedDate = _filesList.AsParallel().OrderBy(x => x.Date.Year).ToList();
 
             foreach (var file in sortedDate)
             {
@@ -410,7 +410,7 @@ namespace BSACLibrary
             //Очистим панель со списком газет.
             NpWrapPanel.Children.Clear();
             //Отсортируем список по имени и номеру
-            var sortedByNameAndNmb = _filesList.OrderBy(x => x.PublicationName).ThenBy(x => x.IssueNumber).ToList();
+            var sortedByNameAndNmb = _filesList.AsParallel().OrderBy(x => x.PublicationName).ThenBy(x => x.IssueNumber).ToList();
             var i = 0;
 
             foreach (var file in sortedByNameAndNmb)
@@ -454,7 +454,7 @@ namespace BSACLibrary
             MzYearListBox.Items.Clear();
             MzYearListBox.Items.Add("<<<ВСЕ>>>");
             //Cортировка по году выхода
-            var sortedDate = _filesList.OrderBy(x => x.Date.Year).ToList();
+            var sortedDate = _filesList.AsParallel().OrderBy(x => x.Date.Year).ToList();
 
             foreach (var file in sortedDate)
             {
@@ -492,7 +492,7 @@ namespace BSACLibrary
             //Очистим панель со списком газет.
             MzWrapPanel.Children.Clear();
             //Отсортируем список по имени и номеру
-            var sortedByNameAndNmb = _filesList.OrderBy(x => x.PublicationName).ThenBy(x => x.IssueNumber).ToList();
+            var sortedByNameAndNmb = _filesList.AsParallel().OrderBy(x => x.PublicationName).ThenBy(x => x.IssueNumber).ToList();
             var i = 0;
 
             foreach (var file in sortedByNameAndNmb)
