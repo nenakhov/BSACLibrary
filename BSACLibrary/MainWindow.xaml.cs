@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
@@ -29,6 +30,9 @@ namespace BSACLibrary
         private string _substring, _query;
         private int _total, _current;
 
+        public ObservableCollection<string> NamesList { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<string> YearsList { get; set; } = new ObservableCollection<string>();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -42,59 +46,30 @@ namespace BSACLibrary
 
         public List<PdfDescription> FilesList
         {
+            get
+            {
+                return _filesList;
+            }
             set
             {
                 _filesList = value;
-                //Очистим выпадающий список из уже существующих наименований во вкладке редактора
-                
-                //Очистим списки во вкладках газеты/журналы
-                MzNameListBox.Items.Clear();
-                MzYearListBox.Items.Clear();
-
-                NpNameListBox.Items.Clear();
-                NpYearListBox.Items.Clear();
-                //Обнулим страницы со списком изданий
-                MzLabel.Content = null;
-                MzWrapPanel.Children.Clear();
-
-                NpLabel.Content = null;
-                NpWrapPanel.Children.Clear();
-
-                //Добавим по одному элементу "ВСЕ" в каждый список
-                MzNameListBox.Items.Add("<<<ВСЕ>>>");
-                NpNameListBox.Items.Add("<<<ВСЕ>>>");
-                //Выделим его по умолчанию
-                MzNameListBox.SelectedIndex = 0;
-                NpNameListBox.SelectedIndex = 0;
 
                 //Cортировка всех названий по алфавиту
                 _filesList = _filesList.AsParallel().OrderBy(x => x.PublicationName).ToList();
 
-                foreach (var file in _filesList)
+                Parallel.ForEach(_filesList, file =>
                 {
                     //Заполним список наименований во вкладке редактора заново
                     //Исключим повторяющиеся записи
-                    if (AddPublNameCmbBox.Items.Contains(file.PublicationName) == false)
-                    {
-                        AddPublNameCmbBox.Items.Add(file.PublicationName);
-                    }
-                    //Заполним список изданий во вкладке ЖУРНАЛЫ
-                    if (file.IsMagazine)
-                    {
-                        if (MzNameListBox.Items.Contains(file.PublicationName) == false)
+                    Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+                        (ThreadStart) delegate
                         {
-                            MzNameListBox.Items.Add(file.PublicationName);
-                        }
-                    }
-                    //Заполним список изданий во вкладке ГАЗЕТЫ
-                    else
-                    {
-                        if (NpNameListBox.Items.Contains(file.PublicationName) == false)
-                        {
-                            NpNameListBox.Items.Add(file.PublicationName);
-                        }
-                    }
-                }
+                            if (AddPublNameCmbBox.Items.Contains(file.PublicationName) == false)
+                            {
+                                AddPublNameCmbBox.Items.Add(file.PublicationName);
+                            }
+                        });
+                });
             }
         }
 
@@ -361,170 +336,6 @@ namespace BSACLibrary
             e.Handled = true;
         }
 
-        private void NpNameListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //Не выбрано ниодного элемента в списке
-            if (NpNameListBox.SelectedIndex == -1)
-            {
-                return;
-            }
-            //Очистим список годов выхода
-            NpYearListBox.Items.Clear();
-            NpYearListBox.Items.Add("<<<ВСЕ>>>");
-            //Cортировка по году выхода
-            var sortedDate = _filesList.AsParallel().OrderBy(x => x.Date.Year).ToList();
-
-            foreach (var file in sortedDate)
-            {
-                //Если является журналом перейдем к следующей итерации
-                if (file.IsMagazine)
-                {
-                    continue;
-                }
-                //Если выбрали ВСЕ в названии издания
-                if (NpNameListBox.SelectedIndex == 0 &&
-                    //Если этот год еще не добавили в список
-                    NpYearListBox.Items.Contains(file.Date.Year) == false)
-                {
-                    NpYearListBox.Items.Add(file.Date.Year);
-                }
-                //Если выбрана определенная газета
-                else if (NpNameListBox.SelectedItem.ToString() == file.PublicationName &&
-                         //И такой год еще не добавляли
-                         NpYearListBox.Items.Contains(file.Date.Year) == false)
-                {
-                    NpYearListBox.Items.Add(file.Date.Year);
-                }
-            }
-            //Выбираем ВСЕ в списке по умолчанию
-            NpYearListBox.SelectedIndex = 0;
-        }
-
-        private void NpYearListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //Не выбранно ниодного элемента в списке
-            if (NpNameListBox.SelectedIndex == -1 || NpYearListBox.SelectedIndex == -1)
-            {
-                return;
-            }
-            //Очистим панель со списком газет.
-            NpWrapPanel.Children.Clear();
-            //Отсортируем список по имени и номеру
-            var sortedByNameAndNmb = _filesList.AsParallel().OrderBy(x => x.PublicationName).ThenBy(x => x.IssueNumber).ToList();
-            var i = 0;
-
-            foreach (var file in sortedByNameAndNmb)
-            {
-                //Если не является газетой пропустим текущую итерацию
-                if (file.IsMagazine)
-                {
-                    continue;
-                }
-
-                //Если выбрано какое-то издание, не ВСЕ
-                if (NpNameListBox.SelectedIndex != 0 &&
-                    //И если выбранное издание != file.publication_name пропустим текущую итерацию
-                    NpNameListBox.SelectedItem.ToString() != file.PublicationName)
-                {
-                    continue;
-                }
-
-                //Или если выбранный год != file.date.Year пропустим текущую итерацию
-                if (NpYearListBox.SelectedIndex != 0 &&
-                    NpYearListBox.SelectedItem.ToString() != file.Date.Year.ToString())
-                {
-                    continue;
-                }
-                //Заполним панель полученными гиперссылками
-                NpWrapPanel.Children.Add(AddTextBlock(file.PublicationName, file.FilePath, file.IssueNumber));
-                //Инкрементируем кол-во найденных записей
-                i++;
-            }
-            NpLabel.Content = PrintRecordCount(i);
-        }
-
-        private void MzNameListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //Не выбрано ниодного элемента в списке
-            if (MzNameListBox.SelectedIndex == -1)
-            {
-                return;
-            }
-            //Очистим список годов выхода
-            MzYearListBox.Items.Clear();
-            MzYearListBox.Items.Add("<<<ВСЕ>>>");
-            //Cортировка по году выхода
-            var sortedDate = _filesList.AsParallel().OrderBy(x => x.Date.Year).ToList();
-
-            foreach (var file in sortedDate)
-            {
-                //Если является не журналом перейдем к следующей итерации
-                if (file.IsMagazine == false)
-                {
-                    continue;
-                }
-                //Если выбрали ВСЕ в названии издания
-                if (MzNameListBox.SelectedIndex == 0 &&
-                    //Если этот год еще не добавили в список
-                    MzYearListBox.Items.Contains(file.Date.Year) == false)
-                {
-                    MzYearListBox.Items.Add(file.Date.Year);
-                }
-                //Если выбрана определенная газета
-                else if (MzNameListBox.SelectedItem.ToString() == file.PublicationName &&
-                         //И такой год еще не добавляли
-                         MzYearListBox.Items.Contains(file.Date.Year) == false)
-                {
-                    MzYearListBox.Items.Add(file.Date.Year);
-                }
-            }
-            //Выбираем ВСЕ в списке по умолчанию
-            MzYearListBox.SelectedIndex = 0;
-        }
-
-        private void MzYearListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //Не выбранно ниодного элемента в списке
-            if (MzNameListBox.SelectedIndex == -1 || MzYearListBox.SelectedIndex == -1)
-            {
-                return;
-            }
-            //Очистим панель со списком газет.
-            MzWrapPanel.Children.Clear();
-            //Отсортируем список по имени и номеру
-            var sortedByNameAndNmb = _filesList.AsParallel().OrderBy(x => x.PublicationName).ThenBy(x => x.IssueNumber).ToList();
-            var i = 0;
-
-            foreach (var file in sortedByNameAndNmb)
-            {
-                //Если не является журналом пропустим текущую итерацию
-                if (file.IsMagazine == false)
-                {
-                    continue;
-                }
-
-                //Если выбрано какое-то издание, не ВСЕ
-                if (MzNameListBox.SelectedIndex != 0 &&
-                    //И если выбранное издание != file.publication_name пропустим текущую итерацию
-                    MzNameListBox.SelectedItem.ToString() != file.PublicationName)
-                {
-                    continue;
-                }
-
-                //Или если выбранный год != file.date.Year пропустим текущую итерацию
-                if (MzYearListBox.SelectedIndex != 0 &&
-                    MzYearListBox.SelectedItem.ToString() != file.Date.Year.ToString())
-                {
-                    continue;
-                }
-                //Заполним панель полученными гиперссылками
-                MzWrapPanel.Children.Add(AddTextBlock(file.PublicationName, file.FilePath, file.IssueNumber));
-                //Инкрементируем кол-во найденных записей
-                i++;
-            }
-            MzLabel.Content = PrintRecordCount(i);
-        }
-
         //Метод формирующий текстовые блоки с названием и номером издания
         private TextBlock AddTextBlock(string publicationName, string filePath, int issueNumber)
         {
@@ -660,14 +471,109 @@ namespace BSACLibrary
             }
         }
 
+        private void NamesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //Не выбрано ниодного элемента в списке
+            if (NamesListBox.SelectedIndex == -1)
+            {
+                return;
+            }
+            //Очистим список годов выхода
+            YearsList.Clear();
+            YearsList.Add("<<<ВСЕ>>>");
+
+            //Cортировка по году выхода
+            Parallel.ForEach(_filesList.AsParallel().OrderBy(x => x.Date.Year).ToList(), file =>
+            {
+                Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+                    (ThreadStart) delegate
+                    {
+                        //Если это газета но выбрана вкладка "ЖУРНАЛЫ" перейдем к следующей итерации
+                        if (MagazinesBtn.IsChecked == true && file.IsMagazine == false)
+                        {
+                            return;
+                        }
+                        //Если это журнал но выбрана вкладка "ГАЗЕТЫ" перейдем к следующей итерации
+                        if (NewspapersBtn.IsChecked == true && file.IsMagazine)
+                        {
+                            return;
+                        }
+                        //Если выбрали <<<ВСЕ>>> в названии издания
+                        if (NamesListBox.SelectedIndex == 0 &&
+                            //Если этот год еще не добавили в список
+                            YearsList.AsParallel().Contains(file.Date.Year.ToString()) == false)
+                        {
+                            YearsList.Add(file.Date.Year.ToString());
+                        }
+                        //Если выбрано определенное издание
+                        else if (NamesListBox.SelectedItem.ToString() == file.PublicationName &&
+                                 //И такой год еще не добавляли
+                                 YearsList.AsParallel().Contains(file.Date.Year.ToString()) == false)
+                        {
+                            YearsList.Add(file.Date.Year.ToString());
+                        }
+                    });
+            });
+            //Выбираем <<<ВСЕ>>> в списке по умолчанию
+            YearsListBox.SelectedIndex = 0;
+        }
+
+        private void YearsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //Не выбранно ниодного элемента в списке
+            if (NamesListBox.SelectedIndex == -1 || YearsListBox.SelectedIndex == -1)
+            {
+                return;
+            }
+            //Очистим панель со списком изданий.
+            ResultWrapPanel.Children.Clear();
+            //Отсортируем список по имени и номеру
+            Parallel.ForEach(_filesList.AsParallel().OrderBy(x => x.PublicationName).ThenBy(x => x.IssueNumber).ToList(), file =>
+            {
+                Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+                    (ThreadStart) delegate
+                    {
+                        //Если это газета но выбрана вкладка "ЖУРНАЛЫ" перейдем к следующей итерации
+                        if (MagazinesBtn.IsChecked == true && file.IsMagazine == false)
+                        {
+                            return;
+                        }
+                        //Если это журнал но выбрана вкладка "ГАЗЕТЫ" перейдем к следующей итерации
+                        if (NewspapersBtn.IsChecked == true && file.IsMagazine)
+                        {
+                            return;
+                        }
+
+                        //Если выбрано какое-то издание, не ВСЕ
+                        if (NamesListBox.SelectedIndex != 0 &&
+                            //И если выбранное издание != file.publication_name пропустим текущую итерацию
+                            NamesListBox.SelectedItem.ToString() != file.PublicationName)
+                        {
+                            return;
+                        }
+
+                        //Или если выбранный год != file.date.Year пропустим текущую итерацию
+                        if (YearsListBox.SelectedIndex != 0 &&
+                            YearsListBox.SelectedItem.ToString() != file.Date.Year.ToString())
+                        {
+                            return;
+                        }
+                        //Заполним панель полученными гиперссылками
+                        ResultWrapPanel.Children.Add(AddTextBlock(file.PublicationName, file.FilePath,
+                            file.IssueNumber));
+                    });
+            });
+            CountLabel.Content = PrintRecordCount(ResultWrapPanel.Children.Count);
+        }
+
         //Просклоняем слово "номер"
-        private string PrintRecordCount(int i)
+        private static string PrintRecordCount(int i)
         {
             if (i > 0)
             {
                 string sEnd = null;
                 //C помощью остатка от деления на 10 определим последнюю цифру в числе номеров
-                int iLast = i % 10;
+                var iLast = i % 10;
                 int[] numList = {0, 5, 6, 7, 8 , 9};
                 //номерОВ (от 11 до 19 включительно, а также в случае окончания на цифры в массиве)
                 if ((i >= 11 && i <= 19) || numList.Contains(iLast))
@@ -682,10 +588,41 @@ namespace BSACLibrary
                 //номер (один, двадцать один, и т.д.)
                 return ("Всего " + i + " номер" + sEnd + ".");
             }
-            else
+            return ("В базе данных отсутсвуют записи.");
+        }
+
+        //Выбор вкладки журналы/газеты
+        private void MainToggle_Checked(object sender, RoutedEventArgs e)
+        {
+            NamesList.Clear();
+            NamesList.Add("<<<ВСЕ>>>");
+            Parallel.ForEach(_filesList, file =>
             {
-                return ("В базе данных отсутсвуют записи.");
-            }
+                Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+                    (ThreadStart) delegate
+                    {
+                        if (MagazinesBtn.IsChecked == true && file.IsMagazine)
+                        {
+                            if (NamesList.AsParallel().Contains(file.PublicationName))
+                            {
+                                return;
+                            }
+                        }
+                        else if (NewspapersBtn.IsChecked == true && file.IsMagazine == false)
+                        {
+                            if (NamesList.AsParallel().Contains(file.PublicationName))
+                            {
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            return;
+                        }
+                        NamesList.Add(file.PublicationName);
+                    });
+            });
+            NamesListBox.SelectedIndex = 0;
         }
     }
 }

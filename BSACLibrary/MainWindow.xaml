@@ -29,6 +29,7 @@
 
         <local:IsNullConverter x:Key="IsNullConverter"/>
         <local:BoolToStringConverter x:Key="BooleanToStringConverter" FalseValue="Газета" TrueValue="Журнал"/>
+        <local:MultiBooleanToVisibilityConverter x:Key="MultiBooleanToVisibilityConverter"/>
         <BooleanToVisibilityConverter x:Key="B2V"/>
 
         <Style x:Key="RadioCorner" TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type RadioButton}}">
@@ -141,15 +142,20 @@
         <Image Name="GifAnim" Margin="0,0,2,0" Grid.Column="5" Grid.Row="2"
                 gif:ImageBehavior.AnimatedSource="Resources/searching.gif" Width="22"
                 HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Collapsed"/>
-        <RadioButton Height="40" Name="MagazinesBtn" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" IsChecked="True"
-                VerticalAlignment="Center" Content="ЖУРНАЛЫ" Style="{DynamicResource RadioCorner}"/>
-        <RadioButton Height="40" Name="NewspapersBtn" Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="3"
-                VerticalAlignment="Center" Content="ГАЗЕТЫ" Style="{DynamicResource RadioCorner}"/>
-        <RadioButton Height="40" Name="EditBtn" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2"
+        <RadioButton Height="40" Name="MagazinesBtn" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" GroupName="MainToggle"
+                VerticalAlignment="Center" Content="ЖУРНАЛЫ" Style="{DynamicResource RadioCorner}" Checked="MainToggle_Checked"/>
+        <RadioButton Height="40" Name="NewspapersBtn" Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="3" GroupName="MainToggle"
+                VerticalAlignment="Center" Content="ГАЗЕТЫ" Style="{DynamicResource RadioCorner}" Checked="MainToggle_Checked"/>
+        <RadioButton Height="40" Name="EditBtn" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" GroupName="MainToggle"
                 Visibility="{Binding Source={x:Static properties:Settings.Default}, Path=isAdmin, Converter={StaticResource B2V}}"
                 VerticalAlignment="Center" Content="РЕДАКТОР" Style="{DynamicResource RadioCorner}"/>
-        <Grid Visibility="{Binding IsChecked, ElementName=MagazinesBtn, Converter={StaticResource B2V}}"
-                Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6">
+        <Grid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6">
+            <Grid.Visibility>
+                <MultiBinding Converter="{StaticResource MultiBooleanToVisibilityConverter}">
+                    <Binding ElementName="MagazinesBtn" Path="IsChecked" />
+                    <Binding ElementName="NewspapersBtn" Path="IsChecked" />
+                </MultiBinding>
+            </Grid.Visibility>
             <Border Background="White" BorderThickness="1" BorderBrush="Gainsboro" CornerRadius="4">
                 <Grid Margin="10">
                     <Grid.RowDefinitions>
@@ -161,56 +167,22 @@
                         <ColumnDefinition Width="0.1*"/>
                         <ColumnDefinition Width="0.65*"/>
                     </Grid.ColumnDefinitions>
-                    <ListBox Name="MzNameListBox" Grid.Column="0" ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                            ScrollViewer.VerticalScrollBarVisibility="Visible" Grid.RowSpan="2"
-                            SelectionChanged="MzNameListBox_SelectionChanged">
+                    <ListBox Name="NamesListBox" Grid.Column="0" ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                            ScrollViewer.VerticalScrollBarVisibility="Visible" Grid.RowSpan="2" SelectionChanged="NamesListBox_SelectionChanged"
+                            ItemsSource="{Binding Mode=TwoWay, Path=NamesList, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}">
                     </ListBox>
-                    <ListBox Name="MzYearListBox" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Auto" 
-                            ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="10,0,0,0" 
-                            SelectionChanged="MzYearListBox_SelectionChanged" Grid.Row="0" Grid.RowSpan="2">
-                    </ListBox>
-                    <Border BorderBrush="Gray" Margin="10,0,0,0" Padding="10" BorderThickness="1"
-                            Grid.Row="0" Grid.Column="2" CornerRadius="2">
-                        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                            <WrapPanel Name="MzWrapPanel" />
-                        </ScrollViewer>
-                    </Border>
-                    <StackPanel Grid.Row="1" Grid.Column="2">
-                        <Label Name="MzLabel" HorizontalAlignment="Left"
-                            VerticalAlignment="Center" Margin="5,0,0,0"/>
-                    </StackPanel>
-                </Grid>
-            </Border>
-        </Grid>
-        <Grid Visibility="{Binding IsChecked, ElementName=NewspapersBtn, Converter={StaticResource B2V}}" 
-                Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6">
-            <Border Background="White" BorderThickness="1" BorderBrush="Gainsboro" CornerRadius="4">
-                <Grid Margin="10">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="20"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.25*"/>
-                        <ColumnDefinition Width="0.1*"/>
-                        <ColumnDefinition Width="0.65*"/>
-                    </Grid.ColumnDefinitions>
-                    <ListBox Name="NpNameListBox" Grid.Column="0" ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                            ScrollViewer.VerticalScrollBarVisibility="Visible" Grid.RowSpan="2"
-                            SelectionChanged="NpNameListBox_SelectionChanged">
-                    </ListBox>
-                    <ListBox Name="NpYearListBox" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Auto" 
-                            ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="10,0,0,0" 
-                            SelectionChanged="NpYearListBox_SelectionChanged" Grid.Row="0" Grid.RowSpan="2">
+                    <ListBox Name="YearsListBox" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Auto" SelectionChanged="YearsListBox_SelectionChanged"
+                            ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="10,0,0,0" Grid.Row="0" Grid.RowSpan="2"
+                            ItemsSource="{Binding Mode=TwoWay, Path=YearsList, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}">
                     </ListBox>
                     <Border BorderBrush="Gray" Margin="10,0,0,0" Padding="10" BorderThickness="1"
                             Grid.Row="0" Grid.Column="2" CornerRadius="2">
                         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                            <WrapPanel Name="NpWrapPanel"/>
+                            <WrapPanel Name="ResultWrapPanel" />
                         </ScrollViewer>
                     </Border>
                     <StackPanel Grid.Row="1" Grid.Column="2">
-                        <Label Name="NpLabel" HorizontalAlignment="Left"
+                        <Label Name="CountLabel" HorizontalAlignment="Left"
                             VerticalAlignment="Center" Margin="5,0,0,0"/>
                     </StackPanel>
                 </Grid>

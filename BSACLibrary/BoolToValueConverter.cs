@@ -24,7 +24,7 @@ namespace BSACLibrary
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value != null ? value.Equals(TrueValue) : false;
+            return value?.Equals(TrueValue) ?? false;
         }
     }
 

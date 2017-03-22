@@ -120,6 +120,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MultiBooleanToVisibilityConverter.cs" />
     <Compile Include="OptionsWindow.xaml.cs">
       <DependentUpon>OptionsWindow.xaml</DependentUpon>
     </Compile>
