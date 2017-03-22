@@ -337,11 +337,11 @@ namespace BSACLibrary
         }
 
         //Метод формирующий текстовые блоки с названием и номером издания
-        private TextBlock AddTextBlock(string publicationName, string filePath, int issueNumber)
+        private static TextBlock AddTextBlock(string publicationName, string filePath, int issueNumber)
         {
             //Cформируемый текстовый блок с названием издания и его номером
             var newTextBlock = new TextBlock();
-            var addString = publicationName + " №" + issueNumber + ";    ";
+            var addString = publicationName + " №" + issueNumber + "; ";
             //При наличии .pdf создаем гиперссылку на  файл
             if (string.IsNullOrEmpty(filePath) == false)
             {
