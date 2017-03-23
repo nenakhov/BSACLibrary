@@ -38,10 +38,7 @@ namespace BSACLibrary
             InitializeComponent();
             AppWindow = this;
             //Инициализация подключения к БД и др. процессов в фоне
-            Task.Factory.StartNew(() =>
-                Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-                    (ThreadStart) Initialize.Init)
-            );
+            Initialize.Init();
         }
 
         public List<PdfDescription> FilesList
@@ -57,19 +54,15 @@ namespace BSACLibrary
                 //Cортировка всех названий по алфавиту
                 _filesList = _filesList.AsParallel().OrderBy(x => x.PublicationName).ToList();
 
-                Parallel.ForEach(_filesList, file =>
+                foreach(var file in _filesList)
                 {
                     //Заполним список наименований во вкладке редактора заново
                     //Исключим повторяющиеся записи
-                    Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-                        (ThreadStart) delegate
-                        {
-                            if (AddPublNameCmbBox.Items.Contains(file.PublicationName) == false)
-                            {
-                                AddPublNameCmbBox.Items.Add(file.PublicationName);
-                            }
-                        });
-                });
+                    if (AddPublNameCmbBox.Items.Contains(file.PublicationName) == false)
+                    {
+                        AddPublNameCmbBox.Items.Add(file.PublicationName);
+                    }
+                }
             }
         }
 
@@ -483,37 +476,33 @@ namespace BSACLibrary
             YearsList.Add("<<<ВСЕ>>>");
 
             //Cортировка по году выхода
-            Parallel.ForEach(_filesList.AsParallel().OrderBy(x => x.Date.Year).ToList(), file =>
+            foreach(var file in _filesList.AsParallel().OrderBy(x => x.Date.Year).ToList())
             {
-                Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-                    (ThreadStart) delegate
-                    {
-                        //Если это газета но выбрана вкладка "ЖУРНАЛЫ" перейдем к следующей итерации
-                        if (MagazinesBtn.IsChecked == true && file.IsMagazine == false)
-                        {
-                            return;
-                        }
-                        //Если это журнал но выбрана вкладка "ГАЗЕТЫ" перейдем к следующей итерации
-                        if (NewspapersBtn.IsChecked == true && file.IsMagazine)
-                        {
-                            return;
-                        }
-                        //Если выбрали <<<ВСЕ>>> в названии издания
-                        if (NamesListBox.SelectedIndex == 0 &&
-                            //Если этот год еще не добавили в список
+                //Если это газета но выбрана вкладка "ЖУРНАЛЫ" перейдем к следующей итерации
+                if (MagazinesBtn.IsChecked == true && file.IsMagazine == false)
+                {
+                    continue;
+                }
+                //Если это журнал но выбрана вкладка "ГАЗЕТЫ" перейдем к следующей итерации
+                if (NewspapersBtn.IsChecked == true && file.IsMagazine)
+                {
+                    continue;
+                }
+                //Если выбрали <<<ВСЕ>>> в названии издания
+                if (NamesListBox.SelectedIndex == 0 &&
+                    //Если этот год еще не добавили в список
+                    YearsList.AsParallel().Contains(file.Date.Year.ToString()) == false)
+                {
+                    YearsList.Add(file.Date.Year.ToString());
+                }
+                //Если выбрано определенное издание
+                else if (NamesListBox.SelectedItem.ToString() == file.PublicationName &&
+                            //И такой год еще не добавляли
                             YearsList.AsParallel().Contains(file.Date.Year.ToString()) == false)
-                        {
-                            YearsList.Add(file.Date.Year.ToString());
-                        }
-                        //Если выбрано определенное издание
-                        else if (NamesListBox.SelectedItem.ToString() == file.PublicationName &&
-                                 //И такой год еще не добавляли
-                                 YearsList.AsParallel().Contains(file.Date.Year.ToString()) == false)
-                        {
-                            YearsList.Add(file.Date.Year.ToString());
-                        }
-                    });
-            });
+                {
+                    YearsList.Add(file.Date.Year.ToString());
+                }
+            }
             //Выбираем <<<ВСЕ>>> в списке по умолчанию
             YearsListBox.SelectedIndex = 0;
         }
@@ -528,41 +517,35 @@ namespace BSACLibrary
             //Очистим панель со списком изданий.
             ResultWrapPanel.Children.Clear();
             //Отсортируем список по имени и номеру
-            Parallel.ForEach(_filesList.AsParallel().OrderBy(x => x.PublicationName).ThenBy(x => x.IssueNumber).ToList(), file =>
+            foreach(var file in _filesList.AsParallel().OrderBy(x => x.PublicationName).ThenBy(x => x.IssueNumber).ToList())
             {
-                Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-                    (ThreadStart) delegate
-                    {
-                        //Если это газета но выбрана вкладка "ЖУРНАЛЫ" перейдем к следующей итерации
-                        if (MagazinesBtn.IsChecked == true && file.IsMagazine == false)
-                        {
-                            return;
-                        }
-                        //Если это журнал но выбрана вкладка "ГАЗЕТЫ" перейдем к следующей итерации
-                        if (NewspapersBtn.IsChecked == true && file.IsMagazine)
-                        {
-                            return;
-                        }
-
-                        //Если выбрано какое-то издание, не ВСЕ
-                        if (NamesListBox.SelectedIndex != 0 &&
-                            //И если выбранное издание != file.publication_name пропустим текущую итерацию
-                            NamesListBox.SelectedItem.ToString() != file.PublicationName)
-                        {
-                            return;
-                        }
-
-                        //Или если выбранный год != file.date.Year пропустим текущую итерацию
-                        if (YearsListBox.SelectedIndex != 0 &&
-                            YearsListBox.SelectedItem.ToString() != file.Date.Year.ToString())
-                        {
-                            return;
-                        }
-                        //Заполним панель полученными гиперссылками
-                        ResultWrapPanel.Children.Add(AddTextBlock(file.PublicationName, file.FilePath,
-                            file.IssueNumber));
-                    });
-            });
+                //Если это газета но выбрана вкладка "ЖУРНАЛЫ" перейдем к следующей итерации
+                if (MagazinesBtn.IsChecked == true && file.IsMagazine == false)
+                {
+                    continue;
+                }
+                //Если это журнал но выбрана вкладка "ГАЗЕТЫ" перейдем к следующей итерации
+                if (NewspapersBtn.IsChecked == true && file.IsMagazine)
+                {
+                    continue;
+                }
+                //Если выбрано какое-то издание, не ВСЕ
+                if (NamesListBox.SelectedIndex != 0 &&
+                    //И если выбранное издание != file.publication_name пропустим текущую итерацию
+                    NamesListBox.SelectedItem.ToString() != file.PublicationName)
+                {
+                    continue;
+                }
+                //Или если выбранный год != file.date.Year пропустим текущую итерацию
+                if (YearsListBox.SelectedIndex != 0 &&
+                    YearsListBox.SelectedItem.ToString() != file.Date.Year.ToString())
+                {
+                    continue;
+                }
+                //Заполним панель полученными гиперссылками
+                ResultWrapPanel.Children.Add(AddTextBlock(file.PublicationName, file.FilePath,
+                    file.IssueNumber));
+            }
             CountLabel.Content = PrintRecordCount(ResultWrapPanel.Children.Count);
         }
 
@@ -596,32 +579,28 @@ namespace BSACLibrary
         {
             NamesList.Clear();
             NamesList.Add("<<<ВСЕ>>>");
-            Parallel.ForEach(_filesList, file =>
+            foreach(var file in _filesList)
             {
-                Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-                    (ThreadStart) delegate
+                if (MagazinesBtn.IsChecked == true && file.IsMagazine)
+                {
+                    if (NamesList.AsParallel().Contains(file.PublicationName))
                     {
-                        if (MagazinesBtn.IsChecked == true && file.IsMagazine)
-                        {
-                            if (NamesList.AsParallel().Contains(file.PublicationName))
-                            {
-                                return;
-                            }
-                        }
-                        else if (NewspapersBtn.IsChecked == true && file.IsMagazine == false)
-                        {
-                            if (NamesList.AsParallel().Contains(file.PublicationName))
-                            {
-                                return;
-                            }
-                        }
-                        else
-                        {
-                            return;
-                        }
-                        NamesList.Add(file.PublicationName);
-                    });
-            });
+                        continue;
+                    }
+                }
+                else if (NewspapersBtn.IsChecked == true && file.IsMagazine == false)
+                {
+                    if (NamesList.AsParallel().Contains(file.PublicationName))
+                    {
+                        continue;
+                    }
+                }
+                else
+                {
+                    continue;
+                }
+                NamesList.Add(file.PublicationName);
+            }
             NamesListBox.SelectedIndex = 0;
         }
     }

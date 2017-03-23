@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using BSACLibrary.Properties;
 using MySql.Data.MySqlClient;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace BSACLibrary
 {
@@ -59,9 +61,13 @@ namespace BSACLibrary
                 var newDataSet = new DataSet();
                 newDataAdapter.Fill(newDataSet, "dbBinding");
                 //Заполняем таблицу в редакторе
-                MWin.DbDataGrid.DataContext = newDataSet;
-                //Обновим информацию о файлах для поиска
-                Initialize.UpdateFilesDescriptions();
+                MWin.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+                    (ThreadStart)delegate
+                    {
+                        MWin.DbDataGrid.DataContext = newDataSet;
+                        //Обновим информацию о файлах для поиска
+                        Initialize.UpdateFilesDescriptions();
+                    });
             }
         }
 

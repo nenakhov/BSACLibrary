@@ -1,5 +1,6 @@
 ﻿using BSACLibrary.Properties;
 using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -27,10 +28,14 @@ namespace BSACLibrary
                 //Создаем БД и таблицу в ней, если они еще не были созданы
                 try
                 {
-                    //Отправляем запрос на создание БД и таблицы в ней
-                    DbQueries.DataBaseCreate();
-                    //Отправляем запрос на обновление таблицы
-                    DbQueries.UpdateDataGrid();
+                    Task.Factory.StartNew(() =>
+                        {
+                            //Отправляем запрос на создание БД и таблицы в ней
+                            DbQueries.DataBaseCreate();
+                            //Отправляем запрос на обновление таблицы в фоновом процессе.
+                            DbQueries.UpdateDataGrid();
+                        }
+                    );
                 }
                 catch (Exception ex)
                 {
@@ -51,9 +56,9 @@ namespace BSACLibrary
                 Grid.SetColumnSpan(MWin.MagazinesBtn, 3);
                 Grid.SetColumn(MWin.NewspapersBtn, 3);
                 Grid.SetColumnSpan(MWin.NewspapersBtn, 3);
+                //Обновим массив со списком pdf файлов
+                UpdateFilesDescriptions();
             }
-            //Обновим массив со списком pdf файлов
-            UpdateFilesDescriptions();
         }
         public static void UpdateFilesDescriptions()
         {
