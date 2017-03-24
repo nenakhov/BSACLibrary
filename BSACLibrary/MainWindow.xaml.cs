@@ -58,7 +58,7 @@ namespace BSACLibrary
                 {
                     //Заполним список наименований во вкладке редактора заново
                     //Исключим повторяющиеся записи
-                    if (AddPublNameCmbBox.Items.Contains(file.PublicationName) == false)
+                    if (!AddPublNameCmbBox.Items.Contains(file.PublicationName))
                     {
                         AddPublNameCmbBox.Items.Add(file.PublicationName);
                     }
@@ -123,9 +123,9 @@ namespace BSACLibrary
         private void AddEntryBtn_Click(object sender, RoutedEventArgs e)
         {
             //Проверим заполнили ли поля "Название, Дата выхода, Номер издания"
-            if (string.IsNullOrEmpty(AddPublNameCmbBox.Text) == false &&
-                string.IsNullOrEmpty(AddDatePicker.Text) == false &&
-                string.IsNullOrEmpty(AddIssueNmbTxtBox.Text) == false)
+            if (!string.IsNullOrEmpty(AddPublNameCmbBox.Text) &&
+                !string.IsNullOrEmpty(AddDatePicker.Text) &&
+                !string.IsNullOrEmpty(AddIssueNmbTxtBox.Text))
             {
                 //Сформируем и отправим соответствующий SQL-запрос в БД
                 _query = "INSERT INTO " + Settings.Default.dbTableName + " VALUES('" +
@@ -233,7 +233,7 @@ namespace BSACLibrary
                     //Удалим из списка предложенных названий, если такого имени не осталось в БД 
                     //Удалили последнюю запись
                     string name = EditPublName.Text;
-                    if (_filesList.AsParallel().Any(file => file.PublicationName == name) == false)
+                    if (!_filesList.AsParallel().Any(file => file.PublicationName == name))
                     {
                         AddPublNameCmbBox.Items.Remove(EditPublName.Text);
                         AddPublNameCmbBox.Text = null;
@@ -278,7 +278,7 @@ namespace BSACLibrary
         {
             //Если выпадающий список результатов поиска был открыт, то закроем его.
             //Необходимо для того чтобы при щелчке на любом другом элементе программы список прятался
-            if (SearchListBox.IsMouseOver == false)
+            if (!SearchListBox.IsMouseOver)
             {
                 SearchListBox.Visibility = Visibility.Collapsed;
             }
@@ -336,7 +336,7 @@ namespace BSACLibrary
             var newTextBlock = new TextBlock();
             var addString = publicationName + " №" + issueNumber + "; ";
             //При наличии .pdf создаем гиперссылку на  файл
-            if (string.IsNullOrEmpty(filePath) == false)
+            if (!string.IsNullOrEmpty(filePath))
             {
                 var newHyperLink = new Hyperlink();
                 newHyperLink.Inlines.Add(addString);
@@ -416,7 +416,7 @@ namespace BSACLibrary
                                 //Поиск строки запроса в pdf файле
                                 PdfSearch.SearchInPdfFile(file, _substring);
                                 //Если строка нашлась
-                                if (string.IsNullOrEmpty(file.FoundedText) == false)
+                                if (!string.IsNullOrEmpty(file.FoundedText))
                                 {
                                     Dispatcher.BeginInvoke(DispatcherPriority.Normal,
                                         (ThreadStart) delegate
@@ -476,7 +476,7 @@ namespace BSACLibrary
             foreach(var file in _filesList.AsParallel().OrderBy(x => x.Date.Year).ToList())
             {
                 //Если это газета но выбрана вкладка "ЖУРНАЛЫ" перейдем к следующей итерации
-                if (MagazinesBtn.IsChecked == true && file.IsMagazine == false)
+                if (MagazinesBtn.IsChecked == true && !file.IsMagazine)
                 {
                     continue;
                 }
@@ -488,14 +488,14 @@ namespace BSACLibrary
                 //Если выбрали <<<ВСЕ>>> в названии издания
                 if (NamesListBox.SelectedIndex == 0 &&
                     //Если этот год еще не добавили в список
-                    YearsList.AsParallel().Contains(file.Date.Year.ToString()) == false)
+                    !YearsList.AsParallel().Contains(file.Date.Year.ToString()))
                 {
                     YearsList.Add(file.Date.Year.ToString());
                 }
                 //Если выбрано определенное издание
                 else if (NamesListBox.SelectedItem.ToString() == file.PublicationName &&
                             //И такой год еще не добавляли
-                            YearsList.AsParallel().Contains(file.Date.Year.ToString()) == false)
+                            !YearsList.AsParallel().Contains(file.Date.Year.ToString()))
                 {
                     YearsList.Add(file.Date.Year.ToString());
                 }
@@ -517,7 +517,7 @@ namespace BSACLibrary
             foreach(var file in _filesList.AsParallel().OrderBy(x => x.PublicationName).ThenBy(x => x.IssueNumber).ToList())
             {
                 //Если это газета но выбрана вкладка "ЖУРНАЛЫ" перейдем к следующей итерации
-                if (MagazinesBtn.IsChecked == true && file.IsMagazine == false)
+                if (MagazinesBtn.IsChecked == true && !file.IsMagazine)
                 {
                     continue;
                 }
@@ -588,7 +588,7 @@ namespace BSACLibrary
                 //Выбрана вкладка журналы
                 if ((MagazinesBtn.IsChecked == true && file.IsMagazine)
                     //Выбрана вкладка газеты
-                    || (NewspapersBtn.IsChecked == true && file.IsMagazine == false))
+                    || (NewspapersBtn.IsChecked == true && !file.IsMagazine))
                 {
                     //Добавим название в список
                     NamesList.Add(file.PublicationName);
