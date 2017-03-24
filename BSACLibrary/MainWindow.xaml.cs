@@ -27,7 +27,7 @@ namespace BSACLibrary
         //Создаем необходимые переменные
         public static MainWindow AppWindow;
         private List<PdfDescription> _filesList = new List<PdfDescription>();
-        private string _substring, _query;
+        private string _query;
         private int _total, _current;
 
         public ObservableCollection<string> NamesList { get; set; } = new ObservableCollection<string>();
@@ -398,7 +398,7 @@ namespace BSACLibrary
                 {
                     //Задаем начальное значение переменных, поисковый запрос переведем в нижний регистр букв
                     _total = _filesList.Count;
-                    _substring = SrchTxtBox.Text.ToLower();
+                    string _substring = SrchTxtBox.Text.ToLower();
 
                     //Запуск поиска фоном, исключаем зависание GUI
                     Task.Factory.StartNew(() => //Источник https://msdn.microsoft.com/en-us/library/dd997392.aspx
@@ -428,7 +428,6 @@ namespace BSACLibrary
                                             SearchListBox.Visibility = Visibility.Visible;
                                         });
                                 }
-
                                 Interlocked.Increment(ref _current);
                                 //Если поиск завершился
                                 if (_current == _total)
@@ -436,10 +435,8 @@ namespace BSACLibrary
                                     Dispatcher.BeginInvoke(DispatcherPriority.Normal,
                                         (ThreadStart)delegate
                                        {
-                                            //Обнуляем счетчки
-                                            _total = 0;
-                                            _current = 0;
-                                            _substring = null;
+                                        //Обнуляем счетчки
+                                        _current = _total = 0;
                                         //Прячем анимацию по завершению работы
                                         GifAnim.Visibility = Visibility.Collapsed;
                                         //Если ничего не найдено
@@ -546,6 +543,7 @@ namespace BSACLibrary
                 ResultWrapPanel.Children.Add(AddTextBlock(file.PublicationName, file.FilePath,
                     file.IssueNumber));
             }
+            //Отобразим количество общее количество номеров в списке
             CountLabel.Content = PrintRecordCount(ResultWrapPanel.Children.Count);
         }
 
@@ -577,30 +575,30 @@ namespace BSACLibrary
         //Выбор вкладки журналы/газеты
         private void MainToggle_Checked(object sender, RoutedEventArgs e)
         {
+            //Очистим список наименований и заполним его заново
             NamesList.Clear();
             NamesList.Add("<<<ВСЕ>>>");
             foreach(var file in _filesList)
             {
-                if (MagazinesBtn.IsChecked == true && file.IsMagazine)
+                if (NamesList.AsParallel().Contains(file.PublicationName))
                 {
-                    if (NamesList.AsParallel().Contains(file.PublicationName))
-                    {
-                        continue;
-                    }
+                    //Название уже есть в списке, пропустим итерацию
+                    continue;
                 }
-                else if (NewspapersBtn.IsChecked == true && file.IsMagazine == false)
+                //Выбрана вкладка журналы
+                if ((MagazinesBtn.IsChecked == true && file.IsMagazine)
+                    //Выбрана вкладка газеты
+                    || (NewspapersBtn.IsChecked == true && file.IsMagazine == false))
                 {
-                    if (NamesList.AsParallel().Contains(file.PublicationName))
-                    {
-                        continue;
-                    }
+                    //Добавим название в список
+                    NamesList.Add(file.PublicationName);
                 }
                 else
                 {
                     continue;
                 }
-                NamesList.Add(file.PublicationName);
             }
+            //Выберем элемент "<<<ВСЕ>>>" по умолчанию
             NamesListBox.SelectedIndex = 0;
         }
     }
