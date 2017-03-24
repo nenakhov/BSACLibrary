@@ -11,7 +11,7 @@ namespace BSACLibrary
                                 object parameter,
                                 System.Globalization.CultureInfo culture)
         {
-            return values.Any(val => (bool) val) ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+            return values.Any(val => (bool)val) ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
         }
 
         public object[] ConvertBack(object value,

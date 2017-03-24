@@ -14,7 +14,7 @@ namespace BSACLibrary
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new InvalidOperationException("Нельзя использовать IsNullConverter таким образом.");
+            throw new NotImplementedException();
         }
     }
 }
