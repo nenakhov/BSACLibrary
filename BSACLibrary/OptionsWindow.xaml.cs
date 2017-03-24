@@ -41,7 +41,7 @@ namespace BSACLibrary
             {
                 //Присваиваем значения переменным
                 Settings.Default.dbServerIP = TxtBoxIp.Text;
-                Settings.Default.dbServerPort = Convert.ToInt32(TxtBoxPort.Text);
+                Settings.Default.dbServerPort = Convert.ToUInt32(TxtBoxPort.Text);
                 Settings.Default.dbName = TxtBoxDbName.Text;
                 Settings.Default.dbTableName = TxtBoxDbTableName.Text;
                 Settings.Default.dbUsername = TxtBoxUsr.Text;

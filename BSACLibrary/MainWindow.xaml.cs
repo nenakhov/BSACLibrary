@@ -131,7 +131,7 @@ namespace BSACLibrary
                 _query = "INSERT INTO " + Settings.Default.dbTableName + " VALUES('" +
                          null + "', '" +
                          AddPublNameCmbBox.Text.Replace(@"'", @"\'") + "', '" +
-                         Convert.ToInt16(AddRadioBtnMagaz.IsChecked) + "', '" +
+                         Convert.ToByte(AddRadioBtnMagaz.IsChecked) + "', '" +
                          Convert.ToDateTime(AddDatePicker.Value).ToString("yyyy-MM-dd") + "', '" +
                          AddIssueNmbTxtBox.Text + "', '" +
                          AddFilePathTxtBox.Text.Replace(@"\", @"\\").Replace("'", "''") +
@@ -259,7 +259,7 @@ namespace BSACLibrary
                     case MessageBoxResult.OK:
                         _query = "UPDATE " + Settings.Default.dbTableName +
                                  " SET publication='" + EditPublName.Text.Replace("'", "''") +
-                                 "',is_magazine='" + Convert.ToInt16(EditRadioBtnMagaz.IsChecked) +
+                                 "',is_magazine='" + Convert.ToByte(EditRadioBtnMagaz.IsChecked) +
                                  "',date='" + Convert.ToDateTime(EditDatePicker.Value).ToString("yyyy-MM-dd") +
                                  "',issue_number='" + EditIssueNmbTxtBox.Text +
                                  "',file_path='" + EditFilePathTxtBox.Text.Replace(@"\", @"\\").Replace("'", "''") +

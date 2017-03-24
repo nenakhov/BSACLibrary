@@ -18,7 +18,7 @@ namespace BSACLibrary
             var stringBuilder = new MySqlConnectionStringBuilder
             {
                 Server = Settings.Default.dbServerIP,
-                Port = Convert.ToUInt32(Settings.Default.dbServerPort),
+                Port = Settings.Default.dbServerPort,
                 UserID = Settings.Default.dbUsername,
                 Password = Settings.Default.dbPassword,
                 CharacterSet = "utf8",
