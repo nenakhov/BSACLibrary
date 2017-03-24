@@ -12,7 +12,7 @@
             <ColumnDefinition Width="480"/>
         </Grid.ColumnDefinitions>
         <TreeView Margin="10,10,10,40">
-            <TreeViewItem Header="Параметры" IsExpanded="True">
+            <TreeViewItem Header="Общие" IsExpanded="True">
                 <TreeViewItem Name="ConnectOptions" Header="Настройки подключения"/>
             </TreeViewItem>
         </TreeView>
