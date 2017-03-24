@@ -75,7 +75,7 @@
         </Style>
     </Window.Resources>
     <!--Разбиваем форму на таблицу-->
-    <Grid Background="WhiteSmoke" Margin="10,0,10,10">
+    <Grid Background="WhiteSmoke" Margin="5,0,5,5">
         <!--Определение строк-->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -158,15 +158,15 @@
                 </MultiBinding>
             </Grid.Visibility>
             <Border Background="White" BorderThickness="1" BorderBrush="Gainsboro" CornerRadius="4">
-                <Grid Margin="10">
+                <Grid Margin="5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="20"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.25*"/>
-                        <ColumnDefinition Width="0.1*"/>
-                        <ColumnDefinition Width="0.65*"/>
+                        <ColumnDefinition Width="0.22*"/>
+                        <ColumnDefinition Width="0.10*"/>
+                        <ColumnDefinition Width="0.68*"/>
                     </Grid.ColumnDefinitions>
                     <ListBox Name="NamesListBox" Grid.Column="0" ScrollViewer.HorizontalScrollBarVisibility="Auto"
                             ScrollViewer.VerticalScrollBarVisibility="Visible" Grid.RowSpan="2" SelectionChanged="NamesListBox_SelectionChanged"
@@ -192,7 +192,7 @@
         <Grid Visibility="{Binding IsChecked, ElementName=EditBtn, Converter={StaticResource B2V}}" 
                 Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6">
             <Border Background="White" BorderThickness="1" BorderBrush="Gainsboro" CornerRadius="4">
-                <Grid Margin="10">
+                <Grid Margin="5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="36"/>
                         <RowDefinition Height="36"/>
