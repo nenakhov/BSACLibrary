@@ -31,7 +31,7 @@
         <local:BoolToStringConverter x:Key="BooleanToStringConverter" FalseValue="Газета" TrueValue="Журнал"/>
         <local:MultiBooleanToVisibilityConverter x:Key="MultiBooleanToVisibilityConverter"/>
         <BooleanToVisibilityConverter x:Key="B2V"/>
-
+        
         <Style x:Key="RadioCorner" TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type RadioButton}}">
             <Setter Property="Template">
                 <Setter.Value>
@@ -81,7 +81,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="5"/>
             <RowDefinition Height="25"/>
-            <RowDefinition Height="5"/>
+            <RowDefinition Height="1"/>
             <RowDefinition Height="40"/>
             <RowDefinition Height="1"/>
             <RowDefinition Height="*"/>
@@ -131,11 +131,12 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-
-        <xctk:WatermarkTextBox Name="SrchTxtBox" Padding="2" Grid.Column="0" Grid.ColumnSpan="6" MaxLength="128"
-                Grid.Row="2" FontSize="14" PreviewKeyDown="SrchTxtBox_PreviewKeyDown"
+        <Border Padding="2" CornerRadius="5" BorderThickness="1" BorderBrush="Gainsboro" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="6">
+            <xctk:WatermarkTextBox Name="SrchTxtBox" Padding="0" Grid.Column="0" Grid.ColumnSpan="6" MaxLength="128"
+                Grid.Row="2" FontSize="14" PreviewKeyDown="SrchTxtBox_PreviewKeyDown" BorderThickness="0"
                 Watermark="Поиск информации по ключевому слову или фразе. Например, &quot;802.11ac&quot;"
                 PreviewMouseLeftButtonUp="SrchTxtBox_PreviewMouseLeftButtonUp"/>
+        </Border>
         <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" Name="SearchListBox" Grid.Column="0" Grid.ColumnSpan="6"
                  Grid.Row="3" Grid.RowSpan="4" Panel.ZIndex="5" VerticalAlignment="Top" MaxHeight="240" Visibility="Collapsed"
                  MouseLeave="SearchListBox_MouseLeave" FontSize="14" PreviewMouseLeftButtonUp="SearchListBox_PreviewMouseLeftButtonUp"/>
