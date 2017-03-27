@@ -31,7 +31,7 @@
         <local:BoolToStringConverter x:Key="BooleanToStringConverter" FalseValue="Газета" TrueValue="Журнал"/>
         <local:MultiBooleanToVisibilityConverter x:Key="MultiBooleanToVisibilityConverter"/>
         <BooleanToVisibilityConverter x:Key="B2V"/>
-        
+
         <Style x:Key="RadioCorner" TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type RadioButton}}">
             <Setter Property="Template">
                 <Setter.Value>
@@ -73,6 +73,13 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <ControlTemplate x:Key="ListBoxCorner" TargetType="{x:Type ListBox}">
+            <Border CornerRadius="4" Padding="1" BorderBrush="Gray" BorderThickness="1" Background="White">
+                <ScrollViewer x:Name="ScrollViewer" Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="0">
+                    <ItemsPresenter/>
+                </ScrollViewer>
+            </Border>
+        </ControlTemplate>
     </Window.Resources>
     <!--Разбиваем форму на таблицу-->
     <Grid Background="WhiteSmoke" Margin="5,0,5,5">
@@ -131,15 +138,16 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <Border Padding="2" CornerRadius="5" BorderThickness="1" BorderBrush="Gainsboro" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="6">
+        <Border Padding="2" CornerRadius="4" BorderThickness="1" BorderBrush="Gainsboro" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="6">
             <xctk:WatermarkTextBox Name="SrchTxtBox" Padding="0" Grid.Column="0" Grid.ColumnSpan="6" MaxLength="128"
                 Grid.Row="2" FontSize="14" PreviewKeyDown="SrchTxtBox_PreviewKeyDown" BorderThickness="0"
                 Watermark="Поиск информации по ключевому слову или фразе. Например, &quot;802.11ac&quot;"
                 PreviewMouseLeftButtonUp="SrchTxtBox_PreviewMouseLeftButtonUp"/>
         </Border>
-        <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" Name="SearchListBox" Grid.Column="0" Grid.ColumnSpan="6"
-                 Grid.Row="3" Grid.RowSpan="4" Panel.ZIndex="5" VerticalAlignment="Top" MaxHeight="240" Visibility="Collapsed"
-                 MouseLeave="SearchListBox_MouseLeave" FontSize="14" PreviewMouseLeftButtonUp="SearchListBox_PreviewMouseLeftButtonUp"/>
+        <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" Name="SearchListBox" Grid.Column="0" 
+                 Grid.ColumnSpan="6" Grid.Row="3" Grid.RowSpan="4" Panel.ZIndex="5" VerticalAlignment="Top" 
+                 MaxHeight="230" Visibility="Collapsed" MouseLeave="SearchListBox_MouseLeave" FontSize="14" 
+                 PreviewMouseLeftButtonUp="SearchListBox_PreviewMouseLeftButtonUp" Template="{StaticResource ListBoxCorner}"/>
         <Image Name="GifAnim" Margin="0,0,2,0" Grid.Column="5" Grid.Row="2"
                 gif:ImageBehavior.AnimatedSource="Resources/searching.gif" Width="22"
                 HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Collapsed"/>
@@ -270,56 +278,58 @@
                             Margin="0,0,6,0" Click="EditEntryBtn_Click" IsEnabled="False">Изменить запись</Button>
                     <Button Name="DelEntryBtn" Grid.Column="6" Grid.Row="4" Width="120" Height="24"  HorizontalAlignment="Right" 
                             Margin="0,0,6,0" Click="DelEntryBtn_Click" IsEnabled="False">Удалить запись</Button>
-                    <DataGrid Name="DbDataGrid" Margin="0,10,0,0" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="7" MinRowHeight="25" 
+                    <Border Margin="0,5,0,0" Padding="2" CornerRadius="4" BorderThickness="1" BorderBrush="Gray" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="7">
+                        <DataGrid BorderThickness="0" Name="DbDataGrid" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="7" MinRowHeight="25" 
                             CanUserAddRows="False" ItemsSource="{Binding Path=dbBinding}" CanUserResizeRows="False" 
                             CanUserResizeColumns="True" SelectionMode="Single" CanUserReorderColumns="False" RowHeaderWidth="0"
                             AutoGenerateColumns="False" SelectionChanged="DbDataGrid_SelectionChanged">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Path=id}" Width="Auto" Header="ID" IsReadOnly="True">
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="{x:Type TextBlock}">
-                                        <Setter Property="TextAlignment" Value="Center"/>
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
-                            </DataGridTextColumn>
-                            <DataGridTextColumn Binding="{Binding Path=publication}" Width="Auto" Header="Название издания" IsReadOnly="True"/>
-                            <DataGridTextColumn Binding="{Binding Path=is_magazine, Converter={StaticResource BooleanToStringConverter}}" 
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding Path=id}" Width="Auto" Header="ID" IsReadOnly="True">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="TextAlignment" Value="Center"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Binding="{Binding Path=publication}" Width="Auto" Header="Название издания" IsReadOnly="True"/>
+                                <DataGridTextColumn Binding="{Binding Path=is_magazine, Converter={StaticResource BooleanToStringConverter}}" 
                                     Width="Auto" Header="Тип издания" IsReadOnly="True">
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="{x:Type TextBlock}">
-                                        <Setter Property="TextAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
-                            </DataGridTextColumn>
-                            <DataGridTextColumn Binding="{Binding Path=date, StringFormat=\{0:dd.MM.yyyy\}}" 
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="TextAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Binding="{Binding Path=date, StringFormat=\{0:dd.MM.yyyy\}}" 
                                     Width="Auto" Header="Дата выпуска" IsReadOnly="True">
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="{x:Type TextBlock}">
-                                        <Setter Property="TextAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
-                            </DataGridTextColumn>
-                            <DataGridTextColumn Binding="{Binding Path=issue_number}" Width="Auto" Header="Номер" IsReadOnly="True">
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="{x:Type TextBlock}">
-                                        <Setter Property="TextAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
-                            </DataGridTextColumn>
-                            <DataGridTextColumn Binding="{Binding Path=file_path}" Width="*" Header="Расположение .pdf файла" IsReadOnly="True">
-                                <DataGridTextColumn.CellStyle>
-                                    <Style TargetType="DataGridCell">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Content.(TextBlock.Text), Converter={StaticResource IsNullConverter}}" Value="False">
-                                                <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=Content.(TextBlock.Text)}"/>
-                                                <Setter Property="ToolTip.Placement" Value="Relative"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </DataGridTextColumn.CellStyle>
-                            </DataGridTextColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="TextAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Binding="{Binding Path=issue_number}" Width="Auto" Header="Номер" IsReadOnly="True">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="TextAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Binding="{Binding Path=file_path}" Width="*" Header="Расположение .pdf файла" IsReadOnly="True">
+                                    <DataGridTextColumn.CellStyle>
+                                        <Style TargetType="DataGridCell">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Content.(TextBlock.Text), Converter={StaticResource IsNullConverter}}" Value="False">
+                                                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=Content.(TextBlock.Text)}"/>
+                                                    <Setter Property="ToolTip.Placement" Value="Relative"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGridTextColumn.CellStyle>
+                                </DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Border>
                 </Grid>
             </Border>
         </Grid>
