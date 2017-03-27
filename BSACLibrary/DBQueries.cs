@@ -81,12 +81,10 @@ namespace BSACLibrary
                 conn.ChangeDatabase(Settings.Default.dbName);
 
                 var cmd = new MySqlCommand(query, conn);
-
                 var reader = cmd.ExecuteReader();
 
                 //Cоздаем необходимые переменные
                 var newList = new List<PdfDescription>();
-
 
                 while (reader.Read())
                 {

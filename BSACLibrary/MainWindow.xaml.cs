@@ -59,9 +59,7 @@ namespace BSACLibrary
                     //Заполним список наименований во вкладке редактора заново
                     //Исключим повторяющиеся записи
                     if (!AddPublNameCmbBox.Items.Contains(file.PublicationName))
-                    {
                         AddPublNameCmbBox.Items.Add(file.PublicationName);
-                    }
                 }
             }
         }
@@ -99,11 +97,8 @@ namespace BSACLibrary
         private void SrchTxtBox_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             //Если список содержит в себе элементы
-            if (SearchListBox.Items.Count > 0)
-            {
-                //Скроем выпадающий список с результатами
-                SearchListBox.Visibility = Visibility.Visible;
-            }
+            //Скроем список с результатами
+            if (SearchListBox.Items.Count > 0) SearchListBox.Visibility = Visibility.Visible;
         }
 
         private void SearchListBox_MouseLeave(object sender, MouseEventArgs e)
@@ -139,11 +134,8 @@ namespace BSACLibrary
                 DbQueries.Execute(_query);
                 DbQueries.UpdateDataGrid();
             }
-            else
-            {
-                MessageBox.Show("Поля не могут быть пустыми", "Заполните поля", MessageBoxButton.OK,
+            else MessageBox.Show("Поля не могут быть пустыми", "Заполните поля", MessageBoxButton.OK,
                     MessageBoxImage.Error);
-            }
         }
 
         //Указание расположения pdf файла при добавлении
@@ -168,14 +160,8 @@ namespace BSACLibrary
                     EditIdTxtBox.Text = Convert.ToString(row[0]);
                     EditPublName.Text = Convert.ToString(row[1]);
                     //Конвертация нужна т.к. в БД для экономии памяти это значение хранится в виде 0,1
-                    if (Convert.ToBoolean(row[2]))
-                    {
-                        EditRadioBtnMagaz.IsChecked = true;
-                    }
-                    else
-                    {
-                        EditRadioBtnNewsp.IsChecked = true;
-                    }
+                    if (Convert.ToBoolean(row[2])) EditRadioBtnMagaz.IsChecked = true;
+                    else EditRadioBtnNewsp.IsChecked = true;
 
                     EditDatePicker.Value = Convert.ToDateTime(row[3]);
                     EditIssueNmbTxtBox.Text = Convert.ToString(row[4]);
@@ -202,10 +188,7 @@ namespace BSACLibrary
         private string FilePathSet()
         {
             var openFileDialog = new OpenFileDialog { Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*" };
-            if (openFileDialog.ShowDialog() == true)
-            {
-                return(openFileDialog.FileName);
-            }
+            if (openFileDialog.ShowDialog() == true) return(openFileDialog.FileName);
             return null;
         }
 
@@ -218,22 +201,17 @@ namespace BSACLibrary
                 {
                     var result = MessageBox.Show("Вы уверены что хотите удалить запись? Действие необратимо.", "Удаление",
                         MessageBoxButton.OKCancel);
-                    switch (result)
-                    {
-                        case MessageBoxResult.OK:
-                            _query = "DELETE FROM " + Settings.Default.dbTableName +
+                    if (result == MessageBoxResult.OK)
+                    { 
+                        _query = "DELETE FROM " + Settings.Default.dbTableName +
                                      " WHERE id = '" + EditIdTxtBox.Text +
                                      "';";
                             DbQueries.Execute(_query);
                             DbQueries.UpdateDataGrid();
-                            break;
-                        case MessageBoxResult.Cancel:
-                            break;
                     }
                     //Удалим из списка предложенных названий, если такого имени не осталось в БД 
                     //Удалили последнюю запись
-                    string name = EditPublName.Text;
-                    if (!_filesList.AsParallel().Any(file => file.PublicationName == name))
+                    if (!_filesList.AsParallel().Any(file => file.PublicationName == EditPublName.Text))
                     {
                         AddPublNameCmbBox.Items.Remove(EditPublName.Text);
                         AddPublNameCmbBox.Text = null;
@@ -254,21 +232,17 @@ namespace BSACLibrary
             {
                 var result = MessageBox.Show("Вы уверены что хотите изменить запись? Действие необратимо.", "Изменение",
                     MessageBoxButton.OKCancel);
-                switch (result)
+                if (result == MessageBoxResult.OK)
                 {
-                    case MessageBoxResult.OK:
-                        _query = "UPDATE " + Settings.Default.dbTableName +
-                                 " SET publication='" + EditPublName.Text.Replace("'", "''") +
-                                 "',is_magazine='" + Convert.ToByte(EditRadioBtnMagaz.IsChecked) +
-                                 "',date='" + Convert.ToDateTime(EditDatePicker.Value).ToString("yyyy-MM-dd") +
-                                 "',issue_number='" + EditIssueNmbTxtBox.Text +
-                                 "',file_path='" + EditFilePathTxtBox.Text.Replace(@"\", @"\\").Replace("'", "''") +
-                                 "' WHERE id='" + EditIdTxtBox.Text + "';";
-                        DbQueries.Execute(_query);
-                        DbQueries.UpdateDataGrid();
-                        break;
-                    case MessageBoxResult.Cancel:
-                        break;
+                    _query = "UPDATE " + Settings.Default.dbTableName +
+                             " SET publication='" + EditPublName.Text.Replace("'", "''") +
+                             "',is_magazine='" + Convert.ToByte(EditRadioBtnMagaz.IsChecked) +
+                             "',date='" + Convert.ToDateTime(EditDatePicker.Value).ToString("yyyy-MM-dd") +
+                             "',issue_number='" + EditIssueNmbTxtBox.Text +
+                             "',file_path='" + EditFilePathTxtBox.Text.Replace(@"\", @"\\").Replace("'", "''") +
+                             "' WHERE id='" + EditIdTxtBox.Text + "';";
+                    DbQueries.Execute(_query);
+                    DbQueries.UpdateDataGrid();
                 }
             }
         }
@@ -278,10 +252,7 @@ namespace BSACLibrary
         {
             //Если выпадающий список результатов поиска был открыт, то закроем его.
             //Необходимо для того чтобы при щелчке на любом другом элементе программы список прятался
-            if (!SearchListBox.IsMouseOver)
-            {
-                SearchListBox.Visibility = Visibility.Collapsed;
-            }
+            if (!SearchListBox.IsMouseOver) SearchListBox.Visibility = Visibility.Collapsed;
         }
 
         //Обработка клика по выпадающему списку результатов поиска
@@ -293,11 +264,9 @@ namespace BSACLibrary
                 try
                 {
                     //Приводим объект из списка к типу pdfDescription
+                    //Откроем соответствующий файл
                     if (SearchListBox.Items[SearchListBox.SelectedIndex] is PdfDescription selectedFile)
-                    {
-                        //Откроем соответствующий файл
                         OnNavigate(this, new RequestNavigateEventArgs(new Uri(selectedFile.FilePath), null));
-                    }
                 }
                 catch (Exception ex)
                 {
@@ -476,29 +445,19 @@ namespace BSACLibrary
             foreach(var file in _filesList.AsParallel().OrderBy(x => x.Date.Year).ToList())
             {
                 //Если это газета но выбрана вкладка "ЖУРНАЛЫ" перейдем к следующей итерации
-                if (MagazinesBtn.IsChecked == true && !file.IsMagazine)
-                {
-                    continue;
-                }
+                if (MagazinesBtn.IsChecked == true && !file.IsMagazine) continue;
                 //Если это журнал но выбрана вкладка "ГАЗЕТЫ" перейдем к следующей итерации
-                if (NewspapersBtn.IsChecked == true && file.IsMagazine)
-                {
-                    continue;
-                }
+                if (NewspapersBtn.IsChecked == true && file.IsMagazine) continue;
                 //Если выбрали <<<ВСЕ>>> в названии издания
                 if (NamesListBox.SelectedIndex == 0 &&
                     //Если этот год еще не добавили в список
                     !YearsList.AsParallel().Contains(file.Date.Year.ToString()))
-                {
                     YearsList.Add(file.Date.Year.ToString());
-                }
                 //Если выбрано определенное издание
                 else if (NamesListBox.SelectedItem.ToString() == file.PublicationName &&
                             //И такой год еще не добавляли
                             !YearsList.AsParallel().Contains(file.Date.Year.ToString()))
-                {
-                    YearsList.Add(file.Date.Year.ToString());
-                }
+                            YearsList.Add(file.Date.Year.ToString());
             }
             //Выбираем <<<ВСЕ>>> в списке по умолчанию
             YearsListBox.SelectedIndex = 0;
@@ -507,43 +466,28 @@ namespace BSACLibrary
         private void YearsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //Не выбранно ниодного элемента в списке
-            if (NamesListBox.SelectedIndex == -1 || YearsListBox.SelectedIndex == -1)
-            {
-                return;
-            }
+            if (NamesListBox.SelectedIndex == -1 || YearsListBox.SelectedIndex == -1) return;
             //Очистим панель со списком изданий.
             ResultWrapPanel.Children.Clear();
             //Отсортируем список по имени и номеру
             foreach(var file in _filesList.AsParallel().OrderBy(x => x.PublicationName).ThenBy(x => x.IssueNumber).ToList())
             {
                 //Если это газета но выбрана вкладка "ЖУРНАЛЫ" перейдем к следующей итерации
-                if (MagazinesBtn.IsChecked == true && !file.IsMagazine)
-                {
-                    continue;
-                }
+                if (MagazinesBtn.IsChecked == true && !file.IsMagazine) continue;
                 //Если это журнал но выбрана вкладка "ГАЗЕТЫ" перейдем к следующей итерации
-                if (NewspapersBtn.IsChecked == true && file.IsMagazine)
-                {
-                    continue;
-                }
+                if (NewspapersBtn.IsChecked == true && file.IsMagazine) continue;
                 //Если выбрано какое-то издание, не ВСЕ
                 if (NamesListBox.SelectedIndex != 0 &&
                     //И если выбранное издание != file.publication_name пропустим текущую итерацию
-                    NamesListBox.SelectedItem.ToString() != file.PublicationName)
-                {
-                    continue;
-                }
+                    NamesListBox.SelectedItem.ToString() != file.PublicationName) continue;
                 //Или если выбранный год != file.date.Year пропустим текущую итерацию
                 if (YearsListBox.SelectedIndex != 0 &&
-                    YearsListBox.SelectedItem.ToString() != file.Date.Year.ToString())
-                {
-                    continue;
-                }
+                    YearsListBox.SelectedItem.ToString() != file.Date.Year.ToString()) continue;
                 //Заполним панель полученными гиперссылками
                 ResultWrapPanel.Children.Add(AddTextBlock(file.PublicationName, file.FilePath,
                     file.IssueNumber));
             }
-            //Отобразим количество общее количество номеров в списке
+            //Отобразим общее количество номеров в списке
             CountLabel.Content = PrintRecordCount(ResultWrapPanel.Children.Count);
         }
 
@@ -557,15 +501,9 @@ namespace BSACLibrary
                 var iLast = i % 10;
                 int[] numList = {0, 5, 6, 7, 8 , 9};
                 //номерОВ (от 11 до 19 включительно, а также в случае окончания на цифры в массиве)
-                if ((i >= 11 && i <= 19) || numList.Contains(iLast))
-                {
-                    sEnd = "ов";
-                }
+                if ((i >= 11 && i <= 19) || numList.Contains(iLast)) sEnd = "ов";
                 //номерА (во всех остальных случаях)
-                else if (iLast != 1)
-                {
-                    sEnd = "а";
-                }
+                else if (iLast != 1) sEnd = "а";
                 //номер (один, двадцать один, и т.д.)
                 return ("Всего " + i + " номер" + sEnd + ".");
             }
@@ -580,23 +518,15 @@ namespace BSACLibrary
             NamesList.Add("<<<ВСЕ>>>");
             foreach(var file in _filesList)
             {
-                if (NamesList.AsParallel().Contains(file.PublicationName))
-                {
-                    //Название уже есть в списке, пропустим итерацию
-                    continue;
-                }
+                //Название уже есть в списке, пропустим итерацию
+                if (NamesList.AsParallel().Contains(file.PublicationName)) continue;
                 //Выбрана вкладка журналы
                 if ((MagazinesBtn.IsChecked == true && file.IsMagazine)
                     //Выбрана вкладка газеты
                     || (NewspapersBtn.IsChecked == true && !file.IsMagazine))
-                {
                     //Добавим название в список
                     NamesList.Add(file.PublicationName);
-                }
-                else
-                {
-                    continue;
-                }
+                else continue;
             }
             //Выберем элемент "<<<ВСЕ>>>" по умолчанию
             NamesListBox.SelectedIndex = 0;

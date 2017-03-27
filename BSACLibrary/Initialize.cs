@@ -13,7 +13,8 @@ namespace BSACLibrary
         public static void Init()
         {
             //Если не заданы настройки подключения
-            if (string.IsNullOrEmpty(Settings.Default.dbUsername) || string.IsNullOrEmpty(Settings.Default.dbPassword)) return;
+            if (string.IsNullOrEmpty(Settings.Default.dbUsername) || 
+                string.IsNullOrEmpty(Settings.Default.dbPassword)) return;
                 
             //Если включен режим администратора
             if (Settings.Default.isAdmin)
