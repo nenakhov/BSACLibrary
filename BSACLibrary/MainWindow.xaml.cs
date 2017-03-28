@@ -185,7 +185,7 @@ namespace BSACLibrary
         }
 
         //Функция вызова диалога выбора файла
-        private string FilePathSet()
+        private static string FilePathSet()
         {
             var openFileDialog = new OpenFileDialog { Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*" };
             if (openFileDialog.ShowDialog() == true) return(openFileDialog.FileName);
@@ -195,33 +195,29 @@ namespace BSACLibrary
         //Клик мышью по кнопке "Удалить запись"
         private void DelEntryBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (DbDataGrid.SelectedIndex != -1)
+            if (DbDataGrid.SelectedIndex == -1) return;
+            try
             {
-                try
-                {
-                    var result = MessageBox.Show("Вы уверены что хотите удалить запись? Действие необратимо.", "Удаление",
-                        MessageBoxButton.OKCancel);
-                    if (result == MessageBoxResult.OK)
-                    { 
-                        _query = "DELETE FROM " + Settings.Default.dbTableName +
-                                     " WHERE id = '" + EditIdTxtBox.Text +
-                                     "';";
-                            DbQueries.Execute(_query);
-                            DbQueries.UpdateDataGrid();
-                    }
+                var result = MessageBox.Show("Вы уверены что хотите удалить запись? Действие необратимо.", "Удаление",
+                    MessageBoxButton.OKCancel);
+                if (result == MessageBoxResult.OK)
+                { 
+                    _query = "DELETE FROM " + Settings.Default.dbTableName +
+                             " WHERE id = '" + EditIdTxtBox.Text +
+                             "';";
+                    DbQueries.Execute(_query);
+                    DbQueries.UpdateDataGrid();
                     //Удалим из списка предложенных названий, если такого имени не осталось в БД 
                     //Удалили последнюю запись
-                    if (!_filesList.AsParallel().Any(file => file.PublicationName == EditPublName.Text))
-                    {
-                        AddPublNameCmbBox.Items.Remove(EditPublName.Text);
-                        AddPublNameCmbBox.Text = null;
-                        AddPublNameCmbBox.SelectedIndex = -1;
-                    }
+                    if (_filesList.AsParallel().Any(file => file.PublicationName == EditPublName.Text)) return;
+                    AddPublNameCmbBox.Items.Remove(EditPublName.Text);
+                    AddPublNameCmbBox.Text = null;
+                    AddPublNameCmbBox.SelectedIndex = -1;
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
