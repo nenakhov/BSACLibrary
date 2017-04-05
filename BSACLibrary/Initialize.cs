@@ -45,7 +45,6 @@ namespace BSACLibrary
                         ex.Message == "Unable to connect to any of the specified MySQL hosts."
                             ? "Нет соединения с сервером MySQL"
                             : ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
                 }
             }
             //Иначе спрячем вкладку редактора

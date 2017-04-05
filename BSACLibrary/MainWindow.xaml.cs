@@ -363,7 +363,7 @@ namespace BSACLibrary
                 {
                     //Задаем начальное значение переменных, поисковый запрос переведем в нижний регистр букв
                     _total = _filesList.Count;
-                    string _substring = SrchTxtBox.Text.ToLower();
+                    string substring = SrchTxtBox.Text.ToLower();
 
                     //Запуск поиска фоном, исключаем зависание GUI
                     Task.Factory.StartNew(() => //Источник https://msdn.microsoft.com/en-us/library/dd997392.aspx
@@ -379,7 +379,7 @@ namespace BSACLibrary
                                     return;
                                 }
                                 //Поиск строки запроса в pdf файле
-                                PdfSearch.SearchInPdfFile(file, _substring);
+                                PdfSearch.SearchInPdfFile(file, substring);
                                 //Если строка нашлась
                                 if (!string.IsNullOrEmpty(file.FoundedText))
                                 {
@@ -522,7 +522,6 @@ namespace BSACLibrary
                     || (NewspapersBtn.IsChecked == true && !file.IsMagazine))
                     //Добавим название в список
                     NamesList.Add(file.PublicationName);
-                else continue;
             }
             //Выберем элемент "<<<ВСЕ>>>" по умолчанию
             NamesListBox.SelectedIndex = 0;

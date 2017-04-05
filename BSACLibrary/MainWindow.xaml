@@ -139,8 +139,7 @@
             </MenuItem>
         </Menu>
         <Border Padding="2" CornerRadius="4" BorderThickness="1" BorderBrush="Gainsboro" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="6">
-            <xctk:WatermarkTextBox Name="SrchTxtBox" Padding="0" Grid.Column="0" Grid.ColumnSpan="6" MaxLength="128"
-                Grid.Row="2" FontSize="14" PreviewKeyDown="SrchTxtBox_PreviewKeyDown" BorderThickness="0"
+            <xctk:WatermarkTextBox Name="SrchTxtBox" Padding="0" MaxLength="128" FontSize="14" PreviewKeyDown="SrchTxtBox_PreviewKeyDown" BorderThickness="0"
                 Watermark="Поиск информации по ключевому слову или фразе. Например, &quot;802.11ac&quot;"
                 PreviewMouseLeftButtonUp="SrchTxtBox_PreviewMouseLeftButtonUp"/>
         </Border>
@@ -279,7 +278,7 @@
                     <Button Name="DelEntryBtn" Grid.Column="6" Grid.Row="4" Width="120" Height="24"  HorizontalAlignment="Right" 
                             Margin="0,0,6,0" Click="DelEntryBtn_Click" IsEnabled="False">Удалить запись</Button>
                     <Border Margin="0,5,0,0" Padding="2" CornerRadius="4" BorderThickness="1" BorderBrush="Gray" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="7">
-                        <DataGrid BorderThickness="0" Name="DbDataGrid" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="7" MinRowHeight="25" 
+                        <DataGrid BorderThickness="0" Name="DbDataGrid" MinRowHeight="25" 
                             CanUserAddRows="False" ItemsSource="{Binding Path=dbBinding}" CanUserResizeRows="False" 
                             CanUserResizeColumns="True" SelectionMode="Single" CanUserReorderColumns="False" RowHeaderWidth="0"
                             AutoGenerateColumns="False" SelectionChanged="DbDataGrid_SelectionChanged">
