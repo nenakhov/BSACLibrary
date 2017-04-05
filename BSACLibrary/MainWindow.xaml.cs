@@ -123,14 +123,14 @@ namespace BSACLibrary
                 !string.IsNullOrEmpty(AddIssueNmbTxtBox.Text))
             {
                 //Сформируем и отправим соответствующий SQL-запрос в БД
-                _query = "INSERT INTO " + Settings.Default.dbTableName + " VALUES('" +
-                         null + "', '" +
-                         AddPublNameCmbBox.Text.Replace(@"'", @"\'") + "', '" +
-                         Convert.ToByte(AddRadioBtnMagaz.IsChecked) + "', '" +
-                         Convert.ToDateTime(AddDatePicker.Value).ToString("yyyy-MM-dd") + "', '" +
-                         AddIssueNmbTxtBox.Text + "', '" +
-                         AddFilePathTxtBox.Text.Replace(@"\", @"\\").Replace("'", "''") +
-                         "');";
+                _query = "INSERT INTO " + Settings.Default.dbTableName + 
+                    " (publication, is_magazine, date, issue_number, file_path) VALUES('" +
+                    AddPublNameCmbBox.Text.Replace(@"'", @"\'") + "', '" +
+                    Convert.ToByte(AddRadioBtnMagaz.IsChecked) + "', '" +
+                    Convert.ToDateTime(AddDatePicker.Value).ToString("yyyy-MM-dd") + "', '" +
+                    AddIssueNmbTxtBox.Text + "', '" +
+                    AddFilePathTxtBox.Text.Replace(@"\", @"\\").Replace("'", "''") +
+                    "');";
                 DbQueries.Execute(_query);
                 DbQueries.UpdateDataGrid();
             }
@@ -209,7 +209,7 @@ namespace BSACLibrary
                     DbQueries.UpdateDataGrid();
                     //Удалим из списка предложенных названий, если такого имени не осталось в БД 
                     //Удалили последнюю запись
-                    if (_filesList.AsParallel().Any(file => file.PublicationName == EditPublName.Text)) return;
+                    if (_filesList.Any(file => file.PublicationName == EditPublName.Text)) return;
                     AddPublNameCmbBox.Items.Remove(EditPublName.Text);
                     AddPublNameCmbBox.Text = null;
                     AddPublNameCmbBox.SelectedIndex = -1;

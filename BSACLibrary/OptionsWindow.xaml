@@ -37,27 +37,27 @@
                     <TextBlock Text="Настройки подключения к СУБД MySQL" Grid.Row="0" Grid.ColumnSpan="2" 
                             HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     <Label Content="Адрес сервера: " Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"/>
-                    <TextBox Name="TxtBoxIp" Text="" Grid.Row="1" Grid.Column="1" 
+                    <TextBox Name="TxtBoxIp" Grid.Row="1" Grid.Column="1" 
                             HorizontalAlignment="Left" Width="150" Height="20" MaxLength="32"/>
                     <Label Content="Порт: " Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left"/>
-                    <TextBox Name="TxtBoxPort" Text="" Grid.Row="2" Grid.Column="1" Width="150" Height="20" MaxLength="32"
+                    <TextBox Name="TxtBoxPort" Grid.Row="2" Grid.Column="1" Width="150" Height="20" MaxLength="32"
                             ToolTip="Допускается ввод только цифр." PreviewTextInput="Numeric_PreviewTextInput"
                             HorizontalAlignment="Left"/>
                     <Label Content="Имя БД: " Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left"/>
-                    <TextBox Name="TxtBoxDbName" Text="" Grid.Row="3" Grid.Column="1" Width="150" Height="20" 
+                    <TextBox Name="TxtBoxDbName" Grid.Row="3" Grid.Column="1" Width="150" Height="20" 
                             ToolTip="Допускается ввод символов латинского алфавита, цифр, а также знака нижнего подчеркивания."
                             PreviewTextInput="AllowedInput_PreviewTextInput" HorizontalAlignment="Left" MaxLength="32"/>
                     <Label Content="Имя таблицы: " Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left"/>
-                    <TextBox Name="TxtBoxDbTableName" Text="" Grid.Row="4" Grid.Column="1" Width="150" Height="20"
+                    <TextBox Name="TxtBoxDbTableName" Grid.Row="4" Grid.Column="1" Width="150" Height="20"
                             ToolTip="Допускается ввод символов латинского алфавита, цифр, а также знака нижнего подчеркивания."
                             PreviewTextInput="AllowedInput_PreviewTextInput" HorizontalAlignment="Left" MaxLength="32"/>
                     <Label Content="Логин: " Grid.Row="5" Grid.Column="0" HorizontalAlignment="Left"/>
-                    <TextBox Name="TxtBoxUsr" Text="" Grid.Row="5" Grid.Column="1" PreviewTextInput="AllowedInput_PreviewTextInput"
+                    <TextBox Name="TxtBoxUsr" Grid.Row="5" Grid.Column="1" PreviewTextInput="AllowedInput_PreviewTextInput"
                             ToolTip="Допускается ввод символов латинского алфавита, цифр, а также знака нижнего подчеркивания."
                             HorizontalAlignment="Left" Width="150" Height="20" MaxLength="32"/>
                     <Label Content="Пароль: " Grid.Row="6" Grid.Column="0" HorizontalAlignment="Left"/>
                     <!--Специальное поле пароля со скрытыми вводимыми символами-->
-                    <PasswordBox Name="PwdBoxPwd" Password="" Grid.Row="6" Grid.Column="1" PreviewTextInput="AllowedInput_PreviewTextInput"
+                    <PasswordBox Name="PwdBoxPwd" Grid.Row="6" Grid.Column="1" PreviewTextInput="AllowedInput_PreviewTextInput"
                             ToolTip="Допускается ввод символов латинского алфавита, цифр, а также знака нижнего подчеркивания."
                             HorizontalAlignment="Left" Width="150" Height="20" MaxLength="32"/>
                     <Separator Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Width="440" 
