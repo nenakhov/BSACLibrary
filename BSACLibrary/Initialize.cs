@@ -27,25 +27,25 @@ namespace BSACLibrary
                 Grid.SetColumn(MWin.NewspapersBtn, 2);
                 Grid.SetColumnSpan(MWin.NewspapersBtn, 2);
                 //Создаем БД и таблицу в ней, если они еще не были созданы
-                try
-                {
                     Task.Factory.StartNew(() =>
                         {
-                            //Отправляем запрос на создание БД и таблицы в ней
-                            DbQueries.DataBaseCreate();
-                            //Отправляем запрос на обновление таблицы в фоновом процессе.
-                            DbQueries.UpdateDataGrid();
+                            try
+                            {
+                                //Отправляем запрос на создание БД и таблицы в ней
+                                DbQueries.DataBaseCreate();
+                                //Отправляем запрос на обновление таблицы в фоновом процессе.
+                                DbQueries.UpdateDataGrid();
+                            }
+                            catch (Exception ex)
+                            {
+                                //Unable to connect to any of the specified MySQL hosts.
+                                MessageBox.Show(
+                                    ex.Message == "Unable to connect to any of the specified MySQL hosts."
+                                        ? "Нет соединения с сервером MySQL"
+                                        : ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
                         }
                     );
-                }
-                catch (Exception ex)
-                {
-                    //Unable to connect to any of the specified MySQL hosts.
-                    MessageBox.Show(
-                        ex.Message == "Unable to connect to any of the specified MySQL hosts."
-                            ? "Нет соединения с сервером MySQL"
-                            : ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
             }
             //Иначе спрячем вкладку редактора
             else
