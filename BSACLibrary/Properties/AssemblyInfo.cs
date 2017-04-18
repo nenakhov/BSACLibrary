@@ -6,7 +6,7 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Картотека периодичиских изданий")]
-[assembly: AssemblyDescription("БГАС, каталогизирование и поиск по pdf файлам")]
+[assembly: AssemblyDescription("Каталогизирование и поиск по pdf файлам используя СУБД MySQL")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("")]
