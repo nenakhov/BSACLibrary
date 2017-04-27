@@ -10,9 +10,10 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xml:lang="ru-RU"
         mc:Ignorable="d"
-        Title="Картотека периодических изданий" Background="WhiteSmoke" MinHeight="700" MinWidth="1200" Height="700"
-        ScrollViewer.VerticalScrollBarVisibility="Disabled" Width="1200" WindowStartupLocation="CenterScreen" 
-        Icon="favicons.ico" Closed="Window_Closed" PreviewMouseUp="Window_PreviewMouseUp">
+        Title="Картотека периодических изданий" Background="WhiteSmoke" MinHeight="700" MinWidth="1200"
+        Height="700" ScrollViewer.VerticalScrollBarVisibility="Disabled" Width="1200" 
+        WindowStartupLocation="CenterScreen" FontSize="12" Icon="favicons.ico" 
+        Closed="Window_Closed" PreviewMouseUp="Window_PreviewMouseUp">
     
     <Window.Resources>
         <DataTemplate DataType="{x:Type local:PdfDescription}">
@@ -102,7 +103,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Menu Background="WhiteSmoke" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0" Margin="-10,0,-10,0">
+        <Menu Background="WhiteSmoke" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0" Margin="-5,0,-10,0">
             <Menu.Resources>
                 <Style TargetType="Image">
                     <Setter Property="Height" Value="16"/>
@@ -186,7 +187,7 @@
                     <Border BorderBrush="Gray" Margin="10,0,0,0" Padding="10" BorderThickness="1"
                             Grid.Row="0" Grid.Column="2" CornerRadius="2">
                         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                            <WrapPanel Name="ResultWrapPanel" />
+                            <WrapPanel Name="ResultWrapPanel"/>
                         </ScrollViewer>
                     </Border>
                     <StackPanel Grid.Row="1" Grid.Column="2">
